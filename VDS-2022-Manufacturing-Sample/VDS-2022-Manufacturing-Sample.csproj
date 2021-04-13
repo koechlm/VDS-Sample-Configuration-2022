@@ -100,13 +100,36 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="CAD\addins\breadCrumb.ps1" />
+    <None Include="CAD\addins\Default.ps1" />
+    <None Include="CAD\addins\FileNameValidation.ps1" />
+    <None Include="CAD\Configuration\AutoCAD-Vanilla.cfg" />
+    <None Include="CAD\Configuration\AutoCAD.cfg" />
+    <None Include="CAD\Configuration\Inventor.cfg" />
     <None Include="HelpFiles\debug.log" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Vault\addinVault\AssociatedFiles.ps1" />
+    <None Include="Vault\addinVault\Default.ps1" />
+    <None Include="Vault\addinVault\FileBOM.ps1" />
+    <None Include="Vault\addinVault\Menus\CreateCustomObject.ps1" />
+    <None Include="Vault\addinVault\Menus\CreateFile.ps1" />
+    <None Include="Vault\addinVault\Menus\CreateFolder.ps1" />
+    <None Include="Vault\addinVault\Menus\EditCustomObject.ps1" />
+    <None Include="Vault\addinVault\Menus\EditFile.ps1" />
+    <None Include="Vault\addinVault\Menus\EditFolder.ps1" />
+    <None Include="Vault\addinVault\Menus\sample1.ps1" />
+    <None Include="Vault\addinVault\Menus\Select Folder.ps1" />
+    <None Include="Vault\addinVault\Menus\ShowAboutDialog.ps1" />
+    <None Include="Vault\addinVault\Menus\ShowLog.ps1" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="de-DE\PropertyTranslations.xml" />
+    <Resource Include="de-DE\UIStrings.xml" />
+    <Resource Include="en-US\PropertyTranslations.xml" />
+    <Resource Include="en-US\UIStrings.xml" />
     <Content Include="HelpFiles\C.1GeneralInformation.html" />
     <Content Include="HelpFiles\C.2.10Legacydata.html" />
     <Content Include="HelpFiles\C.2.11FrameGenerator.html" />
@@ -150,6 +173,34 @@
     <Content Include="HelpFiles\G.3Support.html" />
     <Content Include="HelpFiles\General.html" />
     <Content Include="HelpFiles\index.html" />
+    <Resource Include="Vault\About.ico" />
+    <Resource Include="Vault\Configuration\File.xml" />
+    <Resource Include="Vault\Configuration\FileOffice.xml" />
+    <Resource Include="Vault\Configuration\Item\Icons\attachment.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\docx.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\dwg.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\iam.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\idw.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\ipn.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\ipt.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\linkedfile.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\mdb.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\pdf.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\pptx.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\Primary.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\PrimarySub.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\Secondary.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\SecondarySub.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\StandardComponent.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\unknown.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\xlsx.png" />
+    <Resource Include="Vault\DSLanguages.xml" />
+    <Resource Include="Vault\EditFileDatasheet.ico" />
+    <Resource Include="Vault\EditFolderDatasheet.ico" />
+    <Resource Include="Vault\Log.ico" />
+    <Resource Include="Vault\MenuDefinitions.xml" />
+    <Resource Include="Vault\NewStandardFile.ico" />
+    <Resource Include="Vault\NewStandardFolder.ico" />
     <Resource Include="HelpFiles\MapMarkers\TaskCompleteIcon-7.gif" />
     <Resource Include="HelpFiles\MapMarkers\TaskCompleteIcon-8.gif" />
     <Resource Include="HelpFiles\NotesImages\Topic10NotesImage1.jpg" />
@@ -359,6 +410,94 @@
     <Content Include="HelpFiles\V.6CustomObject.html" />
     <Content Include="HelpFiles\V.7ReserveNumbers.html" />
     <Content Include="HelpFiles\Vault.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="CAD\Configuration\AutoCAD-Vanilla.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\AutoCAD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\CableAndHarness.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\DesignAccelerator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\FrameGenerator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\Inventor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\SaveCopyAs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\TubeAndPipe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\CustomObject.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Eco\Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\File.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\FileOffice.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\File\CAD BOM.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\File\Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Folder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Folder\Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Item\Associated Files.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Item\Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Task\Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CAD.Custom\addins\" />
+    <Folder Include="CAD.Custom\Configuration\" />
+    <Folder Include="Vault.Custom\addinVault\Menus\" />
+    <Folder Include="Vault.Custom\Configuration\Eco\" />
+    <Folder Include="Vault.Custom\Configuration\File\" />
+    <Folder Include="Vault.Custom\Configuration\Folder\" />
+    <Folder Include="Vault.Custom\Configuration\Item\" />
+    <Folder Include="Vault.Custom\Configuration\Task\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

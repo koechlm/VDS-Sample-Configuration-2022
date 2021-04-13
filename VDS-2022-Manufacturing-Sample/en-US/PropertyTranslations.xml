@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PropertyTranslations LanguageCode="en-US">
+  <PropertyTranslation Name="NAME">Name</PropertyTranslation>
+  <PropertyTranslation Name="TITLE">Title</PropertyTranslation>
+  <PropertyTranslation Name="DESCRIPTION">Description</PropertyTranslation>
+  <PropertyTranslation Name="STATE">State</PropertyTranslation>
+  <PropertyTranslation Name="COMMENTS">Comments</PropertyTranslation>
+  <PropertyTranslation Name="COMMENT">Comment</PropertyTranslation>
+  <PropertyTranslation Name="NUMBER">Number</PropertyTranslation>
+  <PropertyTranslation Name="THUMBNAIL">Thumbnail</PropertyTranslation>
+  <PropertyTranslation Name="CATEGORY NAME">Category Name</PropertyTranslation>
+  <PropertyTranslation Name="FILE NAME">File Name</PropertyTranslation>
+  <PropertyTranslation Name="DUE DATE">Due Date</PropertyTranslation>
+  <PropertyTranslation Name="TITLE_ITEM_CO">Title (Item,CO)</PropertyTranslation>
+  <PropertyTranslation Name="DESCRIPTION_ITEM_CO">Description (Item,CO)</PropertyTranslation>
+  <PropertyTranslation Name="CREATE DATE">Create Date</PropertyTranslation>
+  <PropertyTranslation Name="CREATED BY">Created By</PropertyTranslation>
+  <PropertyTranslation Name="DATE VERSION CREATED">Date Version Created</PropertyTranslation>
+</PropertyTranslations>
