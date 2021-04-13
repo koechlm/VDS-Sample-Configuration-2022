@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4D7DFB6F-464F-4834-8F58-53F251E4C3ED}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>VDS_2022_Manufacturing_Sample</RootNamespace>
+    <AssemblyName>VDS-2020-Editor-Template</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autodesk.Connectivity.WebServices">
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Vault Client 2022\Explorer\Autodesk.Connectivity.WebServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Common">
+      <HintPath>..\..\..\..\..\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CreateObject">
+      <HintPath>..\..\..\..\..\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\CreateObject.dll</HintPath>
+    </Reference>
+    <Reference Include="dataStandard.UI">
+      <HintPath>..\..\..\..\..\ProgramData\Autodesk\ApplicationPlugins\VDSI2022.bundle\Contents\dataStandard.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="HelpFiles\debug.log" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HelpFiles\C.1GeneralInformation.html" />
+    <Content Include="HelpFiles\C.2.10Legacydata.html" />
+    <Content Include="HelpFiles\C.2.11FrameGenerator.html" />
+    <Content Include="HelpFiles\C.2.12TubeandPipe.html" />
+    <Content Include="HelpFiles\C.2.13DesignAccelerator.html" />
+    <Content Include="HelpFiles\C.2.14CableandHarness.html" />
+    <Content Include="HelpFiles\C.2.15Navigation.html" />
+    <Content Include="HelpFiles\C.2.1LogintoVault.html" />
+    <Content Include="HelpFiles\C.2.2NewComponents.html" />
+    <Content Include="HelpFiles\C.2.3SaveCopyAs.3DComponent.html" />
+    <Content Include="HelpFiles\C.2.4Copy3DComponent.html" />
+    <Content Include="HelpFiles\C.2.5NewPresentationFile.html" />
+    <Content Include="HelpFiles\C.2.6NewDrawing.html" />
+    <Content Include="HelpFiles\C.2.7SaveCopyAs.Drawing.html" />
+    <Content Include="HelpFiles\C.2.8Replacewithcopyincl.Documentation.html" />
+    <Content Include="HelpFiles\C.2.9EditDatasheet.html" />
+    <Content Include="HelpFiles\C.2Inventor.html" />
+    <Content Include="HelpFiles\C.3.1LogintoVault.html" />
+    <Content Include="HelpFiles\C.3.2NewDrawing.html" />
+    <Content Include="HelpFiles\C.3.3EditDatasheet.Titleblock.html" />
+    <Content Include="HelpFiles\C.3.4Legacydata.html" />
+    <Content Include="HelpFiles\C.3.5Navigation.html" />
+    <Content Include="HelpFiles\C.3AutoCAD.html" />
+    <Content Include="HelpFiles\CAD.html" />
+    <Content Include="HelpFiles\contents.htm" />
+    <Content Include="HelpFiles\G.1.1MultiLanguage.html" />
+    <Content Include="HelpFiles\G.1.2ObjectNumbering%28Since2015R2%29.html" />
+    <Content Include="HelpFiles\G.1.3FileNumbering%28Since2015R2%29.html" />
+    <Content Include="HelpFiles\G.1.4FileTemplates.html" />
+    <Content Include="HelpFiles\G.1Administration.html" />
+    <Content Include="HelpFiles\G.2.1CustomCommand.GoToSource.Replacemen.html" />
+    <Content Include="HelpFiles\G.2.2FileTab.Jobs.html" />
+    <Content Include="HelpFiles\G.2.3ERPTab.html" />
+    <Content Include="HelpFiles\G.2.4CAD-BOMExport.html" />
+    <Content Include="HelpFiles\G.2.5CreateThinClientLinks.html" />
+    <Content Include="HelpFiles\G.2.6DocumentStructureTab.html" />
+    <Content Include="HelpFiles\G.2.7CreateProject.Subfolders&amp;Properties.html" />
+    <Content Include="HelpFiles\G.2.8Projectbasedfilenumbering.html" />
+    <Content Include="HelpFiles\G.2.9Inheritprojectmetadatatofiles.html" />
+    <Content Include="HelpFiles\G.2Extensions.html" />
+    <Content Include="HelpFiles\G.3Support.html" />
+    <Content Include="HelpFiles\General.html" />
+    <Content Include="HelpFiles\index.html" />
+    <Resource Include="HelpFiles\MapMarkers\TaskCompleteIcon-7.gif" />
+    <Resource Include="HelpFiles\MapMarkers\TaskCompleteIcon-8.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic10NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic10NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic11NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic11NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic12NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic12NotesImage11.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic12NotesImage12.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic12NotesImage15.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic12NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic12NotesImage6.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic13NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic13NotesImage12.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic13NotesImage13.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic13NotesImage16.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic13NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic13NotesImage6.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic14NotesImage1.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic14NotesImage10.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic14NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic14NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic14NotesImage9.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic15NotesImage5.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic16NotesImage1.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic17NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic18NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic18NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic18NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic18NotesImage6.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic19NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic19NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic19NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic19NotesImage6.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic20NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic20NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic20NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic20NotesImage6.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic21NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic21NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic21NotesImage5.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic23NotesImage14.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic24NotesImage1.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic24NotesImage3.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic25NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic25NotesImage12.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic25NotesImage13.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic25NotesImage14.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic25NotesImage15.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic25NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic25NotesImage6.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic25NotesImage7.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic25NotesImage8.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic26NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic26NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic26NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic27NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic27NotesImage11.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic27NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic27NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic27NotesImage5.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic27NotesImage9.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic29NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic29NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic29NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic29NotesImage5.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic29NotesImage7.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic33NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic33NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic33NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic34NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic35NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic35NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic36NotesImage6.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic36NotesImage7.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic37NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic37NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic38NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic38NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic39NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic39NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic39NotesImage4.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic39NotesImage7.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic39NotesImage8.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic40NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic40NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic41NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic41NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic41NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic41NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic41NotesImage8.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic42NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic42NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic44NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic45NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic45NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic46NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic46NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic46NotesImage5.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic47NotesImage1.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic47NotesImage2.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic47NotesImage3.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic47NotesImage4.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic47NotesImage9.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic48NotesImage1.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic48NotesImage2.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic50NotesImage1.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic51NotesImage1.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic51NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic51NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic51NotesImage5.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic51NotesImage7.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic52NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic52NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic52NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic52NotesImage5.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic53NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic53NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic53NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic53NotesImage5.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic54NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic54NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic54NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic54NotesImage5.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic55NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic55NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic55NotesImage4.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic55NotesImage5.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic57NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic58NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic59NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic5NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic5NotesImage3.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic60NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic61NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic62NotesImage2.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic67NotesImage1.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic67NotesImage2.gif" />
+    <Resource Include="HelpFiles\NotesImages\Topic8NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic8NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic9NotesImage1.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic9NotesImage13.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic9NotesImage14.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic9NotesImage2.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic9NotesImage3.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic9NotesImage7.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic9NotesImage8.jpg" />
+    <Resource Include="HelpFiles\NotesImages\Topic9NotesImage9.jpg" />
+    <Content Include="HelpFiles\Res\code\boxController.js" />
+    <Content Include="HelpFiles\Res\code\boxSettings.js" />
+    <Content Include="HelpFiles\Res\code\mapController.js" />
+    <Content Include="HelpFiles\Res\code\shared.js" />
+    <Resource Include="HelpFiles\Res\images\arrow.gif" />
+    <Resource Include="HelpFiles\Res\images\box_collapse_button.gif" />
+    <Resource Include="HelpFiles\Res\images\box_expand_button.gif" />
+    <Resource Include="HelpFiles\Res\images\bullet_blue.gif" />
+    <Resource Include="HelpFiles\Res\images\empty.gif" />
+    <Resource Include="HelpFiles\Res\images\header_background.gif" />
+    <Resource Include="HelpFiles\Res\images\logo.gif" />
+    <Resource Include="HelpFiles\Res\images\next_button.gif" />
+    <Resource Include="HelpFiles\Res\images\previous_button.gif" />
+    <Resource Include="HelpFiles\Res\images\spacer.gif" />
+    <Resource Include="HelpFiles\Res\images\top_button.gif" />
+    <Content Include="HelpFiles\Res\styles\DynamicOutline.css" />
+    <Content Include="HelpFiles\Res\styles\shared.css" />
+    <Resource Include="HelpFiles\Res\tree\base.gif" />
+    <Resource Include="HelpFiles\Res\tree\empty.gif" />
+    <Resource Include="HelpFiles\Res\tree\folder.gif" />
+    <Resource Include="HelpFiles\Res\tree\folderopen.gif" />
+    <Resource Include="HelpFiles\Res\tree\join.gif" />
+    <Resource Include="HelpFiles\Res\tree\joinbottom.gif" />
+    <Resource Include="HelpFiles\Res\tree\leaf.gif" />
+    <Resource Include="HelpFiles\Res\tree\line.gif" />
+    <Resource Include="HelpFiles\Res\tree\minus.gif" />
+    <Resource Include="HelpFiles\Res\tree\minusbottom.gif" />
+    <Resource Include="HelpFiles\Res\tree\null.gif" />
+    <Resource Include="HelpFiles\Res\tree\page.gif" />
+    <Resource Include="HelpFiles\Res\tree\pagesel.gif" />
+    <Resource Include="HelpFiles\Res\tree\plus.gif" />
+    <Resource Include="HelpFiles\Res\tree\plusbottom.gif" />
+    <Resource Include="HelpFiles\Res\tree\topic.gif" />
+    <Content Include="HelpFiles\Res\tree\tree.js" />
+    <Content Include="HelpFiles\Res\tree\tree_items.js" />
+    <Content Include="HelpFiles\Res\tree\tree_tpl.js" />
+    <Content Include="HelpFiles\V.1.1CreateFolder.project....html" />
+    <Content Include="HelpFiles\V.1.2Numbering.html" />
+    <Content Include="HelpFiles\V.1.3EditFolderdatasheet.html" />
+    <Content Include="HelpFiles\V.1Folder.html" />
+    <Content Include="HelpFiles\V.2.1CreateFiles....html" />
+    <Content Include="HelpFiles\V.2.2RequiredFields.html" />
+    <Content Include="HelpFiles\V.2.3Navigation.html" />
+    <Content Include="HelpFiles\V.2.4Numbering.html" />
+    <Content Include="HelpFiles\V.2.5EditFileDatasheet.html" />
+    <Content Include="HelpFiles\V.2File.html" />
+    <Content Include="HelpFiles\V.3.1CreateFiles....html" />
+    <Content Include="HelpFiles\V.3.2RequiredFields.html" />
+    <Content Include="HelpFiles\V.3.3Navigation.html" />
+    <Content Include="HelpFiles\V.3.4Numbering.html" />
+    <Content Include="HelpFiles\V.3.5EditFileDatasheet.html" />
+    <Content Include="HelpFiles\V.3OfficeFile.html" />
+    <Content Include="HelpFiles\V.4Datasheet.html" />
+    <Content Include="HelpFiles\V.5CADBOM.html" />
+    <Content Include="HelpFiles\V.6.1Create.EditTasks.html" />
+    <Content Include="HelpFiles\V.6.2Create.EditOrganisations.html" />
+    <Content Include="HelpFiles\V.6.3Create.EditPersons.html" />
+    <Content Include="HelpFiles\V.6.4Create.EditTransmittals.html" />
+    <Content Include="HelpFiles\V.6CustomObject.html" />
+    <Content Include="HelpFiles\V.7ReserveNumbers.html" />
+    <Content Include="HelpFiles\Vault.html" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
