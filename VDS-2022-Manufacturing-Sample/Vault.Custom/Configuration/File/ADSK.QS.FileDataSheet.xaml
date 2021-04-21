@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
     xmlns:WPF="clr-namespace:CreateObject.WPF;assembly=CreateObject"
     x:Name="MainWindow"
-    behaviours:TabTitleBehavior.TabTitle="$UIString[LBL36]">
+    behaviours:TabTitleBehavior.TabTitle="$UIString[LBL36]" >
     <UserControl.Resources>
         <Style x:Key="DynamicDataGridCellStyle" TargetType="{x:Type DataGridCell}">
             <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
@@ -183,8 +183,7 @@
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="140"/>
-            <ColumnDefinition MinWidth="140"/>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid ToolTip="{Binding UIString[LBL73], FallbackValue='General Properties'}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="5,0,0,0">
             <Grid.RowDefinitions>
@@ -236,7 +235,7 @@
 				HeadersVisibility="Column"
 				ScrollViewer.CanContentScroll="True" 
 				HorizontalGridLinesBrush="WhiteSmoke" 
-				VerticalGridLinesBrush="WhiteSmoke" BorderBrush="#FFABADB3" Grid.Row="1">
+				VerticalGridLinesBrush="WhiteSmoke" BorderBrush="#FFABADB3" Grid.Row="1" HorizontalContentAlignment="Stretch">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}" Width="140" IsReadOnly="True">
                         <DataGridTextColumn.HeaderTemplate>
