@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDS-2022-PDMC-Sample", "..\VDS-2022-PDMC-Sample\VDS-2022-PDMC-Sample.csproj", "{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,14 @@ Global
 		{4D7DFB6F-464F-4834-8F58-53F251E4C3ED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D7DFB6F-464F-4834-8F58-53F251E4C3ED}.Release|x64.ActiveCfg = Release|x64
 		{4D7DFB6F-464F-4834-8F58-53F251E4C3ED}.Release|x64.Build.0 = Release|x64
+		{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}.Debug|x64.ActiveCfg = Debug|x64
+		{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}.Debug|x64.Build.0 = Debug|x64
+		{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}.Release|x64.ActiveCfg = Release|x64
+		{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

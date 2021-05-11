@@ -197,14 +197,13 @@ function InitializeWindow
 							}
 						}
 
-						#if (($_ModelFullFileName -eq "") -and ($global:mGFN4Special -eq $false)) 
-						#{ 
-						#	[System.Windows.MessageBox]::Show($UIString["MSDCE_MSG00"],"Vault MFG Sample")
-						#	$dsWindow.add_Loaded({
-						#				# Will skip VDS Dialog for Drawings without model view; 
-						#				$dsWindow.CancelWindowCommand.Execute($this)})
-						#}
 					} # end of copy mode = false check
+
+					#overridden display names will change suggested file names. Reset overrides!
+					if ($Prop["_CopyMode"].Value)
+					{
+						$Document.DisplayNameOverridden = $false
+					}
 
 					if ($Prop["_CopyMode"].Value -and @(".DWG",".IDW",".IPN") -contains $Prop["_FileExt"].Value)
 					{
@@ -342,14 +341,6 @@ function AddinLoaded
 	if (!(Test-Path $m_File)){
 		$source = $Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Folder2022.xml"
 		Copy-Item $source $env:TEMP\Folder2022.xml
-	}
-	#check Vault Client Version to match this configuration requirements; note - Office Client registers as WG or PRO 
-	$mVaultVersion = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Autodesk\Vault Workgroup\24.0\VWG-2440:407\").ProductVersion.Split(".")
-	If(-not $mVaultVersion) { $mVaultVersion = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Autodesk\Vault Professional\24.0\VPRO-2440:407\").ProductVersion.Split(".")}
-
-	If($mVaultVersion[0] -ne "24" -or $mVaultVersion[1] -lt "1" )
-	{
-		[System.Windows.MessageBox]::Show("This machine's Vault Data Standard configuration requires Vault Client 2019 Update 1 or newer installed; contact your system administrator.", "VDS MFG Sample Client Configuration")
 	}
 }
 
@@ -515,9 +506,9 @@ function InitializeInventorCategory
 				}
 			}
 			If($Document.IsSubstitutePart -eq $true) 
-			{
+			{ 
 				$mCatName = GetCategories | Where {$_.Name -eq $UIString["MSDCE_CAT12"]} #substitute, available PDMC-Sample Vault
-
+				IF ($mCatName)
 				{ 
 					$Prop["_Category"].Value = $UIString["MSDCE_CAT12"]
 				}
@@ -595,22 +586,18 @@ function GetNumSchms
 			}
 			If($dsWindow.Name-eq "InventorFrameWindow")
 			{ 
-				#None is not supported by multi-select dialogs
 				return $_Default
 			}
 			If($dsWindow.Name-eq "InventorHarnessWindow")
 			{ 
-				#None is not supported by multi-select dialogs
 				return $_Default
 			}
 			If($dsWindow.Name-eq "InventorPipingWindow")
 			{ 
-				#None is not supported by multi-select dialogs
 				return $_Default
 			}
 			If($dsWindow.Name-eq "InventorDesignAcceleratorWindow")
 			{ 
-				#None is not supported by multi-select dialogs
 				return $_Default
 			}
 	
@@ -662,11 +649,11 @@ function OnPostCloseDialog
 		{
 			mWriteLastUsedFolder
 			#use document number for part number if not filled yet; cover ACM and Vanilla property configuration
-			If ($Prop["GEN-TITLE-DWG"] -and $Prop["GEN-TITLE-NR"].Value -eq "")
+			If ($Prop["GEN-TITLE-DWG"].Value -and $Prop["GEN-TITLE-NR"].Value -eq "")
 				{
 					$Prop["GEN-TITLE-NR"].Value = $dsWindow.DataContext.PathAndFileNameHandler.FileNameNoExtension #$Prop["GEN-TITLE-DWG"].Value
 				}
-			If ($Prop["DocNumber"] -and $Prop["Part Number"].Value -eq "")
+			If ($Prop["DocNumber"].Value -and $Prop["Part Number"].Value -eq "")
 				{
 					$Prop["Part Number"].Value = $dsWindow.DataContext.PathAndFileNameHandler.FileNameNoExtension
 				}
