@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C91DA9FA-2759-4A7B-A126-FFEB60F867C9}</ProjectGuid>
+    <ProjectGuid>{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>VDS_2022_PDMC_Sample</RootNamespace>
     <AssemblyName>VDS-2020-Editor-Template</AssemblyName>
@@ -12,7 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -56,7 +56,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autodesk.Connectivity.WebServices">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Vault Client 2022\Explorer\Autodesk.Connectivity.WebServices.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Autodesk Vault 2022 SDK\bin\x64\Autodesk.Connectivity.WebServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Common">
@@ -104,14 +104,436 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="CAD.Custom\addins\ADSK.QS.breadCrumb.ps1" />
+    <None Include="CAD.Custom\addins\ADSK.QS.CAD.Library.ps1" />
+    <None Include="CAD.Custom\addins\ADSK.QS.Default.ps1" />
+    <None Include="CAD.Custom\addins\ADSK.QS.FileNameValidation.ps1" />
+    <None Include="CAD.Custom\addins\ADSK.QS.ItemLookup.ps1" />
+    <None Include="CAD.Custom\addins\ADSK.QS.RevisionMgmt.ps1" />
+    <None Include="CAD.Custom\Configuration\AutoCAD.cfg" />
+    <None Include="CAD.Custom\Configuration\Inventor.cfg" />
+    <None Include="CAD\addins\breadCrumb.ps1" />
+    <None Include="CAD\addins\Default.ps1" />
+    <None Include="CAD\addins\FileNameValidation.ps1" />
+    <None Include="CAD\Configuration\AutoCAD-Vanilla.cfg" />
+    <None Include="CAD\Configuration\AutoCAD.cfg" />
+    <None Include="CAD\Configuration\Inventor.cfg" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Vault.Custom\addinVault\ADSK.Org.Pers.Link.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.ActivateSchedTaskAsJob.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.Classification.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.Default.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.DerivationTree.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.ECOTaskLink.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.FileBOM.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.FileDocStructure.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.FileImport.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.ItemLookup.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.NameValidation.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.Org.Pers.Link.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.ReserveFileNumber.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.RevisionMgmt.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.TermsTranslations.psm1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.VLT.Library.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.ActivateSchedTask.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.AdskFilePropProvider.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateCustomObject.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateCustomObjectTerm.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateFile.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateFolder.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditCustomObject.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditCustomObjectTerm.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditFile.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditFolder.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToInvSibling.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToReplacedBy.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToSelectedFile.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToSelectedTask.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToSourceFile.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToTasksECO.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.ImportFiles.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.ReserveNumbers.ps1" />
+    <None Include="Vault\addinVault\AssociatedFiles.ps1" />
+    <None Include="Vault\addinVault\Default.ps1" />
+    <None Include="Vault\addinVault\FileBOM.ps1" />
+    <None Include="Vault\addinVault\Menus\CreateCustomObject.ps1" />
+    <None Include="Vault\addinVault\Menus\CreateFile.ps1" />
+    <None Include="Vault\addinVault\Menus\CreateFolder.ps1" />
+    <None Include="Vault\addinVault\Menus\EditCustomObject.ps1" />
+    <None Include="Vault\addinVault\Menus\EditFile.ps1" />
+    <None Include="Vault\addinVault\Menus\EditFolder.ps1" />
+    <None Include="Vault\addinVault\Menus\sample1.ps1" />
+    <None Include="Vault\addinVault\Menus\Select Folder.ps1" />
+    <None Include="Vault\addinVault\Menus\ShowAboutDialog.ps1" />
+    <None Include="Vault\addinVault\Menus\ShowLog.ps1" />
+    <None Include="Vault\CustomEntityDefinitions.json" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Resource Include="HowToAdd-VDS-Configuration-Files.txt" />
+    <Page Include="CAD.Custom\Configuration\AutoCAD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD.Custom\Configuration\CableAndHarness.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD.Custom\Configuration\DesignAccelerator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD.Custom\Configuration\FrameGenerator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD.Custom\Configuration\Inventor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD.Custom\Configuration\SaveCopyAs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD.Custom\Configuration\TubeAndPipe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\AutoCAD-Vanilla.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\AutoCAD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\CableAndHarness.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\DesignAccelerator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\FrameGenerator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\Inventor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\SaveCopyAs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CAD\Configuration\TubeAndPipe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\ADSK.QS.ActivateSchedTask.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\ADSK.QS.CustomObject.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\ADSK.QS.CustomObjectTerm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\ADSK.QS.File.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\ADSK.QS.FileImport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\ADSK.QS.FileOffice.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\ADSK.QS.Folder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\ADSK.QS.InvSiblings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\ADSK.QS.ReserveNumbers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Aufgabe\ADSK.QS.CUSTENT.Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Begriff\DatasheetTerms.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Eco\ADSK.QS.TaskLinks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\File\ADSK.QS.CAD BOM.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\File\ADSK.QS.DerivationTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\File\ADSK.QS.FileDataSheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\File\ADSK.QS.FileDocStructure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\File\ADSK.QS.FileItemDataSheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Folder\ADSK.QS.FolderDataSheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Item\ADSK.QS.AttachFileImport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Organisation\ADSK.QS.CUSTENT.Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Person\ADSK.QS.CUSTENT.Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Sendung\ADSK.QS.CUSTENT.Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Task\ADSK.QS.CUSTENT.Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Term\DatasheetTerms.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Transmittal\ADSK.QS.CUSTENT.Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\CustomObject.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Eco\Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\File.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\FileOffice.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\File\CAD BOM.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\File\Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Folder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Folder\Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Item\Associated Files.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Item\Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault\Configuration\Task\Datasheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Vault.Custom\addinVault\VdsSampleUtilities.dll" />
+    <Resource Include="Vault.Custom\addinVault\VdsSampleUtilities.xml" />
+    <Resource Include="CAD.Custom\Configuration\AutoCadDynamicProperties.xml" />
+    <Resource Include="CAD.Custom\Configuration\InventorDynamicProperties.xml" />
+    <Resource Include="de-DE\PropertyTranslations.xml" />
+    <Resource Include="de-DE\UIStrings.xml" />
+    <Resource Include="en-US\PropertyTranslations.xml" />
+    <Resource Include="en-US\UIStrings.xml" />
+    <Resource Include="Vault.Custom\About.ico" />
+    <Content Include="Vault.Custom\addinVault\UsesWhereUsed.dll" />
+    <Resource Include="Vault.Custom\ADSKMetaImport.ico" />
+    <Resource Include="Vault.Custom\cancel.ico" />
+    <Resource Include="Vault.Custom\Claim-add.ico" />
+    <Resource Include="Vault.Custom\Claim-edit.ico" />
+    <Resource Include="Vault.Custom\Claim-info.ico" />
+    <Resource Include="Vault.Custom\Claim-settings.ico" />
+    <Resource Include="Vault.Custom\ConfigurationVersionHistory.xml" />
+    <Resource Include="Vault.Custom\Configuration\ADSK.QS.File.xml" />
+    <Resource Include="Vault.Custom\Configuration\ADSK.QS.FileOffice.xml" />
+    <Resource Include="Vault.Custom\Configuration\Eco\Icons\task.ico" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\attachment.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\docx.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\dwg.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\iam.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\idw.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\ipn.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\ipt.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\linkedfile.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\mdb.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\pdf.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\pptx.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\Primary.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\PrimarySub.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\Secondary.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\SecondarySub.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\sldasm.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\slddrw.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\sldprt.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\StandardComponent.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\unknown.png" />
+    <Resource Include="Vault.Custom\Configuration\File\Icons\xlsx.png" />
+    <Resource Include="Vault.Custom\Configuration\VaultDynamicProperties.xml" />
+    <Resource Include="Vault.Custom\CopyIcon.ico" />
+    <Resource Include="Vault.Custom\CustomHelpDoc.ico" />
+    <Resource Include="Vault.Custom\doc-box-add.ico" />
+    <Resource Include="Vault.Custom\doc-box-edit.ico" />
+    <Resource Include="Vault.Custom\doc-box-info.ico" />
+    <Resource Include="Vault.Custom\doc-box.ico" />
+    <Resource Include="Vault.Custom\DragFilesActive.png" />
+    <Resource Include="Vault.Custom\DragFilesLocked.png" />
+    <Resource Include="Vault.Custom\ECO-GoTo.ico" />
+    <Resource Include="Vault.Custom\ECR-add.ico" />
+    <Resource Include="Vault.Custom\ECR-edit.ico" />
+    <Resource Include="Vault.Custom\ECR-info.ico" />
+    <Resource Include="Vault.Custom\ECR.ico" />
+    <Resource Include="Vault.Custom\EditCO.ico" />
+    <Resource Include="Vault.Custom\EditCustomObject.ico" />
+    <Resource Include="Vault.Custom\EditFileDatasheet.ico" />
+    <Resource Include="Vault.Custom\EditFolderDatasheet.ico" />
+    <Resource Include="Vault.Custom\factory-add.ico" />
+    <Resource Include="Vault.Custom\factory-edit.ico" />
+    <Resource Include="Vault.Custom\factory-info.ico" />
+    <Resource Include="Vault.Custom\factory.ico" />
+    <Resource Include="Vault.Custom\filter-delete.ico" />
+    <Resource Include="Vault.Custom\filter-ok.ico" />
+    <Resource Include="Vault.Custom\Folder2018.xml" />
+    <Resource Include="Vault.Custom\Folder2019.xml" />
+    <Resource Include="Vault.Custom\Folder2020.xml" />
+    <Resource Include="Vault.Custom\Folder2021.xml" />
+    <Resource Include="Vault.Custom\GoToReplacedBy.ico" />
+    <Resource Include="Vault.Custom\GoToSelectedFile.ico" />
+    <Resource Include="Vault.Custom\GoToSource.ico" />
+    <Resource Include="Vault.Custom\ItemMaster.ico" />
+    <Resource Include="Vault.Custom\ItemMaster.png" />
+    <Resource Include="Vault.Custom\Lock.ico" />
+    <Resource Include="Vault.Custom\Log.ico" />
+    <Resource Include="Vault.Custom\MenuDefinitions.xml" />
+    <Resource Include="Vault.Custom\Milestone-add.ico" />
+    <Resource Include="Vault.Custom\Milestone-edit.ico" />
+    <Resource Include="Vault.Custom\Milestone-info.ico" />
+    <Resource Include="Vault.Custom\Milestone-ok.ico" />
+    <Resource Include="Vault.Custom\NewCO.ico" />
+    <Resource Include="Vault.Custom\NewStandardFile.ico" />
+    <Resource Include="Vault.Custom\NewStandardFolder.ico" />
+    <Resource Include="Vault.Custom\ok.ico" />
+    <Resource Include="Vault.Custom\PDF.ico" />
+    <Resource Include="Vault.Custom\PlaceFromVault.ico" />
+    <Resource Include="Vault.Custom\plus.ico" />
+    <Resource Include="Vault.Custom\plus_disabled.ico" />
+    <Resource Include="Vault.Custom\QR-add.ico" />
+    <Resource Include="Vault.Custom\QR-edit.ico" />
+    <Resource Include="Vault.Custom\QR-info.ico" />
+    <Resource Include="Vault.Custom\QR.ico" />
+    <Resource Include="Vault.Custom\Refresh_16.ico" />
+    <Resource Include="Vault.Custom\Refresh_32.ico" />
+    <Resource Include="Vault.Custom\ReservedNumExport.ico" />
+    <Resource Include="Vault.Custom\ReserveNumbers.ico" />
+    <Resource Include="Vault.Custom\search.ico" />
+    <Resource Include="Vault.Custom\Service-add.ico" />
+    <Resource Include="Vault.Custom\Service-edit.ico" />
+    <Resource Include="Vault.Custom\Service-info.ico" />
+    <Resource Include="Vault.Custom\Service.ico" />
+    <Resource Include="Vault.Custom\task-add.ico" />
+    <Resource Include="Vault.Custom\task-edit.ico" />
+    <Resource Include="Vault.Custom\task-GoTo.ico" />
+    <Resource Include="Vault.Custom\task-info.ico" />
+    <Resource Include="Vault.Custom\task.ico" />
+    <Resource Include="Vault.Custom\Term-add.ico" />
+    <Resource Include="Vault.Custom\Term-edit.ico" />
+    <Resource Include="Vault.Custom\Term-info.ico" />
+    <Resource Include="Vault.Custom\Term-ok.ico" />
+    <Resource Include="Vault.Custom\TimOff-add.ico" />
+    <Resource Include="Vault.Custom\TimOff-edit.ico" />
+    <Resource Include="Vault.Custom\TimOff-info.ico" />
+    <Resource Include="Vault.Custom\TimOff.ico" />
+    <Resource Include="Vault.Custom\Transmittal-add.ico" />
+    <Resource Include="Vault.Custom\Transmittal-edit.ico" />
+    <Resource Include="Vault.Custom\Transmittal-info.ico" />
+    <Resource Include="Vault.Custom\Transmittal.ico" />
+    <Resource Include="Vault.Custom\user-w-add.ico" />
+    <Resource Include="Vault.Custom\user-w-edit.ico" />
+    <Resource Include="Vault.Custom\user-w-info.ico" />
+    <Resource Include="Vault.Custom\user-w.ico" />
+    <Resource Include="Vault.Custom\Vault.ico" />
+    <Resource Include="Vault.Custom\VaultRefreshFromVault.ico" />
+    <Resource Include="Vault.Custom\VaultSearchClear.ico" />
+    <Resource Include="Vault.Custom\VaultSearchExec.ico" />
+    <Resource Include="Vault.Custom\VaultSearchRun.png" />
+    <Resource Include="Vault\About.ico" />
+    <Resource Include="Vault\Configuration\File.xml" />
+    <Resource Include="Vault\Configuration\FileOffice.xml" />
+    <Resource Include="Vault\Configuration\Item\Icons\attachment.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\docx.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\dwg.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\iam.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\idw.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\ipn.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\ipt.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\linkedfile.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\mdb.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\pdf.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\pptx.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\Primary.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\PrimarySub.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\Secondary.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\SecondarySub.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\StandardComponent.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\unknown.png" />
+    <Resource Include="Vault\Configuration\Item\Icons\xlsx.png" />
+    <Resource Include="Vault\DSLanguages.xml" />
+    <Resource Include="Vault\EditFileDatasheet.ico" />
+    <Resource Include="Vault\EditFolderDatasheet.ico" />
+    <Resource Include="Vault\Log.ico" />
+    <Resource Include="Vault\MenuDefinitions.xml" />
+    <Resource Include="Vault\NewStandardFile.ico" />
+    <Resource Include="Vault\NewStandardFolder.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

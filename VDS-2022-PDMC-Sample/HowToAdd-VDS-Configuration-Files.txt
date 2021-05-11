@@ -1,6 +1,0 @@
-﻿Navigate to C:\ProgramData\Autodesk\Vault Client 20xx\Extensions\Data Standard\
-	- Select all Folders, no files!
-	- Drag & Drop selection set (Folders) to the C# Project
-		NOTE – Press ALT key while dragging!
-	- The configuration files are now linked to your project, and will not save in the project folder but on each link target location
-	- Double click to edit
