@@ -1,6 +1,6 @@
 #region disclaimer =============================================================================
 # PowerShell script sample for Vault Data Standard
-#			 Autodesk Vault - VDS-PDMC-Sample 2019
+#			 Autodesk Vault - VDS-PDMC-Sample 2022
 # This sample is based on VDS 2022 RTM and adds functionality and rules
 #
 # Copyright (c) Autodesk - All rights reserved.
@@ -12,6 +12,9 @@
 
 #region - version history
 # Version Info - VDS-PDMC-Sample Classification 2022
+	#removed multi-DB-language support -> support EN only, as PDMC-Sample is an en-US DB sample
+
+# Version Info - VDS-PDMC-Sample Classification 2021
 	#added condition _ReadOnly for Remove/Add Button
 
 # Version Info - VDS-PDMC-Sample Classification 2020.0.0
@@ -37,14 +40,14 @@ function mInitializeClassificationTab($ParentType, $file)
 		$Global:mAllCustentPropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT")
 		$Global:mCustentUdpDefs = $Global:mAllCustentPropDefs | Where-Object { $_.IsSys -eq $false}
 		$Global:mCustentDefs = $vault.CustomEntityService.GetAllCustomEntityDefinitions()
-		$Global:mClassCustentDef = $Global:mCustentDefs | Where-Object { $_.DispName -eq $UIString["Adsk.QS.Classification_00"]}
+		$Global:mClassCustentDef = $Global:mCustentDefs | Where-Object { $_.DispName -eq "Class"}
 		if(-not $Global:mClassCustentDef)
 		{
 			$dsWindow.FindName("txtClassificationStatus").Text = $UIString["Adsk.QS.Classification_13"]
 			$dsWindow.FindName("txtClassificationStatus").Visibility = "Visible"
 		}
 		#configuration info - the custom object names used for the classification structure may vary. Align Custent names of your Vault in UIStrings ADSK.WS.ClassLEver_*
-		$mClsLevelNames = ($UIString["Adsk.QS.ClassLevel_00"], $UIString["Adsk.QS.ClassLevel_01"], $UIString["Adsk.QS.ClassLevel_02"],$UIString["Adsk.QS.ClassLevel_03"])
+		$mClsLevelNames = ("Segment", "Main Group", "Group","Sub Group")
 		$Global:mClassLevelCustentDefIds = ($Global:mCustentDefs | Where-Object { $_.DispName -in $mClsLevelNames}).Id
 		#$Global:AddingClassification = $false
 		$Global:mClsTabInitialized = $true
@@ -85,7 +88,7 @@ function mInitializeClassificationTab($ParentType, $file)
 			if($dsWindow.FindName("wrpClassification2").Children.Count -lt 1)
 			{
 				#activate command should not add another combo row, if already classe(s) are selected
-				mAddClsLevelCombo -ClassLevelName $UIString["Adsk.QS.ClassLevel_00"]
+				mAddClsLevelCombo -ClassLevelName "Segment"
 			}
 			if($Prop["_XLTN_CLASS"].Value.Length -lt 1) { $dsWindow.FindName("btnRemoveClass").IsEnabled = $false}
 			if($Prop["_XLTN_CLASS"].Value.Length -gt 0 -and $Prop["_ReadOnly"].Value -eq $false) 
@@ -124,7 +127,7 @@ function mGetFileClsValues
 		$dsDiag.Trace("	...class object for file class property value found.")
 		$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass[0].Id
 		$mClsPropTable = @{}
-		$mClsLevelProps = ($UIString["Adsk.QS.ClassLevel_00"], $UIString["Adsk.QS.ClassLevel_01"], $UIString["Adsk.QS.ClassLevel_02"],$UIString["Adsk.QS.ClassLevel_03"] ,$UIString["Adsk.QS.Classification_00"])
+		$mClsLevelProps = ("Segment", "Main Group", "Group","Sub Group" ,"Class")
 
 		#get the file's class property values 
 		$mFileClassProps = $vault.PropertyService.GetProperties("FILE", @($mFile.Id), $mClsPrpNames.Keys)
@@ -155,7 +158,7 @@ function mGetClsDfltValues
 	$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass[0].Id
 	$mClsPrpValues = mGetClsPrpValues -ClassId $mActiveClass[0].Id
 	$mClsPropTable = @{}
-	$mClsLevelProps = ($UIString["Adsk.QS.ClassLevel_00"], $UIString["Adsk.QS.ClassLevel_01"], $UIString["Adsk.QS.ClassLevel_02"],$UIString["Adsk.QS.ClassLevel_03"] ,$UIString["Adsk.QS.Classification_00"])
+	$mClsLevelProps = ("Segment", "Main Group", "Group","Sub Group" ,"Class")
 
 	if($mActiveClass.Count -eq 1)
 	{
@@ -565,10 +568,10 @@ function mGetCustentClsLevelUsesList ($sender) {
 		#[System.Windows.MessageBox]::Show("Currentclass: $_CurrentClass and Level# is $_i")
         switch($_i)
 		        {
-			        0 { $mSearchFilter = $UIString["Adsk.QS.ClassLevel_00"]}
-			        1 { $mSearchFilter = $UIString["Adsk.QS.ClassLevel_01"]}
-			        2 { $mSearchFilter = $UIString["Adsk.QS.ClassLevel_02"]}
-					3 { $mSearchFilter = $UIString["Adsk.QS.ClassLevel_03"]}
+			        0 { $mSearchFilter = "Segment"}
+			        1 { $mSearchFilter = "Main Group"}
+			        2 { $mSearchFilter = "Group"}
+					3 { $mSearchFilter = "Sub Group"}
 			        default { $mSearchFilter = "*"}
 		        }
 		$_customObjects = mGetCustentClsLevelList -ClassLevelName $mSearchFilter

@@ -220,6 +220,7 @@
   <UIString ID="TLT1">Lokaler Pfad</UIString>
 
   <!--VDS-PDMC-Sample Multilang Strings Start for en-US database-->
+  
   <!--VDS-PDMC-Sample Category Names (additional ones not in default)-->
   <UIString ID="MSDCE_CAT00">Drawing Inventor</UIString>
   <UIString ID="MSDCE_CAT01">Drawing AutoCAD</UIString>
@@ -539,8 +540,17 @@
   <UIString ID="Adsk.QS.RevTab_03">Zu Prüfen</UIString>
   <UIString ID="Adsk.QS.RevTab_04">Schnelle Änderung</UIString>
   <UIString ID="Adsk.QS.RevTab_05">In Bearbeitung</UIString>
+  <UIString ID="Adsk.QS.RevTab_06">Letzte freigegeb. Rev.</UIString>
+  <UIString ID="Adsk.QS.RevTab_07">Geprüft am</UIString>
+  <UIString ID="Adsk.QS.RevTab_08">Freigegeben am</UIString>
+  <UIString ID="Adsk.QS.RevTab_09">Änderungstext</UIString>
+  <UIString ID="Adsk.QS.RevTab_10">Freigabe Kunde erf.</UIString>
+  <UIString ID="Adsk.QS.RevTab_11">Freigabe Kunde von</UIString>
+  <UIString ID="Adsk.QS.RevTab_12">Freigabe Kunde Datum</UIString>
 
+  <!--UIStrings for PDMC-Sample Dynamic Grids - Note these mappings are only valid for the original PDMC-Sample Vault!-->
   <UIString ID="1907cfc4-134b-4151-b04b-263627b8d37e">Geprüft am</UIString>
+  <UIString ID="89aa6d67-d68f-4b2e-938e-94fe670d783d">Prüfvermerk erf.</UIString>
   <!---->
   <UIString ID="b7509fa1-4956-4681-b898-9814bdf11101">Freigegeben am</UIString>
   <!--Engr Approved By is a default mapping-->

@@ -529,7 +529,7 @@
                   VerticalGridLinesBrush="WhiteSmoke" BorderBrush="Gray" MaxWidth="500"
                   Margin="5,0,0,0">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Name}" CellStyle="{StaticResource DynamicDataGridLabelStyle}"
+                        <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}"
                                     MinWidth="140" Width="Auto" IsReadOnly="True">
                             <DataGridTextColumn.HeaderTemplate>
                                 <DataTemplate>
@@ -854,7 +854,7 @@
                     <TextBox x:Name="txtRevision1" Text="{Binding Prop[_XLTN_REVISION].Value}"  Grid.Column="1" IsReadOnly="True" Grid.Row="0" Height="Auto"/>
                     <Label x:Name="lblStatus1" Content="{Binding UIString[LBL4], FallbackValue=Status}" Grid.Row="1" Height="Auto"/>
                     <TextBox x:Name="txtStatus1" Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" />
-                    <Label Content="Latest Released Rev." Grid.Column="3" 
+                    <Label Content="{Binding UIString[Adsk.QS.RevTab_06], FallbackValue='Latest Released Rev.'}" Grid.Column="3" 
                         Visibility="{Binding Visibility, ElementName=LatestRev}" Height="Auto"/>
                     <Border Grid.Column="4" BorderThickness="0,1,1,0" BorderBrush="#FFABADB3" >
                         <CheckBox x:Name="LatestRev" IsChecked="{Binding Prop[Latest Released Revision].Value}" IsEnabled="False" VerticalAlignment="Center" Margin="5,0,0,0" />
@@ -866,19 +866,19 @@
                     <Label Content="{Binding UIString[LBL33], FallbackValue=Create Date}" Grid.Row="2" Grid.Column="3" Height="Auto" BorderThickness="1"/>
                     <TextBox x:Name="txtCreateDate" Text="{Binding Prop[_XLTN_DATE VERSION CREATED].Value}" Grid.Column="4" Grid.Row="2" IsReadOnly="True" Height="Auto" BorderThickness="0,1,1,1"/>
                     <!--Editable Revision Properties-->
-                    <Label Content="{Binding UIString[], FallbackValue=Checked By}" Grid.Row="4" Grid.Column="0"  Height="Auto"/>
+                    <Label Content="{Binding UIString[CheckedBy], FallbackValue=Checked By}" Grid.Row="4" Grid.Column="0"  Height="Auto"/>
                     <TextBox x:Name="txtCheckedBy" Text="{WPF:ValidatedBinding Prop[_XLTN_CHECKEDBY].Value}" Grid.Column="1" Grid.Row="4" Height="Auto"/>
-                    <Label Content="{Binding UIString[], FallbackValue=Checked Date}" Grid.Row="4" Grid.Column="3"  Height="Auto"/>
+                    <Label Content="{Binding UIString[Adsk.QS.RevTab_07], FallbackValue=Checked Date}" Grid.Row="4" Grid.Column="3"  Height="Auto"/>
                     <Border Grid.Column="4" Grid.Row="4"  Height="Auto" BorderBrush="#FFABADB3" BorderThickness="0,1,1,0">
                         <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[_XLTN_CHECKEDDATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}, UpdateSourceTrigger=PropertyChanged}"  Height="Auto"  />
                     </Border>
-                    <Label Content="{Binding UIString[], FallbackValue=Engr Approved By}" Grid.Row="5" Grid.Column="0"  Height="Auto" BorderThickness="1"/>
+                    <Label Content="{Binding UIString[EngrApprovedBy], FallbackValue=Engr Approved By}" Grid.Row="5" Grid.Column="0"  Height="Auto" BorderThickness="1"/>
                     <TextBox x:Name="txtEngApprvdBy" Text="{WPF:ValidatedBinding Prop[_XLTN_ENGAPPRVDBY].Value}" Grid.Column="1" Grid.Row="5" Height="Auto" BorderThickness="0,1,1,1"/>
-                    <Label Content="{Binding UIString[], FallbackValue=Engr Approved Date}" Grid.Row="5" Grid.Column="3" Height="Auto" BorderThickness="1"/>
+                    <Label Content="{Binding UIString[Adsk.QS.RevTab_08], FallbackValue=Engr Approved Date}" Grid.Row="5" Grid.Column="3" Height="Auto" BorderThickness="1"/>
                     <Border Grid.Column="4" Grid.Row="5" Height="Auto" BorderBrush="#FFABADB3" BorderThickness="0,1,1,1">
                         <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[_XLTN_ENGAPPRVDDATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Height="Auto" />
                     </Border>
-                    <Label Content="{Binding UIString[], FallbackValue=Change Description}" Grid.Row="7" Height="Auto" BorderThickness="1"/>
+                    <Label Content="{Binding UIString[Adsk.QS.RevTab_09], FallbackValue=Change Description}" Grid.Row="7" Height="Auto" BorderThickness="1"/>
                     <ComboBox x:Name="cmbChangeDescr"
                               ItemsSource="{Binding Prop[_XLTN_CHANGEDESCR].ListValues}" 
                               Text="{WPF:ValidatedBinding Prop[_XLTN_CHANGEDESCR].Value}" 
@@ -886,7 +886,7 @@
                               IsEditable="True" IsEnabled="{Binding PsVal[InvertReadOnly]}"
                               Grid.Column="1" Height="Auto" Grid.Row="7" Grid.ColumnSpan="4" BorderThickness="0,1,1,1" />
                 </Grid>
-                <Grid x:Name="grdCustomerApproval" Grid.Row="1" Visibility="{Binding PsVal[]}">
+                <Grid x:Name="grdCustomerApproval" Grid.Row="1" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="2*"/>
@@ -897,9 +897,9 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="28"/>
                     </Grid.RowDefinitions>
-                    <Label Content="{Binding UIString[], FallbackValue=Customer Approved By}" Grid.Column="0" Height="Auto" BorderThickness="1"/>
+                    <Label Content="{Binding UIString[Adsk.QS.RevTab_11], FallbackValue=Customer Approved By}" Grid.Column="0" Height="Auto" BorderThickness="1"/>
                     <TextBox x:Name="txtApprovedBy" Text="{WPF:ValidatedBinding Prop[_XLTN_CUSTAPPRVDBY].Value}" Height="Auto" Grid.Column="1" BorderThickness="0,1,1,1"/>
-                    <Label Content="{Binding UIString[], FallbackValue=Cust. Approved Date}" Height="Auto" Grid.Column="3" BorderThickness="1"/>
+                    <Label Content="{Binding UIString[Adsk.QS.RevTab_12], FallbackValue=Cust. Approved Date}" Height="Auto" Grid.Column="3" BorderThickness="1"/>
                     <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,1" Grid.Column="4">
                         <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[_XLTN_CUSTAPPRVDDATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}, UpdateSourceTrigger=PropertyChanged}"  Height="Auto"  />
                     </Border>

@@ -282,7 +282,7 @@
                       VerticalGridLinesBrush="WhiteSmoke" BorderBrush="Gray" MaxWidth="500"
                       Margin="5,0,0,0" VerticalAlignment="Top">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Name}" CellStyle="{StaticResource DynamicDataGridLabelStyle}"
+                            <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}"
                                         Width="140" IsReadOnly="True">
                                 <DataGridTextColumn.HeaderTemplate>
                                     <DataTemplate>

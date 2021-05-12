@@ -54,26 +54,41 @@
   <PropertyTranslation Name ="ORGANISATION">Organisation</PropertyTranslation>
   <!--VDS-PDMC-Sample Extensions end-->
 
-  <!--VDS-PDMC-Sample Extension Classification start-->
+  <!--VDS-PDMC-Sample Extension Classification start--><!--
   <PropertyTranslation Name="SEGMENT">Segment</PropertyTranslation>
   <PropertyTranslation Name="MAINGROUP">Hauptgruppe</PropertyTranslation>
   <PropertyTranslation Name="GROUP">Gruppe</PropertyTranslation>
   <PropertyTranslation Name="SUBGROUP">Untergruppe</PropertyTranslation>
   <PropertyTranslation Name="CLASS">Klasse</PropertyTranslation>
-  <!--VDS-PDMC-Sample Extension Classification end-->
+  --><!--VDS-PDMC-Sample Extension Classification end--><!--
 
-  <!--CatalogTermsTranslations-->
-  <!--Note the default "Term" is used as object name and varies according the language-->
+  --><!--CatalogTermsTranslations--><!--
+  --><!--Note the default "Term" is used as object name and varies according the language--><!--
   <PropertyTranslation Name="TERM">Begriff DE</PropertyTranslation>
   <PropertyTranslation Name="TERM-DE">Begriff DE</PropertyTranslation>
   <PropertyTranslation Name="TERM-EN">Begriff EN</PropertyTranslation>
   <PropertyTranslation Name="TERM-FR">Begriff FR</PropertyTranslation>
   <PropertyTranslation Name="TERM-IT">Begriff IT</PropertyTranslation>
-  <!--Note the default "Term" is used as object name and varies according the language-->
+  --><!--Note the default "Term" is used as object name and varies according the language--><!--
   <PropertyTranslation Name="TITLE-DE">Titel</PropertyTranslation>
   <PropertyTranslation Name="TITLE-EN">Titel EN</PropertyTranslation>
   <PropertyTranslation Name="TITLE-FR">Titel FR</PropertyTranslation>
   <PropertyTranslation Name="TITLE-IT">Titel IT</PropertyTranslation>
-  <!--Classification & Terms-->
+  --><!--Classification & Terms--><!--
+
+  --><!--Revision Property Tab start--><!--
+  <PropertyTranslation Name="LIFECLCDEF">Lifecycle Definition</PropertyTranslation>
+  <PropertyTranslation Name="DESIGNER">Designer</PropertyTranslation>
+  <PropertyTranslation Name="CHECKEDBY">Checked By</PropertyTranslation>
+  <PropertyTranslation Name="CHECKEDDATE">Checked Date</PropertyTranslation>
+  <PropertyTranslation Name="ENGAPPRVDBY">Engr Approved By</PropertyTranslation>
+  <PropertyTranslation Name="ENGAPPRVDDATE">Engr Approved Date</PropertyTranslation>
+  <PropertyTranslation Name="CHANGEDESCR">Change Description</PropertyTranslation>
+  <PropertyTranslation Name="CUSTAPPRVLREQ">Customer Approval Required</PropertyTranslation>
+  <PropertyTranslation Name="CUSTAPPRVDBY">Customer Approved By</PropertyTranslation>
+  <PropertyTranslation Name="CUSTAPPRVDDATE">Cust Approved Date</PropertyTranslation>
+  <PropertyTranslation Name="DOCCHCKREQ">Document Check Required</PropertyTranslation>
+  --><!--Revision Property Tab end-->
+  
 </PropertyTranslations>
 

@@ -193,14 +193,22 @@
   <UIString ID="G_L">Cut Length</UIString>
   <UIString ID="PL">Cut Length</UIString>
   <UIString ID="Title_EN">Title EN</UIString>
-  <!--<UIString ID="Mass">Mass</UIString>
+  <!--<UIString ID="Mass">Mass</UIString>-->
   <UIString ID="Original">Source File</UIString>
   <UIString ID="Replacement">Replaced by</UIString>
   <UIString ID="Dimensions">Dimensions</UIString>
-  <UIString ID="Thickness">Sheet Thickness</UIString>-->
+  <UIString ID="Thickness">Sheet Thickness</UIString>
   <UIString ID="Part Type name">Sub-Type</UIString>
 
-  <!--Vault Categories-->
+  <!--Vault Categories for de-DE database-->
+  <!--<UIString ID="CAT1">Konstruktion</UIString>
+  <UIString ID="CAT2">Büro</UIString>
+  <UIString ID="CAT3">Standard</UIString>
+  <UIString ID="CAT4">Basis</UIString>
+  <UIString ID="CAT5">Ordner</UIString>
+  <UIString ID="CAT6">Projekt</UIString>-->
+
+  <!--Vault Categories for en-US database-->
   <UIString ID="CAT1">Engineering</UIString>
   <UIString ID="CAT2">Office</UIString>
   <UIString ID="CAT3">Standard</UIString>
@@ -208,6 +216,7 @@
   <UIString ID="CAT5">Folder</UIString>
   <UIString ID="CAT6">Project</UIString>
 
+  <!--Strings used in tooltips-->
   <UIString ID="TLT1">Local path</UIString>
 
   <!--VDS-PDMC-Sample Multilang Strings Start-->
@@ -497,7 +506,7 @@
   <!--AddPdfDsgnRepToQu Snippet End-->
 
   <!--Item-File-Importer-->
-  <UIString ID="ADSK-ItemFileImport_00">Sequential Files</UIString>
+  <UIString ID="ADSK-ItemFileImport_00">xDMS</UIString>
   <UIString ID="ADSK-ItemFileImport_01">Could not get Item-File location path.</UIString>
   <UIString ID="ADSK-ItemFileImport_02">by Drag and Drop Item File Importer</UIString>
   <UIString ID="ADSK-ItemFileImport_03">File-Import added attachments</UIString>
@@ -531,7 +540,15 @@
   <UIString ID="Adsk.QS.RevTab_03">For Review</UIString>
   <UIString ID="Adsk.QS.RevTab_04">Quick-Change</UIString>
   <UIString ID="Adsk.QS.RevTab_05">Work in Progress</UIString>
+  <UIString ID="Adsk.QS.RevTab_06">Latest Released Rev.</UIString>
+  <UIString ID="Adsk.QS.RevTab_07">Checked Date</UIString>
+  <UIString ID="Adsk.QS.RevTab_08">Engr Approved Date</UIString>
+  <UIString ID="Adsk.QS.RevTab_09">Change Description</UIString>
+  <UIString ID="Adsk.QS.RevTab_10">Customer Approval Required</UIString>
+  <UIString ID="Adsk.QS.RevTab_11">Customer Approved By</UIString>
+  <UIString ID="Adsk.QS.RevTab_12">Customer Appr. Date</UIString>
   
+  <!--UIStrings for PDMC-Sample Dynamic Grids - Note these mappings are only valid for the original PDMC-Sample Vault!-->
   <UIString ID="1907cfc4-134b-4151-b04b-263627b8d37e">Checked Date</UIString>
   <UIString ID="89aa6d67-d68f-4b2e-938e-94fe670d783d">Document Check Required</UIString>
   <!--Checked By is a default mapping-->

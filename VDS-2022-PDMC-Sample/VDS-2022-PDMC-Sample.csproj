@@ -268,14 +268,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Vault.Custom\Configuration\Aufgabe\ADSK.QS.CUSTENT.Datasheet.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vault.Custom\Configuration\Begriff\DatasheetTerms.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Vault.Custom\Configuration\Eco\ADSK.QS.TaskLinks.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -316,19 +308,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Vault.Custom\Configuration\Sendung\ADSK.QS.CUSTENT.Datasheet.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Vault.Custom\Configuration\Task\ADSK.QS.CUSTENT.Datasheet.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Vault.Custom\Configuration\Term\DatasheetTerms.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vault.Custom\Configuration\Transmittal\ADSK.QS.CUSTENT.Datasheet.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -53,7 +53,7 @@ function mInitializeTermCatalog
 
 				$dsWindow.FindName("dataGrdTermsFound").add_SelectionChanged({
 					param($sender, $SelectionChangedEventArgs)
-					$dsDiag.Trace(".. TermsFoundSelection")
+					#$dsDiag.Trace(".. TermsFoundSelection")
 					IF($dsWindow.FindName("dataGrdTermsFound").SelectedItem){
 						$dsWindow.FindName("btnAdopt").IsEnabled = $true
 						$dsWindow.FindName("btnAdopt").IsDefault = $true
@@ -85,7 +85,7 @@ function mInitializeTermCatalog
 function mSearchTerms 
 {
 	Try {
-		$dsDiag.Trace(">> search COs terms")
+		#$dsDiag.Trace(">> search COs terms")
 		$dsWindow.FindName("dataGrdTermsFound").ItemsSource = $null
 
 		$mSearchText1 = $dsWindow.FindName("mSearchTermText").Text

@@ -156,11 +156,7 @@ function InitializeWindow
 			if($dsWindow.FindName("tabRevision")) 
 			{
 				$dsWindow.FindName("tabRevision").Visibility = "Visible"
-				if(-not $Global:mRevTabInitialized)
-				{
 					InitializeRevisionValidation
-					#mInitializeRevTab
-				}
 			}
 
 			#endregion VDS-PDMC-Sample
