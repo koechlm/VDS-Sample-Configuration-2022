@@ -347,8 +347,9 @@
   <UIString ID="ADSK-GoToNavigation_MNU01">Gehe zu Ursprung</UIString>
   <UIString ID="ADSK-GoToNavigation_MNU02">Gehe zu Nachfolger</UIString>
   <UIString ID="ADSK-GoToNavigation_MNU03">Gehe zur Auswahl (Struktur-Register)</UIString>
-  <UIString ID="ADSK-GoToNavigation_Prop01">Entstanden aus</UIString>
-  <UIString ID="ADSK-GoToNavigation_Prop02">Ersetzt durch</UIString>
+  <!--the attributes *Prop* need to match the name of the Vault's UDPs and must not localize-->
+  <UIString ID="ADSK-GoToNavigation_Prop01">Source File</UIString>
+  <UIString ID="ADSK-GoToNavigation_Prop02">Replaced by</UIString>
   <UIString ID="ADSK-GoToNavigation_MSG00">Eigenschaft '{0}' ist entweder nicht vorhanden oder leer.</UIString>
   <UIString ID="ADSK-GoToNavigation_MSG01">Angegebene Datei '{0}' im Feld '{1}' konnte nicht gefunden werden.</UIString>
   <!--GoToNavigation Snippet Start-->
@@ -362,12 +363,12 @@
   <!--GoToInvSibling End-->
 
   <!--Derivation Tree-->
-  <UIString ID="DerivationTree_00">Ableitungsstruktur</UIString>
-  <UIString ID="DerivationTree_01">Quelldatei - alle Versionen/Revisionen</UIString>
+  <UIString ID="DerivationTree_00">Datei-Kopien</UIString>
+  <UIString ID="DerivationTree_01">Kopie von - alle Versionen/Revisionen</UIString>
   <UIString ID="DerivationTree_02">Führt alle Versionen/Revisionen der Quelldatei auf</UIString>
-  <UIString ID="DerivationTree_03">Parallel-Dateie(e) - alle Versionen/Revisionen</UIString>
+  <UIString ID="DerivationTree_03">Geschwister - alle Versionen/Revisionen</UIString>
   <UIString ID="DerivationTree_04">Führt alle Versionen/Revisionen weiterer Kopien der Quelldatei auf</UIString>
-  <UIString ID="DerivationTree_05">Ableitung(en) - Versionen/Revisionen</UIString>
+  <UIString ID="DerivationTree_05">Kopie(en) - Versionen/Revisionen</UIString>
   <UIString ID="DerivationTree_06">Führt alle Datei Versionen/Revisionen auf, die von gewählter Datei ausgehend kopiert wurden</UIString>
   <UIString ID="DerivationTree_07">Status (Historisch)</UIString>
   <UIString ID="DerivationTree_08">Ersterstellung</UIString>
@@ -376,8 +377,8 @@
   <UIString ID="DerivationTree_11">Versionskommentar</UIString>
   <UIString ID="DerivationTree_12">Dateiname in Zwischenablage kopieren</UIString>
   <UIString ID="DerivationTree_13">Es konnte keine Quelldatei ermittelt werden.</UIString>
-  <UIString ID="DerivationTree_14">Es konnten keine Parallel-Kopien ermittelt werden.</UIString>
-  <UIString ID="DerivationTree_15">Es wurden keine Kopien der gewählten Datei ermittelt.</UIString>
+  <UIString ID="DerivationTree_14">Es konnten keine Kopien mit identischer Quellangabe ermittelt werden.</UIString>
+  <UIString ID="DerivationTree_15">Es wurden keine Kopien gefunden werden, die mit selektierter Datei als Quelldatei übereinstimmen.</UIString>
   <UIString ID="DerivationTree_16">Anzeige auf Seitengröße {0} begrenzt; Gesamtanzahl ermittelter Dateiversionen: {1}</UIString>
   <UIString ID="DerivationTree_17">Anzeige aktualisieren</UIString>
   <UIString ID="DerivationTree_18">Anzeige automatisch aktualisieren</UIString>

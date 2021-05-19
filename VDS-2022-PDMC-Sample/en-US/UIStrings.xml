@@ -347,8 +347,9 @@
   <UIString ID="ADSK-GoToNavigation_MNU01">Go to source</UIString>
   <UIString ID="ADSK-GoToNavigation_MNU02">Go to replacement</UIString>
   <UIString ID="ADSK-GoToNavigation_MNU03">Go to selection (structure tab)</UIString>
+  <!--the attributes *Prop* need to match the name of the Vault's UDPs and must not localize-->
   <UIString ID="ADSK-GoToNavigation_Prop01">Source File</UIString>
-  <UIString ID="ADSK-GoToNavigation_Prop02">Replacement for</UIString>
+  <UIString ID="ADSK-GoToNavigation_Prop02">Replaced by</UIString>
   <UIString ID="ADSK-GoToNavigation_MSG00">Property '{0}' is empty or doesn't exist.</UIString>
   <UIString ID="ADSK-GoToNavigation_MSG01">Designated file '{0}' in property '{1}' not found.</UIString>
   <!--GoToSourceFile-GoToReplacement Snippet Start-->
@@ -362,12 +363,12 @@
   <!--GoToInvSibling End-->
 
   <!--Derivation Tree-->
-  <UIString ID="DerivationTree_00">Derivation Tree</UIString>
-  <UIString ID="DerivationTree_01">Source File Versions/Revisions</UIString>
+  <UIString ID="DerivationTree_00">File Copies</UIString>
+  <UIString ID="DerivationTree_01">Copied from - All Versions/Revisions</UIString>
   <UIString ID="DerivationTree_02">Lists all file versions/revisions of the copied source</UIString>
-  <UIString ID="DerivationTree_03">Parallel-File(s) - All Versions/Revisions</UIString>
+  <UIString ID="DerivationTree_03">Sibling(s) - All Versions/Revisions</UIString>
   <UIString ID="DerivationTree_04">Lists all file versions/revisions also copied from the same source file</UIString>
-  <UIString ID="DerivationTree_05">Derivation(s) - All Versions/Revisions</UIString>
+  <UIString ID="DerivationTree_05">Copy(ies) - All Versions/Revisions</UIString>
   <UIString ID="DerivationTree_06">Lists all file versions/revisions copied from the selected file</UIString>
   <UIString ID="DerivationTree_07">State (Historical)</UIString>
   <UIString ID="DerivationTree_08">Original Create Date</UIString>
@@ -376,8 +377,8 @@
   <UIString ID="DerivationTree_11">Version Comment</UIString>
   <UIString ID="DerivationTree_12">Copy File Name to Clipboard</UIString>
   <UIString ID="DerivationTree_13">Could not find source file</UIString>
-  <UIString ID="DerivationTree_14">Could not find parallel copied files</UIString>
-  <UIString ID="DerivationTree_15">Could not find any copy of the selected file</UIString>
+  <UIString ID="DerivationTree_14">Could not find copies with identical source file</UIString>
+  <UIString ID="DerivationTree_15">Could not find any copy matching the selected file as source file</UIString>
   <UIString ID="DerivationTree_16">Search result is limited to page size {0}; Total number of files found: {1}</UIString>
   <UIString ID="DerivationTree_17">Update View</UIString>
   <UIString ID="DerivationTree_18">Auto Update View</UIString>

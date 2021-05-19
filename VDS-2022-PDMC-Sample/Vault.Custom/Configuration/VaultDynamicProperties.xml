@@ -2,10 +2,14 @@
 <DynamicProperties>
   <DynamicPropertiesCategory Category="Part" Type="File">
     <DynamicProperty>Title</DynamicProperty>
+    <DynamicProperty>Titel</DynamicProperty>
     <DynamicProperty>Title DE</DynamicProperty>
+    <DynamicProperty>Titel DE</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
+    <DynamicProperty>Beschreibung</DynamicProperty>
     <DynamicProperty>Description 2</DynamicProperty>
     <DynamicProperty>Part Number</DynamicProperty>
+    <DynamicProperty>Teilenummer</DynamicProperty>
     <DynamicProperty>Part Family</DynamicProperty>
     <DynamicProperty>Make or Buy</DynamicProperty>
     <DynamicProperty Hidden="True">Material</DynamicProperty>
@@ -15,10 +19,12 @@
     <DynamicProperty>Mass</DynamicProperty>
     <DynamicProperty>Spare-Wear Part</DynamicProperty>
     <DynamicProperty>Stock Number</DynamicProperty>
+    <DynamicProperty>Bestandsnummer</DynamicProperty>
     <DynamicProperty>Semi-finished</DynamicProperty>
     <DynamicProperty>Project Number</DynamicProperty>
     <DynamicProperty>Project</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
+    <DynamicProperty>Konstrukteur</DynamicProperty>
     <DynamicProperty>Engineer</DynamicProperty>
     <DynamicProperty>Manager</DynamicProperty>
     <DynamicProperty>Checked By</DynamicProperty>
@@ -26,6 +32,7 @@
     <DynamicProperty>Engr Approved By</DynamicProperty>
     <DynamicProperty>Engr Approved Date</DynamicProperty>
     <DynamicProperty>Source File</DynamicProperty>
+    <DynamicProperty>Replaced by</DynamicProperty>
     <DynamicProperty Hidden="True">MBD</DynamicProperty>
     <DynamicProperty Hidden="True">BOM Type</DynamicProperty>
     <DynamicProperty Hidden="True">FDS Key</DynamicProperty>
@@ -33,13 +40,18 @@
     <DynamicProperty Hidden="True">Key Parameters</DynamicProperty>
     <DynamicProperty Hidden="True">Comments</DynamicProperty>
     <DynamicProperty Hidden="True">Application Version</DynamicProperty>
+    <DynamicProperty Hidden="True">Anwendungsversion</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Sheet Metal Part" Type="File">
     <DynamicProperty>Title</DynamicProperty>
+    <DynamicProperty>Titel</DynamicProperty>
     <DynamicProperty>Title DE</DynamicProperty>
+    <DynamicProperty>Titel DE</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
+    <DynamicProperty>Beschreibung</DynamicProperty>
     <DynamicProperty>Description 2</DynamicProperty>
     <DynamicProperty>Part Number</DynamicProperty>
+    <DynamicProperty>Teilenummer</DynamicProperty>
     <DynamicProperty>Part Family</DynamicProperty>
     <DynamicProperty>Make or Buy</DynamicProperty>
     <DynamicProperty Hidden="True">Material</DynamicProperty>
@@ -53,6 +65,7 @@
     <DynamicProperty>Project Number</DynamicProperty>
     <DynamicProperty>Project</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
+    <DynamicProperty>Konstrukteur</DynamicProperty>
     <DynamicProperty>Engineer</DynamicProperty>
     <DynamicProperty>Manager</DynamicProperty>
     <DynamicProperty>Checked By</DynamicProperty>
@@ -67,6 +80,7 @@
     <DynamicProperty Hidden="True">Key Parameters</DynamicProperty>
     <DynamicProperty Hidden="True">Comments</DynamicProperty>
     <DynamicProperty Hidden="True">Application Version</DynamicProperty>
+    <DynamicProperty Hidden="True">Anwendungsversion</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Frame Member" Type="File">
     <DynamicProperty>Title</DynamicProperty>
@@ -315,9 +329,11 @@
     <DynamicProperty>Ident Number</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Project" Type="Folder">
-    <DynamicProperty>Plant</DynamicProperty>
+  
     <DynamicProperty>Title</DynamicProperty>
+    <DynamicProperty>Titel</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
+    <DynamicProperty>Beschreibung</DynamicProperty>
     <DynamicProperty>Date Start</DynamicProperty>
     <DynamicProperty>Date End</DynamicProperty>
     <DynamicProperty>Customer</DynamicProperty>
@@ -327,6 +343,8 @@
     <DynamicProperty>Project</DynamicProperty>
     <DynamicProperty>FLCdmsID</DynamicProperty>
     <DynamicProperty>FLCwsID</DynamicProperty>
+
+    
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Drawing AutoCAD" Type="FILE">
     <DynamicProperty>Title</DynamicProperty>
@@ -378,7 +396,7 @@
     <DynamicProperty>Scale</DynamicProperty>
     <DynamicProperty>Sheet</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
-    <DynamicProperty Hidden="True">Document Check Required</DynamicProperty>    
+    <DynamicProperty Hidden="True">Document Check Required</DynamicProperty>
     <DynamicProperty Hidden="True">Checked By</DynamicProperty>
     <DynamicProperty Hidden="True">Checked Date</DynamicProperty>
     <DynamicProperty Hidden="True">Engr Approved By</DynamicProperty>
@@ -386,7 +404,7 @@
     <DynamicProperty Hidden="True">Change Description</DynamicProperty>
     <DynamicProperty Hidden="True">Customer Approval Required</DynamicProperty>
     <DynamicProperty Hidden="True">Customer Approved By</DynamicProperty>
-    <DynamicProperty Hidden="True">Customer Approved Date</DynamicProperty>    
+    <DynamicProperty Hidden="True">Customer Approved Date</DynamicProperty>
     <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty Hidden="True">DWG Type</DynamicProperty>
     <DynamicProperty Hidden="True">Application Version</DynamicProperty>
