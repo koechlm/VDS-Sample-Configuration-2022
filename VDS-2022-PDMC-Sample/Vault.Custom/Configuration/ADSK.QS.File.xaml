@@ -427,7 +427,7 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition MaxWidth="500" />
+                    <ColumnDefinition  />
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid x:Name="grdGeneralProps" Margin="0"
@@ -527,7 +527,7 @@
                     EnableRowVirtualization="False"
                   HorizontalGridLinesBrush="WhiteSmoke"
                   VerticalGridLinesBrush="WhiteSmoke" BorderBrush="Gray" MaxWidth="500"
-                  Margin="5,0,0,0">
+                  Margin="5,0,0,0" BorderThickness="1">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}"
                                     MinWidth="140" Width="Auto" IsReadOnly="True">
@@ -742,16 +742,16 @@
                             </Grid>
                         </GroupBox>
                         <GroupBox x:Name="grpSearchText" Grid.Row="1" Header="{Binding UIString[ClassTerms_16], FallbackValue=Search Text \= term definition; add Language(s) below to widen scope}" BorderBrush="#FFABADB3">
-                            <Grid x:Name="grdTermSearch" Width="562">
+                            <Grid x:Name="grdTermSearch" Width="562" HorizontalAlignment="Left">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
                                     <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox x:Name="mSearchTermText" Grid.Column="0" ToolTip="{Binding UIString[ClassTerms_TT06], FallbackValue=Apply * for partial terms}" BorderThickness="1"/>
-                                <Button x:Name="btnSearchTerm" Grid.Column="1" Content="{Binding UIString[ClassTerms_BTN8], FallbackValue=Search}" Command="{Binding PsCmd[mSearchTerms]}" Width="80" Margin="3,0,0,0" BorderBrush="#FFABADB3" Height="24"/>
+                                <TextBox x:Name="mSearchTermText" Grid.Column="0" ToolTip="{Binding UIString[ClassTerms_TT06], FallbackValue=Apply * for partial terms}" BorderThickness="1" HorizontalAlignment="Left" Width="250"/>
+                                <Button x:Name="btnSearchTerm" Grid.Column="1" Content="{Binding UIString[ClassTerms_BTN8], FallbackValue=Search}" Command="{Binding PsCmd[mSearchTerms]}" Width="80" Margin="3,0,0,0" BorderBrush="#FFABADB3" Height="24" HorizontalAlignment="Left"/>
                             </Grid>
                         </GroupBox>
                         <GroupBox x:Name="grpLanguages" Header="{Binding UIString[ClassTerms_15], FallbackValue=Languages}" Grid.Row="2" BorderBrush="#FFABADB3">
@@ -773,30 +773,30 @@
                         <DataGrid x:Name="dataGrdTermsFound" AutoGenerateColumns="False" IsTabStop="False" IsReadOnly="True" ColumnWidth="*" 
                                 HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke" ColumnHeaderHeight="26" 
                                 AlternatingRowBackground="LightCyan" Background="White" Cursor="Hand" ClipboardCopyMode="IncludeHeader" 
-                                Focusable="False" VerticalScrollBarVisibility="Auto" Grid.Row="4" RowHeight="24" Margin="0,2,0,0">
+                                Focusable="False" VerticalScrollBarVisibility="Auto" Grid.Row="4" RowHeight="24" Margin="0,2,0,0" HorizontalContentAlignment="Stretch" >
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Term_DE}" Width="*" MinWidth="140">
+                                <DataGridTextColumn Binding="{Binding Term_DE}" Width="Auto" MinWidth="140">
                                     <DataGridTextColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding DataContext.UIString[ClassTerms_02], FallbackValue=German, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                         </DataTemplate>
                                     </DataGridTextColumn.HeaderTemplate>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding Term_EN}" Width="*" MinWidth="140">
+                                <DataGridTextColumn Binding="{Binding Term_EN}" Width="Auto" MinWidth="140">
                                     <DataGridTextColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding DataContext.UIString[ClassTerms_03], FallbackValue=English, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                         </DataTemplate>
                                     </DataGridTextColumn.HeaderTemplate>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding Term_FR}" Width="*" MinWidth="140">
+                                <DataGridTextColumn Binding="{Binding Term_FR}" Width="Auto" MinWidth="140">
                                     <DataGridTextColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding DataContext.UIString[ClassTerms_04], FallbackValue=French, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                         </DataTemplate>
                                     </DataGridTextColumn.HeaderTemplate>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding Term_IT}" Width="*" MinWidth="140">
+                                <DataGridTextColumn Binding="{Binding Term_IT}" Width="Auto" MinWidth="140">
                                     <DataGridTextColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding DataContext.UIString[ClassTerms_05], FallbackValue=Italian, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>

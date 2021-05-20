@@ -590,10 +590,10 @@ function mGetCustomEntityUsesList ($sender) {
 		#[System.Windows.MessageBox]::Show("Currentclass: $_CurrentClass and Level# is $_i")
         switch($_i-1)
 		        {
-			        0 { $mSearchFilter = $UIString["Adsk.QS.ClassLevel_00"]}
-			        1 { $mSearchFilter = $UIString["Adsk.QS.ClassLevel_01"]}
-			        2 { $mSearchFilter = $UIString["Adsk.QS.ClassLevel_02"]}
-					3 { $mSearchFilter = $UIString["Adsk.QS.ClassLevel_03"]}
+			        0 { $mSearchFilter = "Segment"} #$UIString["Adsk.QS.ClassLevel_00"]
+			        1 { $mSearchFilter = "Main Group"} #$UIString["Adsk.QS.ClassLevel_01"]
+			        2 { $mSearchFilter = "Group"} #$UIString["Adsk.QS.ClassLevel_02"]
+					3 { $mSearchFilter = "Sub Group"} #$UIString["Adsk.QS.ClassLevel_03"] 
 			        default { $mSearchFilter = "*"}
 		        }
 		$_customObjects = mgetCustomEntityList -_CoName $mSearchFilter
