@@ -363,6 +363,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Vault.Custom\addinVault\VdsSampleUtilities.dll" />
+    <Resource Include="Vault.Custom\Folder2022.xml" />
     <Resource Include="Vault.Custom\addinVault\VdsSampleUtilities.xml" />
     <Resource Include="CAD.Custom\Configuration\AutoCadDynamicProperties.xml" />
     <Resource Include="CAD.Custom\Configuration\InventorDynamicProperties.xml" />
@@ -427,10 +428,6 @@
     <Resource Include="Vault.Custom\factory.ico" />
     <Resource Include="Vault.Custom\filter-delete.ico" />
     <Resource Include="Vault.Custom\filter-ok.ico" />
-    <Resource Include="Vault.Custom\Folder2018.xml" />
-    <Resource Include="Vault.Custom\Folder2019.xml" />
-    <Resource Include="Vault.Custom\Folder2020.xml" />
-    <Resource Include="Vault.Custom\Folder2021.xml" />
     <Resource Include="Vault.Custom\GoToReplacedBy.ico" />
     <Resource Include="Vault.Custom\GoToSelectedFile.ico" />
     <Resource Include="Vault.Custom\GoToSource.ico" />
