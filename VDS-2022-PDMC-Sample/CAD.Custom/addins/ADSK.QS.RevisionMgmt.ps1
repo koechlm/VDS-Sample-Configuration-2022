@@ -45,6 +45,10 @@ function InvertReadOnly
 
 function InitializeRevisionValidation
 {
+	if (-not $dsWindow.FindName("tabRevision"))
+	{
+		return
+	}
 
 	#set the display state of XAML controls
 	if (@(".DWG",".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value)
@@ -56,7 +60,7 @@ function InitializeRevisionValidation
 		$dsWindow.FindName("grdApproval").Visibility = "Collapsed"
 	}
 
-	if($Prop["Customer Approval Required"])
+	if(@(".DWG",".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value -and $Prop["Customer Approval Required"])
 	{
 		if($Prop["Customer Approval Required"].Value -eq "True")
 		{
@@ -99,7 +103,7 @@ function InitializeRevisionValidation
 			if (@(".DWG",".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value)
 			{
 
-				if($mFileState -eq $null) 
+				if($mFileState -eq $null)
 				{
 					if($Prop["Checked By"]) {
 						$Prop["Checked By"].CustomValidation = { $true }

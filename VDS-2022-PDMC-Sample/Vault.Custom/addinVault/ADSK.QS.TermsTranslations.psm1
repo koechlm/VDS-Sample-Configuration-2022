@@ -677,8 +677,3 @@ function mResetClassFilter
 	$dsDiag.Trace("...Reset Filter finished <<")
 }
 #endregion BreadCrumb ClassSelection
-
-function mCatalogClick
-{
-	$dsWindow.FindName("tabTermsCatalog").IsSelected = $true
-}

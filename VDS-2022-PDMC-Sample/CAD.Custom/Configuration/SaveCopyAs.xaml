@@ -102,7 +102,7 @@
                         <Setter.Value>
                             <ControlTemplate>
                                 <Button Content=". . ." 
-                                    Command="{Binding DataContext.PsCmd[mCatalogClick], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                    Command="{Binding DataContext.PsCmd[mInitializeTermCatalog], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
                                     ToolTip="{Binding DataContext.UIString[ClassTerms_TT05], FallbackValue=No hand typed values\, select from Catalog ..., RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Grid.Column="1" 
                                     Padding="5,1" Background="#FFDDDDDD" IsTabStop="False" MinWidth="20"/>
                             </ControlTemplate>
@@ -269,6 +269,7 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <GroupBox x:Name="GroupFolder" Grid.ColumnSpan="2" Margin="0,0,0,5" BorderThickness="0" 
                 Header="{Binding UIString[LBL1], FallbackValue=Folder}" 
@@ -319,7 +320,7 @@
         		Content="{Binding UIString[LBL10], FallbackValue=Number Scheme}"
         		Visibility="{Binding Visibility, ElementName=NumSchms}" BorderThickness="1,1,1,0" Margin="5,0,0,0" />
             <ComboBox x:Name="NumSchms" Grid.Column="3"
-        		SelectedIndex="0"
+        		SelectedIndex="1"
         		DisplayMemberPath="Name"
         		SelectedValuePath="Name"
         		SelectedValue="{Binding Prop[_NumSchm].Value}"
@@ -455,6 +456,107 @@
                 </Grid>
             </GroupBox>
         </Expander>
-
+        <Expander x:Name="expTermSearch" Grid.Column="3" Header="" ExpandDirection="Right" IsExpanded="False" Visibility="Collapsed" Grid.RowSpan="5" MinHeight="350" MaxHeight="{Binding ActualHeight, ElementName=grdMain, Mode=OneWay}" Margin="0">
+            <Grid x:Name="grdTermCatalog" Background="#FFF0F0F0" Margin="10,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition MaxHeight="350"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <GroupBox x:Name="grpClassification" Header="{Binding UIString[ClassTerms_14], FallbackValue=Filter}" Grid.Row="0" BorderBrush="#FFABADB3">
+                    <Grid x:Name="grdContentFilter">
+                        <WrapPanel x:Name="wrpClassification" Grid.Row="2">
+                            <Button x:Name="btnClsReset" Command="{Binding PsCmd[mResetClassFilter]}" Content="X" FontWeight="Bold" ToolTip="{Binding UIString[ClassTerms_TT07], FallbackValue=Reset Selection}" Foreground="Red" Width="24" Height="24">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Border BorderBrush="#FFABADB3" BorderThickness="1">
+                                            <Image x:Name="imgTemplateReset" Source="C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\filter-delete.ico" Margin="2" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </WrapPanel>
+                    </Grid>
+                </GroupBox>
+                <GroupBox x:Name="grpSearchText" Grid.Row="1" Header="{Binding UIString[ClassTerms_16], FallbackValue=Search Text \= term definition; add Language(s) below to widen scope}" BorderBrush="#FFABADB3">
+                    <Grid x:Name="grdTermSearch" Width="562">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="mSearchTermText" Grid.Column="0" ToolTip="{Binding UIString[ClassTerms_TT06], FallbackValue=Apply * for partial terms}" BorderThickness="1"/>
+                        <Button x:Name="btnSearchTerm" Grid.Column="1" Content="{Binding UIString[ClassTerms_BTN8], FallbackValue=Search}" Command="{Binding PsCmd[mSearchTerms]}" Width="80" Margin="3,0,0,0" BorderBrush="#FFABADB3" Height="24"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox x:Name="grpLanguages" Header="{Binding UIString[ClassTerms_15], FallbackValue=Languages}" Grid.Row="2" BorderBrush="#FFABADB3">
+                    <Grid x:Name="grdLanguages" Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox x:Name="chkDE" Content="{Binding UIString[ClassTerms_02], FallbackValue=German}"/>
+                        <CheckBox x:Name="chkEN" Content="{Binding UIString[ClassTerms_03], FallbackValue=English}" Grid.Column="1"/>
+                        <CheckBox x:Name="chkFR" Content="{Binding UIString[ClassTerms_04], FallbackValue=French}" Grid.Column="2"/>
+                        <CheckBox x:Name="chkIT" Content="{Binding UIString[ClassTerms_05], FallbackValue=Italian}" Grid.Column="3"/>
+                    </Grid>
+                </GroupBox>
+                <TextBox x:Name="txtTermStatusMsg" Grid.Row="3" TextWrapping="Wrap" HorizontalContentAlignment="Center" BorderBrush="#FFE5E5E5" VerticalAlignment="Top" 
+                                BorderThickness="0" Visibility="Collapsed" Background="#FFF6FB82"/>
+                <DataGrid x:Name="dataGrdTermsFound" AutoGenerateColumns="False" IsTabStop="False" IsReadOnly="True" ColumnWidth="*" 
+                                HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke" ColumnHeaderHeight="26" 
+                                AlternatingRowBackground="LightCyan" Background="White" Cursor="Hand" ClipboardCopyMode="IncludeHeader" 
+                                Focusable="False" VerticalScrollBarVisibility="Auto" Grid.Row="4" RowHeight="24" Margin="0,2,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Term_DE}" Width="Auto" MinWidth="140">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DataContext.UIString[ClassTerms_02], FallbackValue=German, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Term_EN}" Width="Auto" MinWidth="140">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DataContext.UIString[ClassTerms_03], FallbackValue=English, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Term_FR}" Width="Auto" MinWidth="140">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DataContext.UIString[ClassTerms_04], FallbackValue=French, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Term_IT}" Width="Auto" MinWidth="140">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DataContext.UIString[ClassTerms_05], FallbackValue=Italian, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding PsCmd[m_SelectTerm]}" Header="{Binding UIString[ClassTerms_BTN9], FallbackValue=Insert in Title Field}" ToolTip="{Binding UIString[ClassTerms_TT00]}" CommandParameter="{Binding SelectedIndex, ElementName=dataGrdTermsFound}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+                <Grid x:Name="grdButtons" Grid.Row="5" Margin="0,15,0,5">
+                    <Button x:Name="btnAdopt" Command="{Binding PsCmd[m_SelectTerm]}" 
+                                    Content="{Binding UIString[ClassTerms_BTN10], FallbackValue=Adopt}"                             
+                                    HorizontalAlignment="Right" Width="140" IsEnabled="False" Height="24" 
+                                    ToolTip="{Binding UIString[ClassTerms_TT00]}"/>
+                </Grid>
+            </Grid>
+        </Expander>
     </Grid>
 </WPF:DSWindow>

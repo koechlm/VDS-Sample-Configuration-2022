@@ -204,6 +204,7 @@
     <DynamicProperty Hidden="True">Key Parameters</DynamicProperty>
     <DynamicProperty Hidden="True">Comments</DynamicProperty>
     <DynamicProperty Hidden="True">Application Version</DynamicProperty>
+    <DynamicProperty>Replaced by</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Weldment Assembly" Type="File">
     <DynamicProperty>Title</DynamicProperty>
@@ -329,7 +330,6 @@
     <DynamicProperty>Ident Number</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Project" Type="Folder">
-  
     <DynamicProperty>Title</DynamicProperty>
     <DynamicProperty>Titel</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
@@ -343,8 +343,6 @@
     <DynamicProperty>Project</DynamicProperty>
     <DynamicProperty>FLCdmsID</DynamicProperty>
     <DynamicProperty>FLCwsID</DynamicProperty>
-
-    
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Drawing AutoCAD" Type="FILE">
     <DynamicProperty>Title</DynamicProperty>
