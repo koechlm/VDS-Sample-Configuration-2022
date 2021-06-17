@@ -38,13 +38,16 @@ function InitializeWindow
 			}
 
 			#enable option to remove orphaned sheets in drawings
-			if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value)
+			if (-not $Prop["_SaveCopyAsMode"].Value -eq $true) #the SaveCopyAs.xaml does not have the option to remove orhaned sheets
 			{
-				$dsWindow.FindName("RmOrphShts").Visibility = "Visible"
-			}
-			else
-			{
-				$dsWindow.FindName("RmOrphShts").Visibility = "Collapsed"
+				if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value)
+				{
+					$dsWindow.FindName("RmOrphShts").Visibility = "Visible"
+				}
+				else
+				{
+					$dsWindow.FindName("RmOrphShts").Visibility = "Collapsed"
+				}
 			}
 
 			$mInvDocuFileTypes = (".IDW", ".DWG", ".IPN") #to compare that the current new file is one of the special files the option applies to
@@ -573,17 +576,16 @@ function GetNumSchms
 			$_FilteredNumSchems += $noneNumSchm
 
 			#reverse order for these cases; none is added latest; reverse the list, if None is pre-set to index = 0
-
-			If($dsWindow.Name-eq "InventorWindow" -and $Prop["DocNumber"].Value -notlike "Assembly*" -and $Prop["_FileExt"].Value -eq ".iam") #you might find better criteria based on then numbering scheme
-			{
-				$_FilteredNumSchems = $_FilteredNumSchems | Sort-Object -Descending
-				return $_FilteredNumSchems
-			}
-			If($dsWindow.Name-eq "InventorWindow" -and $Prop["DocNumber"].Value -notlike "Part*" -and $Prop["_FileExt"].Value -eq ".ipt") #you might find better criteria based on then numbering scheme
-			{
-				$_FilteredNumSchems = $_FilteredNumSchems | Sort-Object -Descending
-				return $_FilteredNumSchems
-			}
+			#If($dsWindow.Name-eq "InventorWindow" -and $Prop["DocNumber"].Value -notlike "Assembly*" -and $Prop["_FileExt"].Value -eq ".iam") #you might find better criteria based on then numbering scheme
+			#{
+			#	$_FilteredNumSchems = $_FilteredNumSchems | Sort-Object -Descending
+			#	return $_FilteredNumSchems
+			#}
+			#If($dsWindow.Name-eq "InventorWindow" -and $Prop["DocNumber"].Value -notlike "Part*" -and $Prop["_FileExt"].Value -eq ".ipt") #you might find better criteria based on then numbering scheme
+			#{
+			#	$_FilteredNumSchems = $_FilteredNumSchems | Sort-Object -Descending
+			#	return $_FilteredNumSchems
+			#}
 			If($dsWindow.Name-eq "InventorFrameWindow")
 			{ 
 				return $_Default
@@ -634,14 +636,17 @@ function OnPostCloseDialog
 				$Prop["Part Number"].Value = $Prop["DocNumber"].Value
 			}
 			
-			#remove orphaned sheets in drawing documents
-			if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value -and $dsWindow.FindName("RmOrphShts").IsChecked -eq $true)
+			#remove orphaned sheets in drawing documents (new VDS-PDMC-Sample 2022)
+			if (-not $Prop["_SaveCopyAsMode"].Value -eq $true -or (Get-Item $document.FullFileName).IsReadOnly -eq $true)
 			{
-				if (-not $_mInvHelpers)
+				if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value -and $dsWindow.FindName("RmOrphShts").IsChecked -eq $true)
 				{
-					$_mInvHelpers = New-Object VdsSampleUtilities.InvHelpers
+					if (-not $_mInvHelpers)
+					{
+						$_mInvHelpers = New-Object VdsSampleUtilities.InvHelpers
+					}
+					$result = $_mInvHelpers.m_RemoveOrphanedSheets($Application)
 				}
-				$result = $_mInvHelpers.m_RemoveOrphanedSheets($Application)
 			}
 		}
 
