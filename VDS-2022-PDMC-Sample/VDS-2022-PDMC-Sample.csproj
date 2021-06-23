@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C91DA9FA-2759-4A7B-A126-FFEB60F867C9}</ProjectGuid>
+    <ProjectGuid>{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>VDS_2022_PDMC_Sample</RootNamespace>
     <AssemblyName>VDS-2020-Editor-Template</AssemblyName>
