@@ -391,15 +391,17 @@ function OnTabContextChanged
 		$file = $vault.DocumentService.GetLatestFileByMasterId($fileMasterId)
 		mInitializeClassificationTab -ParentType $null -file $file
 	}
-	
-	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ItemMaster" -and $xamlFile -eq "ADSK.QS.ItemEdit.xaml")
+
+	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ItemMaster" -and $xamlFile -eq "ADSK.QS.ItemFileClassification.xaml")
 	{
 		$items = $vault.ItemService.GetItemsByIds(@($vaultContext.SelectedObject.Id))
 		$item = $items[0]
 		$itemids = @($item.Id)
-		$mItemEditable = mItemEditable($itemids) #note - checks the current state to activate buttons, but this might change over time; therefore the state is local
+		$fileAssoc = $vault.ItemService.GetItemFileAssociationsByItemIds($itemids, "Primary")
+		$file = $vault.DocumentService.GetFileById($fileAssoc[0].CldFileId)
+		mInitializeClassificationTab -ParentType $null -file $file
 	}
-	
+		
 		#region ECO-Task-Links
 	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ChangeOrder" -and $xamlFile -eq "ADSK.QS.TaskLinks.xaml")
 	{

@@ -131,7 +131,7 @@ function mGetFileClsValues
 		$dsDiag.Trace("	...class object for file class property value found.")
 		$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass[0].Id
 		$mClsPropTable = @{}
-		$mClsLevelProps = ("Segment", "Main Group", "Group","Sub Group" ,"Class")
+		$mClsLevelProps = ("Segment", "Main Group", "Group", "Sub Group", "Class")
 
 		#get the file's class property values 
 		$mFileClassProps = $vault.PropertyService.GetProperties("FILE", @($mFile.Id), $mClsPrpNames.Keys)

@@ -442,7 +442,7 @@
   <UIString ID="Adsk.QS.ClassLevel_02">Gruppe</UIString>
   <UIString ID="Adsk.QS.ClassLevel_03">Untergruppe</UIString>
   <UIString ID="Adsk.QS.Classification_00">Klasse</UIString>
-  <UIString ID="Adsk.QS.Classification_01">Merkmal</UIString>
+  <UIString ID="Adsk.QS.Classification_01">Name</UIString>
   <UIString ID="Adsk.QS.Classification_02">Wert</UIString>
   <UIString ID="Adsk.QS.Classification_03">Klassifizierung</UIString>
   <UIString ID="Adsk.QS.Classification_04">Klassenstruktur</UIString>
@@ -456,6 +456,8 @@
   <UIString ID="Adsk.QS.Classification_11">Entfernen einer Klassifizierung löscht alle Merkmale und Werte der Klasse! {0}Möchten Sie wirklich die Klassifizierung aufheben?</UIString>
   <UIString ID="Adsk.QS.Classification_12">Achtung: Das Ergebnis beruht auf einem unvollständigen Suchindex. Wenden Sie sich an den Administrator, wenn diese Meldung immer erscheint.</UIString>
   <UIString ID="Adsk.QS.Classification_13">Der Benutzerdefinierte Arbeitsbereich 'Klassen' steht nicht zur Verfügung. Wenden Sie sich an ihren Administrator.</UIString>
+
+  <UIString ID="Adsk.QS.Classification_14">Klassifizierung d. primär verknüpften Datei</UIString>
   <!--Classification end-->
 
   <!--CatalogTermsTranslations-->

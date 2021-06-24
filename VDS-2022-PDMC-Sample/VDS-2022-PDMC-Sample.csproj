@@ -300,6 +300,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Vault.Custom\Configuration\Item\ADSK.QS.ItemFileClassification.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Vault.Custom\Configuration\Organisation\ADSK.QS.CUSTENT.Datasheet.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

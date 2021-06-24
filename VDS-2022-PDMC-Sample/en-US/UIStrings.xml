@@ -442,7 +442,7 @@
   <UIString ID="Adsk.QS.ClassLevel_02">Group</UIString>
   <UIString ID="Adsk.QS.ClassLevel_03">Sub Group</UIString>
   <UIString ID="Adsk.QS.Classification_00">Class</UIString>
-  <UIString ID="Adsk.QS.Classification_01">Attribute</UIString>
+  <UIString ID="Adsk.QS.Classification_01">Name</UIString>
   <UIString ID="Adsk.QS.Classification_02">Value</UIString>
   <UIString ID="Adsk.QS.Classification_03">Classification</UIString>
   <UIString ID="Adsk.QS.Classification_04">Class-Hierarchy</UIString>
@@ -456,6 +456,8 @@
   <UIString ID="Adsk.QS.Classification_11">Removal of class will delete all attributes and values of this assignment. {0}Do you really want to remove the classificatoin?</UIString>
   <UIString ID="Adsk.QS.Classification_12">Attention: The result is based on an incomplete index! Contact your Administrator, if you continue seeing this message.</UIString>
   <UIString ID="Adsk.QS.Classification_13">The custom workspace 'Classes' is not available. Contact your Administrator.</UIString>
+
+  <UIString ID="Adsk.QS.Classification_14">Classification of Primary Linked File</UIString>
   <!--Classification end-->
 
   <!--CatalogTermsTranslations-->
