@@ -346,6 +346,7 @@
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Drawing AutoCAD" Type="FILE">
     <DynamicProperty>Title</DynamicProperty>
+    <DynamicProperty>Title DE</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
     <DynamicProperty>Document ID</DynamicProperty>
     <DynamicProperty>Material</DynamicProperty>
@@ -353,7 +354,6 @@
     <DynamicProperty>Project</DynamicProperty>
     <DynamicProperty>Format</DynamicProperty>
     <DynamicProperty>Dimensions/Size</DynamicProperty>
-    <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty>Mass</DynamicProperty>
     <DynamicProperty>Scale</DynamicProperty>
     <DynamicProperty>Sheet</DynamicProperty>
@@ -370,6 +370,8 @@
     <DynamicProperty Hidden="True">Customer Approval Required</DynamicProperty>
     <DynamicProperty Hidden="True">Customer Approved By</DynamicProperty>
     <DynamicProperty Hidden="True">Customer Approved Date</DynamicProperty>
+    <DynamicProperty>Source File</DynamicProperty>
+    <DynamicProperty>Replaced by</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Folder" Type="Folder">
     <DynamicProperty>Title</DynamicProperty>
