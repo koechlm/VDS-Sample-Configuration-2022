@@ -11,6 +11,10 @@
 #endregion =============================================================================
 
 #region - version history
+# Version Info - VDS-PDMC-Sample Classification 2022.0.1
+	#fixed issue of overlapping Initialization of DataSheet and Dialogs
+	#fixed error 303 if user does not have right Custom Entity Read as a minimum
+
 # Version Info - VDS-PDMC-Sample Classification 2022
 	#removed multi-DB-language support -> support EN only, as PDMC-Sample is an en-US DB sample
 
@@ -48,9 +52,7 @@ function mInitializeClassificationTab($ParentType, $file)
 		}
 		#configuration info - the custom object names used for the classification structure may vary. Align Custent names of your Vault in UIStrings ADSK.WS.ClassLEver_*
 		$mClsLevelNames = ("Segment", "Main Group", "Group","Sub Group")
-		$Global:mClassLevelCustentDefIds = ($Global:mCustentDefs | Where-Object { $_.DispName -in $mClsLevelNames}).Id
-		#$Global:AddingClassification = $false
-		$Global:mClsTabInitialized = $true
+		$Global:mClassLevelCustentDefIds = ($Global:mCustentDefs | Where-Object { $_.DispName -in $mClsLevelNames}).Id		
 	}
 
 	Switch($ParentType)
@@ -99,13 +101,15 @@ function mInitializeClassificationTab($ParentType, $file)
 			{
 				$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
 			}
-			$dsDiag.Trace("...Initialize UI Controls for Dialog finished")
 
+			$Global:mClsTabInitialized = $true
+			$dsDiag.Trace("...Initialize UI Controls for Dialog finished")
 		}
 		default #data sheet tab
 		{
 			$dsDiag.Trace("Initialize Detail Tab Datasheet starts...")
 			$Global:mFile = $file
+			$Global:mClsTabInitialized = $true
 			$dsDiag.Trace("...Initialize Detail Tab Datasheet finished")
 		}
 	}
@@ -234,7 +238,15 @@ function mGetCustentiesByName([String]$Name)
 
 	while(($searchStatus.TotalHits -eq 0) -or ($mResultAll.Count -lt $searchStatus.TotalHits))
 	{
-		$mResultPage = $vault.CustomEntityService.FindCustomEntitiesBySearchConditions(@($srchCond),@($srchSort),[ref]$bookmark,[ref]$searchStatus)
+		try
+		{
+			$mResultPage = $vault.CustomEntityService.FindCustomEntitiesBySearchConditions(@($srchCond),@($srchSort),[ref]$bookmark,[ref]$searchStatus)
+		}
+		catch
+		{
+			$dsWindow.FindName("txtClassificationStatus").Text = $UIString["Adsk.QS.Classification_12"]
+			$dsWindow.FindName("txtClassificationStatus").Visibility = "Visible"
+		}
 		If ($searchStatus.IndxStatus -ne "IndexingComplete" -or $searchStatus -eq "IndexingContent")
 		{
 			#check the indexing status; you might return a warning that the result bases on an incomplete index, or even return with a stop/error message, that we need to have a complete index first
@@ -269,8 +281,6 @@ function mGetFileObject()
 function mAddClassification()
 {
 	$dsDiag.Trace("AddClassification starts...")
-
-	#$Global:AddingClassification = $true
 
 	if ($Global:mFile)
 	{
