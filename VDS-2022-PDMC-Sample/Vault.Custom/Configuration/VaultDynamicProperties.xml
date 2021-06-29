@@ -319,10 +319,11 @@
     <DynamicProperty>Web link</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Person" Type="CustomObject">
-    <DynamicProperty>Description</DynamicProperty>
-    <DynamicProperty>Email Recipient</DynamicProperty>
     <DynamicProperty>First Name</DynamicProperty>
     <DynamicProperty>Last Name</DynamicProperty>
+    <DynamicProperty>Organisation</DynamicProperty>
+    <DynamicProperty>Description</DynamicProperty>
+    <DynamicProperty>Email Recipient</DynamicProperty>
     <DynamicProperty>Ident Number</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Transmittal" Type="CustomObject">

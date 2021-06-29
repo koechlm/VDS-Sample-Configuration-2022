@@ -74,6 +74,16 @@
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
+                <DataTrigger Binding="{Binding Name}" Value="Organisation">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBox Text="{WPF:ValidatedBinding Value, StringFormat=N}" BorderThickness="0" 
+                                CharacterCasing="{Binding Case}" IsReadOnly="True" Background="WhiteSmoke" ToolTip="{Binding DataContext.UIString[Adsk.Org.Pers.Link_08], FallbackValue='Click ... to activate selection from list.'}"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="DynamicDataGridLabelStyle" TargetType="{x:Type DataGridCell}">
@@ -100,7 +110,7 @@
                             <ControlTemplate>
                                 <Button Content="{Binding DataContext.UIString[], FallbackValue=. . ., RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
                                     Command="{Binding DataContext.PsCmd[mExpOrgPersLnk], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" HorizontalAlignment="Right"
-                                    ToolTip="{Binding DataContext.UIString[Adsk.Org.Pers.Link_06], FallbackValue='Select Organisation', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
+                                    ToolTip="{Binding DataContext.UIString[Adsk.Org.Pers.Link_07], FallbackValue='Select Organisation', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
                                     Grid.Column="1" Padding="5,1" Background="White" BorderThickness="0" MinWidth="20"/>
                             </ControlTemplate>
                         </Setter.Value>
@@ -353,7 +363,7 @@
                         </Grid>
                         <Label x:Name="lblCreateLnks" Content="{Binding UIString[Adsk.Org.Pers.Link_03], FallbackValue=Create Link(s)}" Height="Auto" Grid.Row="3" BorderThickness="1"/>
                         <Border Grid.Column="1" Grid.Row="3" BorderThickness="0,1,1,1" BorderBrush="#FFABADB3">
-                            <CheckBox x:Name="chkBoxCreateLnks" Height="15" Width="16" IsChecked="True"/>
+                            <CheckBox x:Name="chkBoxCreateLnks" Height="15" Width="16"/>
                         </Border>
                         <TextBox Grid.ColumnSpan="2" Height="Auto" TextWrapping="Wrap" Text="{Binding UIString[Adsk.Org.Pers.Link_07], FallbackValue='Assign Person to Organisation'}" HorizontalContentAlignment="Center" IsUndoEnabled="False"/>
                     </Grid>

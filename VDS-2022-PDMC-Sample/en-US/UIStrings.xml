@@ -399,6 +399,7 @@
   <UIString ID="Adsk.Org.Pers.Link_05">Select customer name from "Organisations" Workspace. Optionally select contact name also. Only contacts linked to organisations are listed as contact name.</UIString>
   <UIString ID="Adsk.Org.Pers.Link_06">Select Customer and Contact from "Organisations" Workspace</UIString>
   <UIString ID="Adsk.Org.Pers.Link_07">Assign Person to existing Organisation</UIString>
+  <UIString ID="Adsk.Org.Pers.Link_08">Click ... to activate selection from list.</UIString>
   <!--Cascading Organisation/Person selection & link creation END-->
 
   <!--ItemMaster Search and Item Tab START-->

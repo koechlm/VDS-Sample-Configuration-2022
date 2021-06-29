@@ -399,6 +399,7 @@
   <UIString ID="Adsk.Org.Pers.Link_05">Wählen Sie einen Kundennamen aus dem Arbeitsbereich "Organisationen". Optional wählen Sie zusätzlich eine Kontaktperson. Nur Personen, die mit Organisationen verknüpft sind werden als Kontaktperson angezeigt.</UIString>
   <UIString ID="Adsk.Org.Pers.Link_06">Auswahl Kunde aus Arbeitsbereich "Organisationen"</UIString>
   <UIString ID="Adsk.Org.Pers.Link_07">Ordnen Sie die Person einer Organisation zu.</UIString>
+  <UIString ID="Adsk.Org.Pers.Link_08">Klicken Sie ... zur Aktivierung der Auswahlliste.</UIString>
   <!--Cascading Organisation/Person selection & link creation END-->
 
   <!--ItemMaster Search and Item Tab START-->
