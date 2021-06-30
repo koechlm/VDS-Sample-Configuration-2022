@@ -74,7 +74,7 @@
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="Organisation">
+                <DataTrigger Binding="{Binding DispName}" Value="Company">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
@@ -101,7 +101,7 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding DataContext.CreateMode, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Value="True"/>
-                        <Condition Binding="{Binding Name}" Value="Organisation"/>
+                        <Condition Binding="{Binding DispName}" Value="Company"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="IsHitTestVisible" Value="True" />
                     <Setter Property="Width" Value="Auto"/>
@@ -354,7 +354,7 @@
                         </Grid.RowDefinitions>
                         <Label x:Name="lblOrganisation" Content="{Binding UIString[MSDCE_CO01], FallbackValue=Organisation}" Visibility="{Binding Visibility, ElementName=cmbOrganisation}" Grid.Row="1"/>
                         <ComboBox x:Name="cmbOrganisation" Grid.Column="1" MinWidth="200"
-                            DisplayMemberPath="Name" SelectedValuePath="Name" SelectedValue="{Binding Prop[_XLTN_ORGANISATION].Value}" Grid.Row="1" />
+                            DisplayMemberPath="Name" SelectedValuePath="Name" SelectedValue="{Binding Prop[Company].Value}" Grid.Row="1" />
                         <Grid x:Name="grdButtons" Grid.Row="4" Grid.ColumnSpan="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>

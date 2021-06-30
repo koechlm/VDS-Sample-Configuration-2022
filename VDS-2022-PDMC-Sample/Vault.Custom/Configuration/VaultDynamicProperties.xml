@@ -41,6 +41,7 @@
     <DynamicProperty Hidden="True">Comments</DynamicProperty>
     <DynamicProperty Hidden="True">Application Version</DynamicProperty>
     <DynamicProperty Hidden="True">Anwendungsversion</DynamicProperty>
+    <DynamicProperty>FX-TITLE</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Sheet Metal Part" Type="File">
     <DynamicProperty>Title</DynamicProperty>
@@ -321,14 +322,9 @@
   <DynamicPropertiesCategory Category="Person" Type="CustomObject">
     <DynamicProperty>First Name</DynamicProperty>
     <DynamicProperty>Last Name</DynamicProperty>
-    <DynamicProperty>Organisation</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
     <DynamicProperty>Email Recipient</DynamicProperty>
-    <DynamicProperty>Ident Number</DynamicProperty>
-  </DynamicPropertiesCategory>
-  <DynamicPropertiesCategory Category="Transmittal" Type="CustomObject">
-    <DynamicProperty>Title</DynamicProperty>
-    <DynamicProperty>Description</DynamicProperty>
+    <DynamicProperty>Company</DynamicProperty>
     <DynamicProperty>Ident Number</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Project" Type="Folder">
