@@ -35,10 +35,12 @@ function InitializeWindow
     #$dsDiag.ShowLog()
     #$dsDiag.Clear()
 
-	#if($Prop["_CopyMode"].Value -eq $true) #disabled as it causes another read-only edit dialog on drawing copies
-	#{
-	#	ResetRevisionProperties
-	#}
+	if($Prop["_CopyMode"].Value -eq $true) #disabled as it causes another read-only edit dialog on drawing copies
+	{
+		$_DataContext = $dsWindow.DataContext
+		$Prop["Source File"].Value = $_DataContext.PathAndFileNameHandler.OriginalFilename
+		ResetRevisionProperties
+	}
 
 	$mWindowName = $dsWindow.Name
 
@@ -245,6 +247,8 @@ function InitializeWindow
 					if ($Prop["_CopyMode"].Value -and @(".DWG",".IDW",".IPN") -contains $Prop["_FileExt"].Value)
 					{
 						$Prop["DocNumber"].Value = $Prop["DocNumber"].Value.TrimStart($UIString["CFG2"])
+
+
 					}
 					
 				}
@@ -321,6 +325,7 @@ function InitializeWindow
 			#end workaround date type issue
 
 			InitializeBreadCrumb
+
 			switch ($Prop["_CreateMode"].Value) 
 			{
 				$true 
@@ -353,6 +358,15 @@ function InitializeWindow
 							mScClick
 						})
 					}
+
+					If($Prop["_CopyMode"].value -eq $true)
+					{
+						$Prop["GEN-TITLE-NR"].Value = ""
+						$_DataContext = $dsWindow.DataContext
+						$Prop["Source File"].Value = $_DataContext.PathAndFileNameHandler.OriginalFilename
+						ResetRevisionProperties
+					}
+
 				}
 				$false
 				{

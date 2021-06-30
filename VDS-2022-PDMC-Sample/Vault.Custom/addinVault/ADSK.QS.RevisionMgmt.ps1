@@ -49,21 +49,34 @@ function InitializeRevisionValidation
 		#don't enforce anything for new files
 		if($Prop["_CreateMode"].Value -eq $true)
 		{
-				if($Prop["_XLTN_CHECKEDBY"]) {
-					$Prop["_XLTN_CHECKEDBY"].CustomValidation = { $true }
-				}
-				if($Prop["_XLTN_CHECKEDDATE"]){
-					$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { $true }
-				}
-				if($Prop["_XLTN_ENGAPPRVDBY"]){
-					$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { $true }
-				}
-				if($Prop["_XLTN_ENGAPPRVDDATE"]){
-					$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { $true }
-				}
-				if($Prop["_XLTN_CHANGEDESCR"]){
-					$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { $true }
-				}
+			if($Prop["_XLTN_CHECKEDBY"]) 
+			{
+				$Prop["_XLTN_CHECKEDBY"].CustomValidation = { $true }
+			}
+			if($Prop["_XLTN_CHECKEDDATE"])
+			{
+				$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { $true }
+			}
+			if($Prop["_XLTN_ENGAPPRVDBY"])
+			{
+				$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { $true }
+			}
+			if($Prop["_XLTN_ENGAPPRVDDATE"])
+			{
+				$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { $true }
+			}
+			if($Prop["_XLTN_CHANGEDESCR"])
+			{
+				$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { $true }
+			}
+
+			#there is an option to enforce external approval
+			if($Prop["Customer Approval Required"].Value -eq $true)
+			{
+				$Prop["Customer Approved By"].CustomValidation = { $true}
+				$Prop["Customer Approved Date"].CustomValidation = { $true}
+			}
+
 		}
 
 		#enforce revision properties dependent on current state
@@ -83,18 +96,35 @@ function InitializeRevisionValidation
 					}
 				}
 				
-				if($Prop["_XLTN_CHECKEDDATE"]){
+				if($Prop["_XLTN_CHECKEDDATE"])
+				{
 					$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { $true }
 				}
-				if($Prop["_XLTN_ENGAPPRVDBY"]){
+				if($Prop["_XLTN_ENGAPPRVDBY"])
+				{
 					$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { $true }
 				}
-				if($Prop["_XLTN_ENGAPPRVDDATE"]){
+				if($Prop["_XLTN_ENGAPPRVDDATE"])
+				{
 					$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { $true }
 				}
-				if($Prop["_XLTN_CHANGEDESCR"]){
+				if($Prop["_XLTN_CHANGEDESCR"])
+				{
 					$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { $true }
 				}
+
+				#there is an option to enforce external approval
+				if($Prop["Customer Approval Required"].Value -eq $true)
+				{
+					$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField($Prop["Customer Approved By"]) }
+					$Prop["Customer Approved Date"].CustomValidation = { $true}
+				}
+				else
+				{
+					$Prop["Customer Approved By"].CustomValidation = { $true }
+					$Prop["Customer Approved Date"].CustomValidation = { $true }
+				}
+
 			} #Work in Progress or Quick-Change
 
 			#For Review
@@ -104,7 +134,8 @@ function InitializeRevisionValidation
 				{
 					if($Prop["_XLTN_DOCCHCKREQ"].Value -eq "True")
 					{
-						if($Prop["_XLTN_CHECKEDBY"]) {
+						if($Prop["_XLTN_CHECKEDBY"]) 
+						{
 							$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDBY"]) }
 						}
 						if($Prop["_XLTN_CHECKEDDATE"])
@@ -113,17 +144,34 @@ function InitializeRevisionValidation
 						}
 					}
 				}
-				if($Prop["_XLTN_ENGAPPRVDBY"]){
+				if($Prop["_XLTN_ENGAPPRVDBY"])
+				{
 					$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDBY"]) }
 				}
-				if($Prop["_XLTN_ENGAPPRVDDATE"]){
+				if($Prop["_XLTN_ENGAPPRVDDATE"])
+				{
 					$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDDATE"]) }
 				}
-				if($Prop["_XLTN_CHANGEDESCR"]){
+				if($Prop["_XLTN_CHANGEDESCR"])
+				{
 					$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHANGEDESCR"]) }
 				}
+
+				#there is an option to enforce external approval
+				if($Prop["Customer Approval Required"].Value -eq $true)
+				{
+					$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField($Prop["Customer Approved By"]) }
+					$Prop["Customer Approved Date"].CustomValidation = { $true}
+				}
+				else
+				{
+					$Prop["Customer Approved By"].CustomValidation = { $true }
+					$Prop["Customer Approved Date"].CustomValidation = { $true }
+				}
+
 			}# For Review
-		}
+
+		} #edit mode
 
 	}#drawing categories
 
@@ -147,11 +195,11 @@ function ValidateRevisionField($mProp)
 		}
 		else
 		{
-			#workaround VDS AutoCAD Date Issue (2022.1)
-			$tempDateTime = Get-Date -Year "2022" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
+			#workaround VDS AutoCAD Date Issue (2022.1, 2022 RTM)
+			$tempDateTime = Get-Date -Year "2021" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
 			if($mProp.Value -eq $tempDateTime.ToString()) 
 			{ 
-				$mProp.CustomValidationErrorMessage = "Date 2022-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
+				$mProp.CustomValidationErrorMessage = "Date 2021-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
 				return $false
 			}
 

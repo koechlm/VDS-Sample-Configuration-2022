@@ -72,7 +72,7 @@ function InitializeRevisionValidation
 		}
 	}
 
-	#if the file exists state and revision information exists
+	#if the file exists in Vault, state and revision information are available
 	$mFile = mGetVaultFile
 	if($mFile)
 	{
@@ -103,6 +103,7 @@ function InitializeRevisionValidation
 			if (@(".DWG",".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value)
 			{
 
+				#new files
 				if($mFileState -eq $null)
 				{
 					if($Prop["Checked By"]) {
@@ -122,13 +123,23 @@ function InitializeRevisionValidation
 					}
 				}
 
-				if($mFileState -eq $UIString["Adsk.QS.RevTab_05"] -or $mFileState -eq $UIString["Adsk.QS.RevTab_04"]) # Work in Progress or 'Quick-Change'
+				# Work in Progress or 'Quick-Change'
+				if($mFileState -eq $UIString["Adsk.QS.RevTab_05"] -or $mFileState -eq $UIString["Adsk.QS.RevTab_04"]) 
 				{
 					if($Prop["Checked By"]) {
 						$Prop["Checked By"].CustomValidation = { ValidateRevisionField $Prop["Checked By"] }
 					}
 				}
-				if($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) #'For Review'
+
+				#there is an option to enforce external customer approval
+				if($Prop["Customer Approval Required"].Value -eq $true)
+				{
+					$Prop["Customer Approved By"].CustomValidation = { $true}
+					$Prop["Customer Approved Date"].CustomValidation = { $true}
+				}
+
+				# 'For Review'
+				if($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) 
 				{
 					if($Prop["Checked By"]) {
 						$Prop["Checked By"].CustomValidation = { ValidateRevisionField $Prop["Checked By"] }
@@ -145,101 +156,192 @@ function InitializeRevisionValidation
 					if($Prop["Change Descr"]){
 						$Prop["Change Descr"].CustomValidation = { ValidateRevisionField $Prop["Change Descr"]}
 					}
+					#there is an option to enforce external approval
+					if($Prop["Customer Approval Required"].Value -eq $true)
+					{
+						$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved By"] }
+						$Prop["Customer Approved Date"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved Date"] }
+					}
+					else
+					{
+						$Prop["Customer Approved By"].CustomValidation = { $true }
+						$Prop["Customer Approved Date"].CustomValidation = { $true }
+					}
+
 				}
+
 			}
 		}
 
 		"AutoCADWindow"
 		{
-			#AutoCAD Mechanical Block Attributes
+			#AutoCAD Mechanical Block Attributes, 
 			if($Prop["GEN-TITLE-DWG"].Value)
 			{
-
+				#new file
 				if($mFileState -eq $null) 
 				{
-					if($Prop["GEN-TITLE-CHKM"]) {
+					if($Prop["GEN-TITLE-CHKM"]) 
+					{
 						$Prop["GEN-TITLE-CHKM"].CustomValidation = { $true }
 					}
-					if($Prop["GEN-TITLE-CHKD"]) {
+					if($Prop["GEN-TITLE-CHKD"]) 
+					{
 						$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true }
-						#workaround Date Issue of 2022.1 Update that does not allow blank Date values
-						if($Prop["GEN-TITLE-CHKD"].Value -eq "")
-						{
-							$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2022" -Month "01" -Day "01"
-						}
-					}
-
-					if($Prop["GEN-TITLE-ISSM"]) {
-						$Prop["GEN-TITLE-ISSM"].CustomValidation = { $true }
-					}
-
-					if($Prop["GEN-TITLE-ISSD"]) {
-						$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
-
-						#workaround Date Issue of 2022.1 Update that does not allow blank Date values
-						if($Prop["GEN-TITLE-ISSD"].Value -eq "")
-						{
-							$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2022" -Month "01" -Day "01"
-						}
-					}
-
-					if($Prop["Change Descr"]){
-						$Prop["Change Descr"].CustomValidation = { $true }
-					}
-				}
-
-				if($mFileState -eq $UIString["Adsk.QS.RevTab_05"] -or $mFileState -eq $UIString["Adsk.QS.RevTab_04"]) # Work in Progress or 'Quick-Change'
-				{
-					if($Prop["GEN-TITLE-CHKM"]) {
-						$Prop["GEN-TITLE-CHKM"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-CHKM"] }
-					}
-
-					if($Prop["GEN-TITLE-CHKD"]) {
-						$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true }
-
-						#workaround Date Issue of 2022.1 Update that does not allow blank Date values
-						if($Prop["GEN-TITLE-CHKD"].Value -eq "")
-						{
-							$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2022" -Month "01" -Day "01"
-						}
-					}
-
-					if($Prop["GEN-TITLE-ISSM"]) {
-						$Prop["GEN-TITLE-ISSM"].CustomValidation = { $true }
-					}
-
-					if($Prop["GEN-TITLE-ISSD"]) {
-						$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
-
-						#workaround Date Issue of 2022.1 Update that does not allow blank Date values
-						if($Prop["GEN-TITLE-ISSD"].Value -eq "")
-						{
-							$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2022" -Month "01" -Day "01"
-						}
-					}
 						
-					if($Prop["Change Descr"]){
+						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
+						if($Prop["GEN-TITLE-CHKD"].Value -eq "")
+						{
+							$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
+					}
+
+					if($Prop["GEN-TITLE-ISSM"]) 
+					{
+						$Prop["GEN-TITLE-ISSM"].CustomValidation = { $true }
+					}
+
+					if($Prop["GEN-TITLE-ISSD"]) 
+					{
+						$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
+
+						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
+						if($Prop["GEN-TITLE-ISSD"].Value -eq "")
+						{
+							$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
+					}
+
+					if($Prop["Change Descr"])
+					{
 						$Prop["Change Descr"].CustomValidation = { $true }
 					}
-				}
+
+					#there is an option to enforce external customer approval
+					if($Prop["Customer Approval Required"].Value -eq $true)
+					{
+						$Prop["Customer Approved By"].CustomValidation = { $true}
+						$Prop["Customer Approved Date"].CustomValidation = { $true}
 					
-				if($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) #For Review
+						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
+						if($Prop["Customer Approved Date"].Value -eq "")
+						{
+							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
+					}
+					else
+					{
+						$Prop["Customer Approved By"].CustomValidation = { $true }
+						$Prop["Customer Approved Date"].CustomValidation = { $true }
+					}
+
+				}
+
+				# Work in Progress or 'Quick-Change'
+				if($mFileState -eq $UIString["Adsk.QS.RevTab_05"] -or $mFileState -eq $UIString["Adsk.QS.RevTab_04"])
 				{
-					if($Prop["GEN-TITLE-CHKM"]) {
+					if($Prop["GEN-TITLE-CHKM"]) 
+					{
 						$Prop["GEN-TITLE-CHKM"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-CHKM"] }
 					}
-					if($Prop["GEN-TITLE-CHKD"]) {
+
+					if($Prop["GEN-TITLE-CHKD"]) 
+					{
+						$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true }
+
+						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
+						if($Prop["GEN-TITLE-CHKD"].Value -eq "")
+						{
+							$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
+					}
+
+					if($Prop["GEN-TITLE-ISSM"]) 
+					{
+						$Prop["GEN-TITLE-ISSM"].CustomValidation = { $true }
+					}
+
+					if($Prop["GEN-TITLE-ISSD"]) 
+					{
+						$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
+
+						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
+						if($Prop["GEN-TITLE-ISSD"].Value -eq "")
+						{
+							$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
+					}
+
+					if($Prop["Change Descr"])
+					{
+						$Prop["Change Descr"].CustomValidation = { $true }
+					}
+
+					#there is an option to enforce external approval
+					if($Prop["Customer Approval Required"].Value -eq $true)
+					{
+						$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField($Prop["Customer Approved By"]) }
+						$Prop["Customer Approved Date"].CustomValidation = { $true}
+
+						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
+						if($Prop["Customer Approved Date"].Value -eq "")
+						{
+							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
+					}
+					else
+					{
+						$Prop["Customer Approved By"].CustomValidation = { $true }
+						$Prop["Customer Approved Date"].CustomValidation = { $true }
+					}
+
+				}
+
+				#For Review	
+				if($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) 
+				{
+					if($Prop["GEN-TITLE-CHKM"]) 
+					{
+						$Prop["GEN-TITLE-CHKM"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-CHKM"] }
+					}
+					if($Prop["GEN-TITLE-CHKD"]) 
+					{
 						$Prop["GEN-TITLE-CHKD"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-CHKD"] }
 					}
-					if($Prop["GEN-TITLE-ISSM"]) {
+					if($Prop["GEN-TITLE-ISSM"]) 
+					{
 						$Prop["GEN-TITLE-ISSM"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-ISSM"] }
 					}
 					if($Prop["GEN-TITLE-ISSD"]) {
 						$Prop["GEN-TITLE-ISSD"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-ISSD"] }
 					}
-					if($Prop["Change Descr"]){
+					if($Prop["Change Descr"])
+					{
 						$Prop["Change Descr"].CustomValidation = { ValidateRevisionField $Prop["Change Descr"]} #revision table property in PDMC-Sample
 					}
+					
+					#there is an option to enforce external approval
+					if($Prop["Customer Approval Required"].Value -eq $true)
+					{
+						$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved By"] }
+						$Prop["Customer Approved Date"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved Date"] }
+						
+						if($Prop["Customer Approved Date"].Value -eq "")
+						{
+							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
+					}
+					else
+					{
+						$Prop["Customer Approved By"].CustomValidation = { $true }
+						$Prop["Customer Approved Date"].CustomValidation = { $true }
+						
+						if($Prop["Customer Approved Date"].Value -eq "")
+						{
+							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
+					}
+
 				}
 		
 			}
@@ -266,10 +368,10 @@ function ValidateRevisionField($mProp)
 		else
 		{
 			#workaround VDS AutoCAD Date Issue (2022.1)
-			$tempDateTime = Get-Date -Year "2022" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
+			$tempDateTime = Get-Date -Year "2021" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
 			if($mProp.Value -eq $tempDateTime.ToString()) 
 			{ 
-				$mProp.CustomValidationErrorMessage = "Date 2022-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
+				$mProp.CustomValidationErrorMessage = "Date 2021-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
 				return $false
 			}
 
@@ -328,53 +430,68 @@ function mGetFilePropValues ([Int64] $mFileId)
 function ResetRevisionProperties
 {
 	switch($dsWindow.Name)
+	{
+		"InventorWindow"
 		{
-			"InventorWindow"
+			$dsDiag.Trace("ExtendedRevision Validation for Inventor starts...")
+			if (@(".DWG",".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value)
 			{
-				$dsDiag.Trace("ExtendedRevision Validation for Inventor starts...")
-				if (@(".DWG",".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value)
+				if($Prop["Checked By"]) {
+					$Prop["Checked By"].Value = ""
+				}
+				if($Prop["Date Checked"]){
+					$Prop["Date Checked"].Value = ""
+				}
+				if($Prop["Engr Approved By"]){
+					$Prop["Engr Approved By"].Value = ""
+				}
+				if($Prop["Engr Date Approved"]){
+					$Prop["Engr Date Approved"].Value = ""
+				}
+				#move down after switch as the AutoCAD workaround is no longer required
+				if($Prop["Customer Approved Date"]) 
 				{
-					if($Prop["Checked By"]) {
-						$Prop["Checked By"].Value = ""
-					}
-					if($Prop["Date Checked"]){
-						$Prop["Date Checked"].Value = ""
-					}
-					if($Prop["Engr Approved By"]){
-						$Prop["Engr Approved By"].Value = ""
-					}
-					if($Prop["Engr Date Approved"]){
-						$Prop["Engr Date Approved"].Value = ""
-					}
-					if($Prop["Change Descr"]){
-						$Prop["Change Descr"].Value = ""
-					}
+					$Prop["Customer Approved Date"].Value = ""
+				}
+			}
+		}
+		"AutoCADWindow"
+		{
+			#AutoCAD Mechanical Block Attribute Template
+			if($Prop["GEN-TITLE-DWG"].Value)
+			{		
+				if($Prop["GEN-TITLE-CHKM"]) {
+					$Prop["GEN-TITLE-CHKM"].Value = ""
+				}					
+				if($Prop["GEN-TITLE-CHKD"]) {
+					$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01" #workaround before Update 1 required
+				}
+				if($Prop["GEN-TITLE-ISSM"]) {
+					$Prop["GEN-TITLE-ISSM"].Value = ""
+				}
+				if($Prop["GEN-TITLE-ISSD"]) {
+					$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01" #workaround before Update 1 required
+				}
+				#move down after switch as the AutoCAD workaround is no longer required
+				if($Prop["Customer Approved Date"]) 
+				{
+					$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01" #workaround before Update 1 required
 				}
 			}
 
-			"AutoCADWindow"
-			{
-				#AutoCAD Mechanical Block Attribute Template
-				if($Prop["GEN-TITLE-DWG"].Value)
-				{		
-					if($Prop["GEN-TITLE-CHKM"]) {
-						$Prop["GEN-TITLE-CHKM"].Value = ""
-					}					
-					if($Prop["GEN-TITLE-CHKD"]) {
-						$Prop["GEN-TITLE-CHKD"].Value = ""
-					}
-					if($Prop["GEN-TITLE-ISSM"]) {
-						$Prop["GEN-TITLE-ISSM"].Value = ""
-					}
-					if($Prop["GEN-TITLE-ISSD"]) {
-						$Prop["GEN-TITLE-ISSD"].Value = ""
-					}
-					if($Prop["Change Descr"]){
-						$Prop["Change Descr"].Value = ""
-					}
-				}
-				
-			}#AutoCADWindow
+		} #AutoCADWindow
 
-		}#switch WindowName
+	} #switch WindowName
+
+	if($Prop["Change Descr"])
+	{
+					$Prop["Change Descr"].Value = ""
+	}
+	
+	if($Prop["Customer Approved By"]) 
+	{
+		$Prop["Customer Approved By"].Value = ""
+	}
+	#move the customer approved date reset to here, once the Acad workaround for dates is no longer required
+
 }

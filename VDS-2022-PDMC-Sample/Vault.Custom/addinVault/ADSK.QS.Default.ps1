@@ -195,6 +195,7 @@ function InitializeWindow
 				#endregion
 			}
 		}
+
 		#region GoToInvSibling
 		"GoToInvSibling"
 		{
