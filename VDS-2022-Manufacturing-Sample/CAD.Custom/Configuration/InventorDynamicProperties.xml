@@ -222,4 +222,12 @@
     <DynamicProperty>Werksnorm</DynamicProperty>
     <DynamicProperty Hidden="True">Letzte Aktualisierung mit</DynamicProperty>
   </DynamicPropertiesCategory>
+  <DynamicPropertiesCategory Category="Presentation">
+    <DynamicProperty>Title</DynamicProperty>
+    <DynamicProperty>Part Number</DynamicProperty>
+    <DynamicProperty>Description</DynamicProperty>
+    <DynamicProperty>Designer</DynamicProperty>
+    <DynamicProperty>LastUpdatedWith</DynamicProperty>
+    <DynamicProperty>Source File</DynamicProperty>
+  </DynamicPropertiesCategory>
 </DynamicsProperties>

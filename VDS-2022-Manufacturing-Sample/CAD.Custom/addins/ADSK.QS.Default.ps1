@@ -28,6 +28,7 @@ function InitializeWindow
 			InitializeBreadCrumb
 			#	there are some custom functions to enhance functionality:
 			[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard" + '\Vault.Custom\addinVault\VdsSampleUtilities.dll')
+			$_mInvHelpers = New-Object VdsSampleUtilities.InvHelpers 
 
 			#	initialize the context for Drawings or presentation files as these have Vault Option settings
 			$global:mGFN4Special = $Prop["_GenerateFileNumber4SpecialFiles"].Value
@@ -35,6 +36,32 @@ function InitializeWindow
 			if ($global:mGFN4Special -eq $true)
 			{
 				$dsWindow.FindName("GFN4Special").IsChecked = $true # this checkbox is used by the XAML dialog styles, to enable / disable or show / hide controls
+			}
+
+			#enable/disable UI elements for documentation files
+			$mInvDocuFileTypes = (".IDW", ".DWG", ".IPN") #to compare that the current new file is one of the special files the option applies to
+			if ($mInvDocuFileTypes -contains $Prop["_FileExt"].Value) 
+			{
+				$global:mIsInvDocumentationFile = $true
+				$dsWindow.FindName("chkBxIsInvDocuFileType").IsChecked = $true
+
+				#check if a drawing is a model documentation or a sketched 2D drawing only, or an empty presentation (IPN)
+				$_ModelFullFileName = $_mInvHelpers.m_GetMainViewModelPath($Application)
+				#model documentation
+				If ($global:mIsInvDocumentationFile-eq $true -and $global:mGFN4Special -eq $false -and $_ModelFullFileName -ne $null)
+				{ 
+					$dsWindow.FindName("BreadCrumb").IsEnabled = $false
+					$dsWindow.FindName("GroupFolder").Visibility = "Collapsed"
+					$dsWindow.FindName("expShortCutPane").Visibility = "Collapsed"
+				}
+				#sketched or empty drawing
+				Else 
+				{
+					$global:mGFN4Special = $true #override the application settings for 
+					$dsWindow.FindName("BreadCrumb").IsEnabled = $true
+					$dsWindow.FindName("chkBxIsInvDocuFileType").IsChecked = $false
+				}
+				
 			}
 
 			#enable option to remove orphaned sheets in drawings
@@ -50,20 +77,6 @@ function InitializeWindow
 				}
 			}
 
-			$mInvDocuFileTypes = (".IDW", ".DWG", ".IPN") #to compare that the current new file is one of the special files the option applies to
-			if ($mInvDocuFileTypes -contains $Prop["_FileExt"].Value) {
-				$global:mIsInvDocumentationFile = $true
-				$dsWindow.FindName("chkBxIsInvDocuFileType").IsChecked = $true
-				If ($global:mIsInvDocumentationFile-eq $true -and $global:mGFN4Special -eq $false) #IDW/DWG, IPN - Don't generate new document number
-				{ 
-					$dsWindow.FindName("BreadCrumb").IsEnabled = $false
-					$dsWindow.FindName("GroupFolder").Visibility = "Collapsed"
-					$dsWindow.FindName("expShortCutPane").Visibility = "Collapsed"
-				}
-				Else {$dsWindow.FindName("BreadCrumb").IsEnabled = $true} #IDW/DWG, IPN - Generate new document number
-			}
-
-			$global:_ModelPath = $null
 			switch ($Prop["_CreateMode"].Value) 
 			{
 				$true 
@@ -88,7 +101,6 @@ function InitializeWindow
 					#region FDU Support --------------------------------------------------------------------------
 					
 					# Read FDS related internal meta data; required to manage particular workflows
-					$_mInvHelpers = New-Object VdsSampleUtilities.InvHelpers
 					If ($_mInvHelpers.m_FDUActive($Application) -ne $false)
 					{
 						#[System.Windows.MessageBox]::Show("Active FDU-AddIn detected","VDS MFG Sample")
@@ -167,36 +179,41 @@ function InitializeWindow
 					{	
 						if (($Prop["_FileExt"].Value -eq ".IDW") -or ($Prop["_FileExt"].Value -eq ".DWG" )) 
 						{
-							$_mInvHelpers = New-Object VdsSampleUtilities.InvHelpers #NEW 2019 hand over the parent inventor application, to ensure the correct instance
-							$_ModelFullFileName = $_mInvHelpers.m_GetMainViewModelPath($Application)#NEW 2019 hand over the parent inventor application, to ensure the correct instance
-							$Prop["Title"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Title")
-							$Prop["Description"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Description")
-							$_ModelPartNumber = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Part Number")
+							if($_ModelFullFileName -ne $null)
+							{
+								$Prop["Title"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Title")
+								$Prop["Description"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Description")
+								$_ModelPartNumber = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Part Number")
 
-							if($_ModelPartNumber -ne $null) # must not write empty part numbers
-							{ 
-								$Prop["Part Number"].Value = $_ModelPartNumber 
-							} 
+								if($_ModelPartNumber -ne $null) # must not write empty part numbers
+								{ 
+									$Prop["Part Number"].Value = $_ModelPartNumber 
+								}
+							}
 						}
 
 						if ($Prop["_FileExt"].Value -eq ".IPN") 
 						{
-							$_mInvHelpers = New-Object VdsSampleUtilities.InvHelpers #NEW 2019 hand over the parent inventor application, to ensure the correct instance
-							$_ModelFullFileName = $_mInvHelpers.m_GetMainViewModelPath($Application)#NEW 2019 hand over the parent inventor application, to ensure the correct instance
-							$Prop["Title"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Title")
-							$Prop["Description"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Description")
-							$Prop["Part Number"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Part Number")
-							$Prop["Stock Number"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Stock Number")
-							# for custom properties there is always a risk that any does not exist
-							try {
-								$Prop[$_iPropSemiFinished].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,$_iPropSemiFinished)
-								$_t1 = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName, $_iPropSpearWearPart)
-								if ($_t1 -ne "") {
-									$Prop[$_iPropSpearWearPart].Value = $_t1
+							
+							if($_ModelFullFileName -ne $null)
+							{
+								$Prop["Title"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Title")
+								$Prop["Description"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Description")
+								$Prop["Part Number"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Part Number")
+								$Prop["Stock Number"].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,"Stock Number")
+								# for custom properties there is always a risk that any does not exist
+								try 
+								{
+									$Prop[$_iPropSemiFinished].Value = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName,$_iPropSemiFinished)
+									$_t1 = $_mInvHelpers.m_GetMainViewModelPropValue($Application, $_ModelFullFileName, $_iPropSpearWearPart)
+									if ($_t1 -ne "") {
+										$Prop[$_iPropSpearWearPart].Value = $_t1
+									}
+								} 
+								catch 
+								{
+									$dsDiag.Trace("Set path, filename and properties for IPN: At least one custom property failed, most likely it did not exist and is not part of the cfg ")
 								}
-							} 
-							catch {
-								$dsDiag.Trace("Set path, filename and properties for IPN: At least one custom property failed, most likely it did not exist and is not part of the cfg ")
 							}
 						}
 
