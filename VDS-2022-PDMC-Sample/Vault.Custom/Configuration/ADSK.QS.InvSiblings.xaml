@@ -211,150 +211,152 @@
     </WPF:MainWindow.InputBindings>
     <TabControl Background="#FFE5E5E5">
         <TabItem  Name="tabProperties" Height="0" >
-            <Grid x:Name="grdMain" Margin="5" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid x:Name="grdGeneralProps" Margin="0"
+            <AdornerDecorator>
+                <Grid x:Name="grdMain" Margin="5" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid x:Name="grdGeneralProps" Margin="0"
               ToolTip="{Binding UIString[], FallbackValue=Siblings}"
               Width="Auto">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" MinWidth="140" />
-                        <ColumnDefinition Width="*"
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="140" />
+                            <ColumnDefinition Width="*"
                                   MinWidth="180" MaxWidth="220" />
-                    </Grid.ColumnDefinitions>
-                    <Label Content="{Binding UIString[LBL6], FallbackValue=Filename}" Grid.Column="0"
+                        </Grid.ColumnDefinitions>
+                        <Label Content="{Binding UIString[LBL6], FallbackValue=Filename}" Grid.Column="0"
             		Visibility="{Binding NumSchmFieldsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=DSNumSchmsCtrl}" Height="Auto" />
-                    <TextBox x:Name="FILENAME" Text="{Binding Name}" IsReadOnly="True"
+                        <TextBox x:Name="FILENAME" Text="{Binding Name}" IsReadOnly="True"
             		IsTabStop="False"  Grid.Column="1" Height="Auto" />
-                    <Label Content="{Binding UIString[LBL4], FallbackValue=State}" Grid.Column="0" Grid.Row="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    <TextBox Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Row="1" Grid.Column="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True"/>
-                    <Label Content="{Binding UIString[LBL33], FallbackValue=Date Created}" Grid.Column="0" Grid.Row="2" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                    <TextBox Text="{Binding Prop[_XLTN_DATE VERSION CREATED].Value}" Grid.Row="2" Grid.Column="1"  Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True"/>
-                    <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Column="0" Grid.Row="3" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    <TextBox Text="{Binding Prop[_XLTN_CREATED BY].Value}" Grid.Row="3" Grid.Column="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True" />
-                    <Label x:Name="lblComments" Content="{Binding UIString[LBL7], FallbackValue=Comments}" Grid.Row="4" Height="{Binding ActualHeight, ElementName=Comments, Mode=OneWay}" BorderThickness="1" />
-                    <TextBox Grid.Row="4" Text="{Binding Prop[_XLTN_COMMENTS].Value}" x:Name="Comments" Grid.Column="1" VerticalScrollBarVisibility="Auto" 
+                        <Label Content="{Binding UIString[LBL4], FallbackValue=State}" Grid.Column="0" Grid.Row="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBox Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Row="1" Grid.Column="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True"/>
+                        <Label Content="{Binding UIString[LBL33], FallbackValue=Date Created}" Grid.Column="0" Grid.Row="2" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <TextBox Text="{Binding Prop[_XLTN_DATE VERSION CREATED].Value}" Grid.Row="2" Grid.Column="1"  Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True"/>
+                        <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Column="0" Grid.Row="3" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBox Text="{Binding Prop[_XLTN_CREATED BY].Value}" Grid.Row="3" Grid.Column="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True" />
+                        <Label x:Name="lblComments" Content="{Binding UIString[LBL7], FallbackValue=Comments}" Grid.Row="4" Height="{Binding ActualHeight, ElementName=Comments, Mode=OneWay}" BorderThickness="1" />
+                        <TextBox Grid.Row="4" Text="{Binding Prop[_XLTN_COMMENTS].Value}" x:Name="Comments" Grid.Column="1" VerticalScrollBarVisibility="Auto" 
                      Height="Auto" TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top" BorderThickness="0,1,1,1" MinHeight="50" MaxWidth="220" MaxHeight="50"/>
-                </Grid>
-                <Grid Grid.Column="1" Margin="5,0,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <DataGrid x:Name="mDerivatives1" AutoGenerateColumns="False" IsReadOnly="True" HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke" Grid.Row="1" ScrollViewer.CanContentScroll="True">
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="{Binding DataContext.UIString[LBL58], FallbackValue=Preview}">
-                                <DataGridTemplateColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding DataContext.UIString[LBL58], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.HeaderTemplate>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Image Source="{Binding Thumbnail}" MaxWidth="64" HorizontalAlignment="Left"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn x:Name="dT1_Name_Copy" Binding="{Binding Name}">
-                                <DataGridTextColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding DataContext.UIString[LBL6], FallbackValue=FileName, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                    </DataTemplate>
-                                </DataGridTextColumn.HeaderTemplate>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn x:Name="dT1_Title_Copy" Binding="{Binding Title}">
-                                <DataGridTextColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding DataContext.UIString[LBL2], FallbackValue=Title, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                    </DataTemplate>
-                                </DataGridTextColumn.HeaderTemplate>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn x:Name="dT1_Description_Copy" Binding="{Binding Description}">
-                                <DataGridTextColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding DataContext.UIString[LBL3], FallbackValue=Description, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                    </DataTemplate>
-                                </DataGridTextColumn.HeaderTemplate>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn x:Name="dT1_State_Copy" Binding="{Binding State}">
-                                <DataGridTextColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding DataContext.UIString[DerivationTree_07], FallbackValue=StateVer, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                    </DataTemplate>
-                                </DataGridTextColumn.HeaderTemplate>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn x:Uid="332" x:Name="dT1_OrigCreateDate_Copy" Binding="{Binding CreateDate}" >
-                                <DataGridTextColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding DataContext.UIString[DerivationTree_08], FallbackValue=OrigCreateDate, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                    </DataTemplate>
-                                </DataGridTextColumn.HeaderTemplate>
-                            </DataGridTextColumn>
-                            <DataGridCheckBoxColumn x:Name="dT1_LatestVersion_Copy" Binding="{Binding LVer}">
-                                <DataGridCheckBoxColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding DataContext.UIString[DerivationTree_09], FallbackValue=LatestVersion, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                    </DataTemplate>
-                                </DataGridCheckBoxColumn.HeaderTemplate>
-                            </DataGridCheckBoxColumn>
-                            <DataGridCheckBoxColumn x:Name="dT1_LatestReleasedRevision_Copy" Binding="{Binding LReleasedRev}" >
-                                <DataGridCheckBoxColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding DataContext.UIString[DerivationTree_10], FallbackValue=LatestReleasedRevision, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                    </DataTemplate>
-                                </DataGridCheckBoxColumn.HeaderTemplate>
-                            </DataGridCheckBoxColumn>
-                            <DataGridTextColumn x:Name="dT1_Comment_Copy" Binding="{Binding Comment}" >
-                                <DataGridTextColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding DataContext.UIString[DerivationTree_11], FallbackValue=VerComment, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                    </DataTemplate>
-                                </DataGridTextColumn.HeaderTemplate>
-                            </DataGridTextColumn>
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="5,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <DataGrid x:Name="mDerivatives1" AutoGenerateColumns="False" IsReadOnly="True" HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke" Grid.Row="1" ScrollViewer.CanContentScroll="True">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="{Binding DataContext.UIString[LBL58], FallbackValue=Preview}">
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding DataContext.UIString[LBL58], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding Thumbnail}" MaxWidth="64" HorizontalAlignment="Left"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn x:Name="dT1_Name_Copy" Binding="{Binding Name}">
+                                    <DataGridTextColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding DataContext.UIString[LBL6], FallbackValue=FileName, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                        </DataTemplate>
+                                    </DataGridTextColumn.HeaderTemplate>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn x:Name="dT1_Title_Copy" Binding="{Binding Title}">
+                                    <DataGridTextColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding DataContext.UIString[LBL2], FallbackValue=Title, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                        </DataTemplate>
+                                    </DataGridTextColumn.HeaderTemplate>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn x:Name="dT1_Description_Copy" Binding="{Binding Description}">
+                                    <DataGridTextColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding DataContext.UIString[LBL3], FallbackValue=Description, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                        </DataTemplate>
+                                    </DataGridTextColumn.HeaderTemplate>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn x:Name="dT1_State_Copy" Binding="{Binding State}">
+                                    <DataGridTextColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding DataContext.UIString[DerivationTree_07], FallbackValue=StateVer, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        </DataTemplate>
+                                    </DataGridTextColumn.HeaderTemplate>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn x:Uid="332" x:Name="dT1_OrigCreateDate_Copy" Binding="{Binding CreateDate}" >
+                                    <DataGridTextColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding DataContext.UIString[DerivationTree_08], FallbackValue=OrigCreateDate, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        </DataTemplate>
+                                    </DataGridTextColumn.HeaderTemplate>
+                                </DataGridTextColumn>
+                                <DataGridCheckBoxColumn x:Name="dT1_LatestVersion_Copy" Binding="{Binding LVer}">
+                                    <DataGridCheckBoxColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding DataContext.UIString[DerivationTree_09], FallbackValue=LatestVersion, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        </DataTemplate>
+                                    </DataGridCheckBoxColumn.HeaderTemplate>
+                                </DataGridCheckBoxColumn>
+                                <DataGridCheckBoxColumn x:Name="dT1_LatestReleasedRevision_Copy" Binding="{Binding LReleasedRev}" >
+                                    <DataGridCheckBoxColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding DataContext.UIString[DerivationTree_10], FallbackValue=LatestReleasedRevision, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        </DataTemplate>
+                                    </DataGridCheckBoxColumn.HeaderTemplate>
+                                </DataGridCheckBoxColumn>
+                                <DataGridTextColumn x:Name="dT1_Comment_Copy" Binding="{Binding Comment}" >
+                                    <DataGridTextColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding DataContext.UIString[DerivationTree_11], FallbackValue=VerComment, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        </DataTemplate>
+                                    </DataGridTextColumn.HeaderTemplate>
+                                </DataGridTextColumn>
 
-                        </DataGrid.Columns>
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Command="{Binding PsCmd[mSelectedParallelsToClipBoard]}" Header="{Binding UIString[DerivationTree_12], FallbackValue='Copy File Name to Clipboard'}"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                    </DataGrid>
+                            </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding PsCmd[mSelectedParallelsToClipBoard]}" Header="{Binding UIString[DerivationTree_12], FallbackValue='Copy File Name to Clipboard'}"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                        </DataGrid>
 
-                    <TextBlock x:Name="txtBlck_Notification1" TextWrapping="Wrap" Text="TextBlock" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" Height="24"/>
-                </Grid>
-                <Grid x:Name="ButtonGrid" Style="{StaticResource ButtonGridStyle}" Grid.Row="1" Grid.ColumnSpan="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="80" />
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="btnGoTo" Content="{Binding UIString[ADSK-GoToInvSibl_BTN00], FallbackValue=GoTo}"
+                        <TextBlock x:Name="txtBlck_Notification1" TextWrapping="Wrap" Text="TextBlock" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" Height="24"/>
+                    </Grid>
+                    <Grid x:Name="ButtonGrid" Style="{StaticResource ButtonGridStyle}" Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="80" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnGoTo" Content="{Binding UIString[ADSK-GoToInvSibl_BTN00], FallbackValue=GoTo}"
                     Command="{Binding CloseWindowCommand, ElementName=GoToInvSibling}" IsEnabled="False"
                     Grid.Column="2" Width="80" Height="24" IsDefault="True" />
-                    <Button x:Name="btnEsc" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
+                        <Button x:Name="btnEsc" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
                     Command="{Binding CancelWindowCommand, ElementName=GoToInvSibling}" Grid.Column="4" Width="80"
                     HorizontalAlignment="Right" Height="24" IsCancel="True" />
-                    <Button x:Name="btnHelp" Content="{Binding UIString[MSDCE_BTN1], FallbackValue=Help}" 
+                        <Button x:Name="btnHelp" Content="{Binding UIString[MSDCE_BTN1], FallbackValue=Help}" 
                     Command="{Binding PsCmd[mHelp(500)]}" Height="24" ToolTip="F1" Margin="0" Width="80" />
+                    </Grid>
                 </Grid>
-            </Grid>
+            </AdornerDecorator>
         </TabItem>
     </TabControl>
 </WPF:MainWindow>

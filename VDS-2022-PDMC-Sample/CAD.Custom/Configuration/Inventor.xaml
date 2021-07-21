@@ -405,8 +405,9 @@
         </Grid>
         <TabControl x:Name="tabCtrlMain" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,5,0,0" Grid.Row="2" MaxWidth="700">
             <TabItem x:Name="tabProperties" Header="{Binding UIString[LBL63], FallbackValue=Properties}">
-                <Grid x:Name="DSDynCatPropGrid" MinHeight="80" MinWidth="694">
-                    <DataGrid x:Name="DSDynamicCategoryProperties"
+                <AdornerDecorator>
+                    <Grid x:Name="DSDynCatPropGrid" MinHeight="80" MinWidth="694">
+                        <DataGrid x:Name="DSDynamicCategoryProperties"
             			AutoGenerateColumns="False"
             			HeadersVisibility="Column"
             			ItemsSource="{Binding DynamicProperties}"
@@ -414,201 +415,205 @@
                         EnableRowVirtualization="False"
             			HorizontalGridLinesBrush="WhiteSmoke"
             			VerticalGridLinesBrush="WhiteSmoke" MaxHeight="350" MinHeight="240">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding DispName}"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding DispName}"
             					CellStyle="{StaticResource DynamicDataGridLabelStyle}" MinWidth="140"
             					Width="Auto" IsReadOnly="True">
-                                <DataGridTextColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock
+                                    <DataGridTextColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
             								Text="{Binding DataContext.UIString[LBL64], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                    </DataTemplate>
-                                </DataGridTextColumn.HeaderTemplate>
-                            </DataGridTextColumn>
-                            <DataGridTemplateColumn Header="Property Value"
+                                        </DataTemplate>
+                                    </DataGridTextColumn.HeaderTemplate>
+                                </DataGridTextColumn>
+                                <DataGridTemplateColumn Header="Property Value"
             					CellStyle="{StaticResource DynamicDataGridCellStyle}" MinWidth="300" Width="*">
-                                <DataGridTemplateColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
             								Text="{Binding DataContext.UIString[LBL65], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.HeaderTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn CellStyle="{StaticResource DynamicDataGridBtnCellStyle}"  />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn CellStyle="{StaticResource DynamicDataGridBtnCellStyle}"  />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </AdornerDecorator>
             </TabItem>
             <TabItem x:Name="tabRevision" Header="{Binding UIString[LBL12], FallbackValue=Revision}">
-                <Grid x:Name="grdRevision" Height="{Binding ActualHeight, ElementName=DSDynCatPropGrid, Mode=OneWay}" MinWidth="694" Background="#FFF0F0F0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid x:Name="grdRevSysProps" Grid.ColumnSpan="2">
+                <AdornerDecorator>
+                    <Grid x:Name="grdRevision" Height="{Binding ActualHeight, ElementName=DSDynCatPropGrid, Mode=OneWay}" MinWidth="694" Background="#FFF0F0F0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="26"/>
-                            <RowDefinition Height="26"/>
-                            <RowDefinition Height="26"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label x:Name="lblRevision" Content="{Binding UIString[LBL12], FallbackValue=Revision}" Grid.Row="0" Height="Auto"/>
-                        <TextBox x:Name="txtRevision" Text="" IsEnabled="False" Grid.Column="1" IsReadOnly="True" Grid.Row="0" Height="Auto"/>
-                        <Label x:Name="lblStatus" Content="{Binding UIString[LBL4], FallbackValue=Status}" Grid.Row="1" Height="Auto"/>
-                        <TextBox x:Name="txtStatus" Text="" IsEnabled="False" Grid.Column="1" Grid.Row="1" IsReadOnly="True" Height="Auto" />
-                        <Label Content="Latest Released Rev." Grid.Column="3" Height="Auto"/>
-                        <Border Grid.Column="4" BorderThickness="0,1,1,0" BorderBrush="#FFABADB3" >
-                            <CheckBox x:Name="LatestRev" IsChecked="False" IsEnabled="False" VerticalAlignment="Center" Margin="5,0,0,0" />
-                        </Border>
-                        <Label x:Name="lbLfcDef1" Content="{Binding UIString[Adsk.QS.RevTab_02], FallbackValue=Lifecycle Definition}" Grid.Column="3" Grid.Row="1" Height="Auto"/>
-                        <TextBox x:Name="txtLfcDef" Text="" IsEnabled="False" Grid.Column="4" Grid.Row="1" IsReadOnly="True" Height="Auto" />
-                        <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Row="2" Height="Auto" BorderThickness="1"/>
-                        <TextBox x:Name="txtCreatedBy" Text="" IsEnabled="False" Grid.Column="1" Grid.Row="2" IsReadOnly="True" Height="Auto" BorderThickness="0,1,1,1" />
-                        <Label Content="{Binding UIString[LBL33], FallbackValue=Create Date}" Grid.Row="2" Grid.Column="3" Height="Auto" BorderThickness="1"/>
-                        <TextBox x:Name="txtCreateDate" Text="" IsEnabled="False" Grid.Column="4" Grid.Row="2" IsReadOnly="True" Height="Auto" BorderThickness="0,1,1,1"/>
-                    </Grid>
-                    <Grid x:Name="grdApproval" Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="26"/>
-                            <RowDefinition Height="26"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="5"/>
-                            <RowDefinition Height="26"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
-                        <Label Content="{Binding UIString[], FallbackValue=Checked By}" Grid.Column="0"  Height="Auto"/>
-                        <TextBox x:Name="txtCheckedBy" Text="{WPF:ValidatedBinding Prop[Checked By].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" Grid.Column="1"/>
-                        <Label Content="{Binding UIString[], FallbackValue=Checked Date}"  Height="Auto" Grid.Column="3"/>
-                        <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,0" Grid.Column="4">
-                            <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Date Checked].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto"  />
-                        </Border>
-                        <Label Content="{Binding UIString[], FallbackValue=Engr Approved By}" Grid.Column="0" BorderThickness="1" Grid.Row="1" Height="Auto" />
-                        <TextBox x:Name="txtEngApprvdBy" Text="{WPF:ValidatedBinding Prop[Engr Approved by].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" BorderThickness="0,1,1,1" Grid.Column="1" Grid.Row="1"/>
-                        <Label Content="{Binding UIString[], FallbackValue=Engr Approved Date}" Height="Auto" BorderThickness="1" Grid.Column="3" Grid.Row="1"/>
-                        <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,1" Grid.Column="4" Grid.Row="1">
-                            <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Engr Date Approved].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" />
-                        </Border>
-                        <Label Content="{Binding UIString[], FallbackValue=Change Description}" Height="Auto" BorderThickness="1" Grid.Row="3"/>
-                        <ComboBox x:Name="cmbChangeDescr"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid x:Name="grdRevSysProps" Grid.ColumnSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="26"/>
+                                <RowDefinition Height="26"/>
+                                <RowDefinition Height="26"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="lblRevision" Content="{Binding UIString[LBL12], FallbackValue=Revision}" Grid.Row="0" Height="Auto"/>
+                            <TextBox x:Name="txtRevision" Text="" IsEnabled="False" Grid.Column="1" IsReadOnly="True" Grid.Row="0" Height="Auto"/>
+                            <Label x:Name="lblStatus" Content="{Binding UIString[LBL4], FallbackValue=Status}" Grid.Row="1" Height="Auto"/>
+                            <TextBox x:Name="txtStatus" Text="" IsEnabled="False" Grid.Column="1" Grid.Row="1" IsReadOnly="True" Height="Auto" />
+                            <Label Content="Latest Released Rev." Grid.Column="3" Height="Auto"/>
+                            <Border Grid.Column="4" BorderThickness="0,1,1,0" BorderBrush="#FFABADB3" >
+                                <CheckBox x:Name="LatestRev" IsChecked="False" IsEnabled="False" VerticalAlignment="Center" Margin="5,0,0,0" />
+                            </Border>
+                            <Label x:Name="lbLfcDef1" Content="{Binding UIString[Adsk.QS.RevTab_02], FallbackValue=Lifecycle Definition}" Grid.Column="3" Grid.Row="1" Height="Auto"/>
+                            <TextBox x:Name="txtLfcDef" Text="" IsEnabled="False" Grid.Column="4" Grid.Row="1" IsReadOnly="True" Height="Auto" />
+                            <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Row="2" Height="Auto" BorderThickness="1"/>
+                            <TextBox x:Name="txtCreatedBy" Text="" IsEnabled="False" Grid.Column="1" Grid.Row="2" IsReadOnly="True" Height="Auto" BorderThickness="0,1,1,1" />
+                            <Label Content="{Binding UIString[LBL33], FallbackValue=Create Date}" Grid.Row="2" Grid.Column="3" Height="Auto" BorderThickness="1"/>
+                            <TextBox x:Name="txtCreateDate" Text="" IsEnabled="False" Grid.Column="4" Grid.Row="2" IsReadOnly="True" Height="Auto" BorderThickness="0,1,1,1"/>
+                        </Grid>
+                        <Grid x:Name="grdApproval" Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="26"/>
+                                <RowDefinition Height="26"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="26"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="{Binding UIString[], FallbackValue=Checked By}" Grid.Column="0"  Height="Auto"/>
+                            <TextBox x:Name="txtCheckedBy" Text="{WPF:ValidatedBinding Prop[Checked By].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" Grid.Column="1"/>
+                            <Label Content="{Binding UIString[], FallbackValue=Checked Date}"  Height="Auto" Grid.Column="3"/>
+                            <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,0" Grid.Column="4">
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Date Checked].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto"  />
+                            </Border>
+                            <Label Content="{Binding UIString[], FallbackValue=Engr Approved By}" Grid.Column="0" BorderThickness="1" Grid.Row="1" Height="Auto" />
+                            <TextBox x:Name="txtEngApprvdBy" Text="{WPF:ValidatedBinding Prop[Engr Approved by].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" BorderThickness="0,1,1,1" Grid.Column="1" Grid.Row="1"/>
+                            <Label Content="{Binding UIString[], FallbackValue=Engr Approved Date}" Height="Auto" BorderThickness="1" Grid.Column="3" Grid.Row="1"/>
+                            <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,1" Grid.Column="4" Grid.Row="1">
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Engr Date Approved].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" />
+                            </Border>
+                            <Label Content="{Binding UIString[], FallbackValue=Change Description}" Height="Auto" BorderThickness="1" Grid.Row="3"/>
+                            <ComboBox x:Name="cmbChangeDescr"
                                 ItemsSource="{Binding Prop[Change Descr].ListValues}" 
                                 Text="{WPF:ValidatedBinding Prop[Change Descr].Value}" 
                                 SelectedValue="{Binding Prop[Change Descr].Value}"
                                 IsEditable="True" IsEnabled="{Binding PsVal[InvertReadOnly]}"
                                 Height="Auto" BorderThickness="0,1,1,1" Grid.ColumnSpan="4" Grid.Row="3" Grid.Column="1" />
+                        </Grid>
+                        <Grid x:Name="grdCustomerApproval" Grid.Row="4" Visibility="{Binding Prop[Customer Approval Required].Value, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="{Binding UIString[], FallbackValue=Customer Approved By}" Grid.Column="0" Height="Auto" BorderThickness="1"/>
+                            <TextBox x:Name="txtApprovedBy" Text="{WPF:ValidatedBinding Prop[Customer Approved By].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" Grid.Column="1" BorderThickness="0,1,1,1"/>
+                            <Label Content="{Binding UIString[], FallbackValue=Cust. Approved Date}" Grid.Column="3" BorderThickness="1" Height="Auto"/>
+                            <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,1" Grid.Column="4">
+                                <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Customer Approved Date].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto"  />
+                            </Border>
+                        </Grid>
                     </Grid>
-                    <Grid x:Name="grdCustomerApproval" Grid.Row="4" Visibility="{Binding Prop[Customer Approval Required].Value, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="{Binding UIString[], FallbackValue=Customer Approved By}" Grid.Column="0" Height="Auto" BorderThickness="1"/>
-                        <TextBox x:Name="txtApprovedBy" Text="{WPF:ValidatedBinding Prop[Customer Approved By].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" Grid.Column="1" BorderThickness="0,1,1,1"/>
-                        <Label Content="{Binding UIString[], FallbackValue=Cust. Approved Date}" Grid.Column="3" BorderThickness="1" Height="Auto"/>
-                        <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,1" Grid.Column="4">
-                            <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Customer Approved Date].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto"  />
-                        </Border>
-                    </Grid>
-                </Grid>
+                </AdornerDecorator>
             </TabItem>
             <TabItem x:Name="tabItemProperties" Header="{Binding UIString[Adsk.QS.ItemSearch_28],FallbackValue='Assigned Item'}">
-                <Grid x:Name="grdAssignedItemMain" Background="#FFF0F0F0" Height="{Binding ActualHeight, ElementName=DSDynCatPropGrid, Mode=OneWay}" MinWidth="694">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="120"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid x:Name="grdStatus">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Button x:Name="btnAssignedItemRefresh" Command="{Binding PsCmd[mGetItemByFileFromVault]}">
-                            <Image Source="C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Refresh_32.ico" StretchDirection="DownOnly"/>
-                        </Button>
-                        <TextBox x:Name="txtAssignedItemStatus" Grid.Column="1" Height="Auto" TextWrapping="Wrap" Background="#FFFFFFE1" BorderThickness="1" Padding="5,0,0,0" MinHeight="24"/>
-                    </Grid>
-                    <Grid x:Name="grdItemSysProps" Grid.Row="1">
+                <AdornerDecorator>
+                    <Grid x:Name="grdAssignedItemMain" Background="#FFF0F0F0" Height="{Binding ActualHeight, ElementName=DSDynCatPropGrid, Mode=OneWay}" MinWidth="694">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="24"/>
-                            <RowDefinition Height="24"/>
-                            <RowDefinition Height="24"/>
-                            <RowDefinition Height="24"/>
-                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Label x:Name="lblItemRevision" Content="{Binding UIString[LBL12], FallbackValue=Revision}"/>
-                        <TextBox x:Name="txtItemRevision" Grid.Column="1" IsReadOnly="True" Background="White"/>
-                        <Label x:Name="lblItemNumber" Content="{Binding UIString[LBL31], FallbackValue=Number}" Grid.Row="1"/>
-                        <TextBox x:Name="txtItemNumber" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" IsReadOnly="True" Background="White"/>
-                        <Label x:Name="lblItemTitle" Content="{Binding UIString[Adsk.QS.ItemSearch_02], FallbackValue=Title}" Grid.Row="2"/>
-                        <TextBox x:Name="txtItemTitle" Grid.Column="1" Grid.Row="2" IsReadOnly="True" Background="White"/>
-                        <Label x:Name="lblItemDescription" Content="{Binding UIString[Adsk.QS.ItemSearch_03], FallbackValue=Description}" Grid.Row="3"/>
-                        <TextBox x:Name="txtItemDescription" Grid.Column="1" Grid.Row="3" IsReadOnly="True" Background="White"/>
-                        <Label x:Name="lblItemUnits" Content="{Binding UIString[Adsk.QS.ItemSearch_23], FallbackValue=Units}"  Grid.Row="4" BorderThickness="1"/>
-                        <TextBox x:Name="txtItemUnits" Grid.Column="1" Grid.Row="4" BorderThickness="0,1,1,1" IsReadOnly="True" Background="White"/>
-                        <Border x:Name="brdItemThumbnail" Grid.Column="2" Grid.RowSpan="4" BorderThickness="1" BorderBrush="#FFABADB3" Margin="5,0" Height="96" Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}">
-                            <Image x:Name="ItemThumbnail"/>
-                        </Border>
-                        <Label x:Name="lblItemCategory" Content="{Binding UIString[Adsk.QS.ItemSearch_05], FallbackValue=Category Name}" BorderThickness="1,1,1,0" Grid.Column="3"/>
-                        <TextBox x:Name="txtItemCategory" Grid.Column="4" IsReadOnly="True" Background="White" />
-                        <Label x:Name="lblItemLfcState" Content="{Binding UIString[LBL14], FallbackValue=Lifecycle State}" Grid.Column="3" Grid.Row="1"/>
-                        <TextBox x:Name="txtItemLfcState" Grid.Column="4" Grid.Row="1" IsReadOnly="True" Background="White"/>
-                        <Label x:Name="lblItemLastUpdatedBy" Content="{Binding UIString[Adsk.QS.ItemSearch_24], FallbackValue=Last Updated By}" Grid.Column="3" Grid.Row="2"/>
-                        <TextBox x:Name="txtItemLastUpdatedBy" Grid.Column="4" Grid.Row="2" IsReadOnly="True" Background="White"/>
-                        <Label x:Name="lblItemLastUpdatedDate" Content="{Binding UIString[Adsk.QS.ItemSearch_25], FallbackValue='Last Updated Date                             '}" Grid.Column="3" Grid.Row="3" BorderThickness="1"/>
-                        <TextBox x:Name="txtItemLastUpdatedDate" Grid.Column="4" Grid.Row="3" BorderThickness="0,1,1,1" IsReadOnly="True" Background="White"/>
+                        <Grid x:Name="grdStatus">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btnAssignedItemRefresh" Command="{Binding PsCmd[mGetItemByFileFromVault]}">
+                                <Image Source="C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Refresh_32.ico" StretchDirection="DownOnly"/>
+                            </Button>
+                            <TextBox x:Name="txtAssignedItemStatus" Grid.Column="1" Height="Auto" TextWrapping="Wrap" Background="#FFFFFFE1" BorderThickness="1" Padding="5,0,0,0" MinHeight="24"/>
+                        </Grid>
+                        <Grid x:Name="grdItemSysProps" Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="24"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="lblItemRevision" Content="{Binding UIString[LBL12], FallbackValue=Revision}"/>
+                            <TextBox x:Name="txtItemRevision" Grid.Column="1" IsReadOnly="True" Background="White"/>
+                            <Label x:Name="lblItemNumber" Content="{Binding UIString[LBL31], FallbackValue=Number}" Grid.Row="1"/>
+                            <TextBox x:Name="txtItemNumber" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" IsReadOnly="True" Background="White"/>
+                            <Label x:Name="lblItemTitle" Content="{Binding UIString[Adsk.QS.ItemSearch_02], FallbackValue=Title}" Grid.Row="2"/>
+                            <TextBox x:Name="txtItemTitle" Grid.Column="1" Grid.Row="2" IsReadOnly="True" Background="White"/>
+                            <Label x:Name="lblItemDescription" Content="{Binding UIString[Adsk.QS.ItemSearch_03], FallbackValue=Description}" Grid.Row="3"/>
+                            <TextBox x:Name="txtItemDescription" Grid.Column="1" Grid.Row="3" IsReadOnly="True" Background="White"/>
+                            <Label x:Name="lblItemUnits" Content="{Binding UIString[Adsk.QS.ItemSearch_23], FallbackValue=Units}"  Grid.Row="4" BorderThickness="1"/>
+                            <TextBox x:Name="txtItemUnits" Grid.Column="1" Grid.Row="4" BorderThickness="0,1,1,1" IsReadOnly="True" Background="White"/>
+                            <Border x:Name="brdItemThumbnail" Grid.Column="2" Grid.RowSpan="4" BorderThickness="1" BorderBrush="#FFABADB3" Margin="5,0" Height="96" Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                                <Image x:Name="ItemThumbnail"/>
+                            </Border>
+                            <Label x:Name="lblItemCategory" Content="{Binding UIString[Adsk.QS.ItemSearch_05], FallbackValue=Category Name}" BorderThickness="1,1,1,0" Grid.Column="3"/>
+                            <TextBox x:Name="txtItemCategory" Grid.Column="4" IsReadOnly="True" Background="White" />
+                            <Label x:Name="lblItemLfcState" Content="{Binding UIString[LBL14], FallbackValue=Lifecycle State}" Grid.Column="3" Grid.Row="1"/>
+                            <TextBox x:Name="txtItemLfcState" Grid.Column="4" Grid.Row="1" IsReadOnly="True" Background="White"/>
+                            <Label x:Name="lblItemLastUpdatedBy" Content="{Binding UIString[Adsk.QS.ItemSearch_24], FallbackValue=Last Updated By}" Grid.Column="3" Grid.Row="2"/>
+                            <TextBox x:Name="txtItemLastUpdatedBy" Grid.Column="4" Grid.Row="2" IsReadOnly="True" Background="White"/>
+                            <Label x:Name="lblItemLastUpdatedDate" Content="{Binding UIString[Adsk.QS.ItemSearch_25], FallbackValue='Last Updated Date                             '}" Grid.Column="3" Grid.Row="3" BorderThickness="1"/>
+                            <TextBox x:Name="txtItemLastUpdatedDate" Grid.Column="4" Grid.Row="3" BorderThickness="0,1,1,1" IsReadOnly="True" Background="White"/>
+                        </Grid>
+                        <DataGrid x:Name="dtgrdItemProps" IsReadOnly="True" AutoGenerateColumns="False" CanUserReorderColumns="False" Grid.Row="2" HorizontalGridLinesBrush="#FFABADB3" VerticalGridLinesBrush="#FFABADB3" Margin="0,10,0,0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn x:Name="ItemPropName" Binding="{Binding Key}" Width="Auto">
+                                    <DataGridTextColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding UIString[Adsk.QS.ItemSearch_26], FallbackValue='Property Name'}"/>
+                                        </DataTemplate>
+                                    </DataGridTextColumn.HeaderTemplate>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn x:Name="ItemPropValue" Binding="{Binding Value}" Width="*">
+                                    <DataGridTextColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding UIString[Adsk.QS.ItemSearch_27], FallbackValue='Property Value'}"/>
+                                        </DataTemplate>
+                                    </DataGridTextColumn.HeaderTemplate>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </Grid>
-                    <DataGrid x:Name="dtgrdItemProps" IsReadOnly="True" AutoGenerateColumns="False" CanUserReorderColumns="False" Grid.Row="2" HorizontalGridLinesBrush="#FFABADB3" VerticalGridLinesBrush="#FFABADB3" Margin="0,10,0,0">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="ItemPropName" Binding="{Binding Key}" Width="Auto">
-                                <DataGridTextColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding UIString[Adsk.QS.ItemSearch_26], FallbackValue='Property Name'}"/>
-                                    </DataTemplate>
-                                </DataGridTextColumn.HeaderTemplate>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn x:Name="ItemPropValue" Binding="{Binding Value}" Width="*">
-                                <DataGridTextColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding UIString[Adsk.QS.ItemSearch_27], FallbackValue='Property Value'}"/>
-                                    </DataTemplate>
-                                </DataGridTextColumn.HeaderTemplate>
-                            </DataGridTextColumn>
-
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
+                </AdornerDecorator>
             </TabItem>
         </TabControl>
         <Expander x:Name="expFilePath" Header="{Binding UIString[LBL6]}" Grid.ColumnSpan="2" Visibility="{Binding EditMode}"

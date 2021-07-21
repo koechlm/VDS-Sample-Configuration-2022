@@ -338,9 +338,10 @@
         </Grid>
         <TabControl x:Name="tabCtrlMain" Grid.ColumnSpan="2" Grid.Column="1" Margin="6,5,0,0" Grid.Row="2" MaxWidth="700">
             <TabItem x:Name="tabProperties" Header="{Binding UIString[LBL63], FallbackValue=Category Properties}" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Grid x:Name="DSDynCatPropGrid" MinHeight="80"
+                <AdornerDecorator>
+                    <Grid x:Name="DSDynCatPropGrid" MinHeight="80"
             		ToolTip="{Binding UIString[LBL63], FallbackValue=Category Properties}" >
-                    <DataGrid x:Name="DSDynamicCategoryProperties"
+                        <DataGrid x:Name="DSDynamicCategoryProperties"
             			AutoGenerateColumns="False"
             			HeadersVisibility="Column"
             			ItemsSource="{Binding DynamicProperties}"
@@ -348,30 +349,31 @@
                         EnableRowVirtualization="False"
             			HorizontalGridLinesBrush="WhiteSmoke"
             			VerticalGridLinesBrush="WhiteSmoke" MaxHeight="350">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding DispName}"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding DispName}"
             					CellStyle="{StaticResource DynamicDataGridLabelStyle}" MinWidth="140"
             					Width="Auto" IsReadOnly="True">
-                                <DataGridTextColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock
+                                    <DataGridTextColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
             								Text="{Binding DataContext.UIString[LBL64], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                    </DataTemplate>
-                                </DataGridTextColumn.HeaderTemplate>
-                            </DataGridTextColumn>
-                            <DataGridTemplateColumn Header="Property Value"
+                                        </DataTemplate>
+                                    </DataGridTextColumn.HeaderTemplate>
+                                </DataGridTextColumn>
+                                <DataGridTemplateColumn Header="Property Value"
             					CellStyle="{StaticResource DynamicDataGridCellStyle}" MinWidth="300" Width="*">
-                                <DataGridTemplateColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
             								Text="{Binding DataContext.UIString[LBL65], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.HeaderTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn CellStyle="{StaticResource DynamicDataGridBtnCellStyle}" MinWidth="25" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn CellStyle="{StaticResource DynamicDataGridBtnCellStyle}" MinWidth="25" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </AdornerDecorator>
             </TabItem>
         </TabControl>
         <Expander x:Name="expFilePath" Header="{Binding UIString[LBL6]}" Grid.ColumnSpan="2"
