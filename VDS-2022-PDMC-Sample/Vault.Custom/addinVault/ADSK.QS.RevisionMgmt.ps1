@@ -196,12 +196,12 @@ function ValidateRevisionField($mProp)
 		else
 		{
 			#workaround VDS AutoCAD Date Issue (2022.1, 2022 RTM)
-			$tempDateTime = Get-Date -Year "2021" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
-			if($mProp.Value -eq $tempDateTime.ToString()) 
-			{ 
-				$mProp.CustomValidationErrorMessage = "Date 2021-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
-				return $false
-			}
+			#$tempDateTime = Get-Date -Year "2021" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
+			#if($mProp.Value -eq $tempDateTime.ToString()) 
+			#{ 
+			#	$mProp.CustomValidationErrorMessage = "Date 2021-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
+			#	return $false
+			#}
 
 			$dsDiag.Trace(" '$($mProp)'...has Value: returning true<<")
 			return $true
