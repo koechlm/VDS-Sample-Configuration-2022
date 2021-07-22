@@ -401,10 +401,6 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <!-- This XmlDataProvider is used for defining Name/TemplatePath pairs that are used in the combo box "Document Type" and can be easily extended -->
-        <XmlDataProvider x:Key="DocTypes"
-                         Source="C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.FileOffice.xml"
-                         XPath="/DocTypeData" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </WPF:MainWindow.Resources>
     <WPF:MainWindow.InputBindings>
@@ -453,22 +449,25 @@
                         </Grid.ColumnDefinitions>
                         <Label Content="{Binding UIString[LBL8], FallbackValue=Categories}" Grid.Row="2" Grid.Column="0" />
                         <ComboBox x:Name="Categories" Grid.Row="2" Grid.Column="1"
-                      DisplayMemberPath="Name" SelectedItem="{Binding DynamicPropertiesCategory}"
-                      SelectedValuePath="Name" SelectedValue="{Binding Prop[_Category].Value}"
-                      ItemsSource="{Binding PsList[GetCategories], Mode=OneTime}"
-                      IsEnabled="{Binding CreateMode}" />
+                            DisplayMemberPath="Name" SelectedItem="{Binding DynamicPropertiesCategory}"
+                            SelectedValuePath="Name" SelectedValue="{Binding Prop[_Category].Value}"
+                            ItemsSource="{Binding PsList[GetCategories], Mode=OneTime}"
+                            IsEnabled="{Binding CreateMode}" />
                         <Label Content="{Binding UIString[LBL23], FallbackValue=DocTypes}" Grid.Column="0"
-                   Visibility="{Binding Visibility, ElementName=DocTypeCombo}" />
-                        <ComboBox x:Name="DocTypeCombo" Grid.Column="1"
-                      IsEnabled="{Binding CreateMode}"
-                      DisplayMemberPath="DocName"
-                      SelectedValuePath="Path"
-                      SelectedValue="{Binding TemplatePath}"
-                      SelectedIndex="0"
-                      ItemsSource="{Binding Mode=OneTime, Source={StaticResource DocTypes}, XPath=DocTypeInfo}"
-                      Style="{StaticResource DocTypeStyle}" />
+                            Visibility="{Binding Visibility, ElementName=DocTypeCombo}" />
+                        <!-- Don't use static xml resource, use viewmodel binding instead. -->
+                        <ComboBox ItemsSource="{Binding PsList[GetTemplateFolders], Mode=OneTime}"
+                              x:Name="DocTypeCombo"
+                              Grid.Row="1"
+                              Grid.Column="1"
+                              IsEnabled="{Binding CreateMode}"
+                              DisplayMemberPath="DocName"
+                              SelectedValuePath="Path"
+                              SelectedValue="{Binding TemplatePath, Mode=OneWayToSource}"
+                              SelectedIndex="0"
+                              Style="{StaticResource DocTypeStyle}" />
                         <Label Content="{Binding UIString[LBL9], FallbackValue=Templates}" Grid.Row="1" Grid.Column="0"
-                   Visibility="{Binding Visibility, ElementName=TemplateCB}" />
+                            Visibility="{Binding Visibility, ElementName=TemplateCB}" />
                         <Grid Grid.Row="1" Grid.Column="1">
                             <ComboBox x:Name="TemplateCB" IsSynchronizedWithCurrentItem="True"
                           SelectedItem="{Binding SelectedTemplate}" Style="{StaticResource TemplateCbStyle}" />

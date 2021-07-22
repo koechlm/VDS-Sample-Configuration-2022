@@ -177,11 +177,6 @@
         <Style x:Key="ButtonGridStyle" TargetType="{x:Type Grid}">
             <Setter Property="Margin" Value="0,15,2,5" />
         </Style>
-        <!-- This XmlDataProvider is used for defining Name/TemplatePath pairs that are used in the combo box "Document Type" and can be easily extended -->
-        <!-- *ComponentUpgradeEveryRelease-Client* -->
-        <XmlDataProvider x:Key="DocTypes"
-                         Source="C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault\Configuration\FileOffice.xml"
-                         XPath="/DocTypeData" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
     <Grid x:Name="grdMain" Margin="5">
@@ -218,14 +213,17 @@
                       IsEnabled="{Binding CreateMode}" />
             <Label Content="{Binding UIString[LBL23], FallbackValue=DocTypes}" Grid.Row="1" Grid.Column="0"
                    Visibility="{Binding Visibility, ElementName=DocTypeCombo}" />
-            <ComboBox x:Name="DocTypeCombo" Grid.Row="1" Grid.Column="1"
-                      IsEnabled="{Binding CreateMode}"
-                      DisplayMemberPath="DocName"
-                      SelectedValuePath="Path"
-                      SelectedValue="{Binding TemplatePath}"
-                      SelectedIndex="0"
-                      ItemsSource="{Binding Source={StaticResource DocTypes}, XPath=DocTypeInfo}"
-                      Style="{StaticResource DocTypeStyle}" />
+            <!-- Don't use static xml resource, use viewmodel binding instead. -->
+            <ComboBox ItemsSource="{Binding PsList[GetTemplateFolders], Mode=OneTime}"
+                x:Name="DocTypeCombo"
+                Grid.Row="1"
+                Grid.Column="1"
+                IsEnabled="{Binding CreateMode}"
+                DisplayMemberPath="DocName"
+                SelectedValuePath="Path"
+                SelectedValue="{Binding TemplatePath, Mode=OneWayToSource}"
+                SelectedIndex="0"
+                Style="{StaticResource DocTypeStyle}" />
             <Label Content="{Binding UIString[LBL9], FallbackValue=Templates}" Grid.Row="2" Grid.Column="0"
                    Visibility="{Binding Visibility, ElementName=TemplateCB}" />
             <Grid Grid.Row="2" Grid.Column="1">

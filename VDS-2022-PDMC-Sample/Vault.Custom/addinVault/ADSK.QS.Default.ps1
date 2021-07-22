@@ -966,19 +966,19 @@ function m_CategoryChanged
 			#VDS-PDMC-Sample uses the default numbering scheme for files; GoTo GetNumSchms function to disable this filter incase you'd like to apply numbering per category for files as well
 			If($DesignCats -contains $Prop["_Category"].Value)
 			{
-				If ($Prop['_XLTN_DESIGNER'].Value) 
+				If ($Prop['_XLTN_DESIGNER'].Value -eq $null) 
 				{ 
 					$Prop['_XLTN_DESIGNER'].Value = $VaultConnection.UserName
 				}
 			}
 			
-			<#if($OfficeCats -contains $dsWindow.FindName("Categories").SelectedValue)
-			}
-				If ($Prop['_XLTN_AUTHOR'].Value) 
+			if($OfficeCats -contains $Prop["_Category"].Value)
+			{
+				If ($Prop['_XLTN_AUTHOR'].Value -eq $null) 
 				{
 					$Prop['_XLTN_AUTHOR'].Value = $VaultConnection.UserName
 				}
-			}#>
+			}
 			
 			#Copy Parent Project Number to file property "Project" if exists
 			If($Prop["_XLTN_PROJECT"]){
@@ -1103,4 +1103,23 @@ function mFindFolder($FolderName, $rootFolder)
         else {break}
     }
     return $totalResults;
+}
+
+#added by 2022 Update 1 - to resolve issue with cloaked template folders for users
+function GetTemplateFolders
+{
+	$xmldata = [xml](Get-Content "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault\Configuration\File.xml")
+
+	[string[]] $folderPath = $xmldata.DocTypeData.DocTypeInfo | foreach { $_.Path }
+	$folders = $vault.DocumentService.FindFoldersByPaths($folderPath)
+
+	return $xmldata.DocTypeData.DocTypeInfo | foreach {
+		$path = $_.Path
+		$folder = $folders | where { $_.FullName -eq $path } | Select -index 0
+		if($folder -eq $null)
+		{
+			return
+		}
+		return $_
+	}
 }

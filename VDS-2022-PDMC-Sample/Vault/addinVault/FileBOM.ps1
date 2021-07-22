@@ -26,7 +26,9 @@ function GetFileBOM($fileID)
 	$bom.InstArray | Where-Object { $_.ParId -eq 0 } | ForEach-Object { 
 		$CldId = $_.CldId
 		$comp = $bom.CompArray | Where-Object { $_.Id -eq $CldId }
-		$cldIds += $comp.XRefId
+		if ($comp.XRefId -ne -1) {
+			$cldIds += $comp.XRefId
+		}
 	}
 	$dsDiag.Trace("   cldIds: "+$cldIds.Count)
 	$bomItems = @()
@@ -51,7 +53,12 @@ function GetFileBOM($fileID)
 			$occur = $bom.SchmOccArray | Where-Object { $_.SchmId -eq $schm.Id -and $_.CompId -eq $CldId }
 			$bomItem.Position = $occur.DtlId
 
-			$cldBom = $CldBoms[$cldBomCounter++]
+			if ($comp.XRefId -eq -1) {
+				$cldBom = $bom
+			}
+			else {
+				$cldBom = $CldBoms[$cldBomCounter++]
+			}
 			$bomItem.Name = $cldBom.CompArray[0].Name
 			$bomItem.ComponentType = $cldBom.CompArray[0].CompTyp
 			$PropPartNumber = $cldBom.PropArray | Where-Object { $_.dispName -eq "Part Number"}

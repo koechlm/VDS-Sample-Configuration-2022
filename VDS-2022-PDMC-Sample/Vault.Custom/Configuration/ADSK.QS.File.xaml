@@ -401,10 +401,6 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <!-- This XmlDataProvider is used for defining Name/TemplatePath pairs that are used in the combo box "Document Type" and can be easily extended -->
-        <XmlDataProvider x:Key="DocTypes"
-                         Source="C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.File.xml"
-                         XPath="/DocTypeData" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </WPF:MainWindow.Resources>
     <WPF:MainWindow.InputBindings>
@@ -419,21 +415,21 @@
                 </LinearGradientBrush>
             </TabItem.Background>
             <AdornerDecorator>
-                <Grid x:Name="grdMain" Margin="5" Background="#FFF0F0F0" MinHeight="300">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition  />
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+				<Grid x:Name="grdMain" Margin="5" Background="#FFF0F0F0" MinHeight="300">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition  />
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
                     <Grid x:Name="grdGeneralProps" Margin="0"
-              ToolTip="{Binding UIString[LBL73], FallbackValue=General Properties}"
-              Width="Auto">
+			            ToolTip="{Binding UIString[LBL73], FallbackValue=General Properties}"
+			            Width="Auto">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
@@ -453,22 +449,25 @@
                         </Grid.ColumnDefinitions>
                         <Label Content="{Binding UIString[LBL8], FallbackValue=Categories}" Grid.Row="2" Grid.Column="0" />
                         <ComboBox x:Name="Categories" Grid.Row="2" Grid.Column="1"
-                      DisplayMemberPath="Name" SelectedItem="{Binding DynamicPropertiesCategory}"
-                      SelectedValuePath="Name" SelectedValue="{Binding Prop[_Category].Value}"
-                      ItemsSource="{Binding PsList[GetCategories], Mode=OneTime}"
-                      IsEnabled="{Binding CreateMode}" />
+                          DisplayMemberPath="Name" SelectedItem="{Binding DynamicPropertiesCategory}"
+                          SelectedValuePath="Name" SelectedValue="{Binding Prop[_Category].Value}"
+                          ItemsSource="{Binding PsList[GetCategories], Mode=OneTime}"
+                          IsEnabled="{Binding CreateMode}" />
                         <Label Content="{Binding UIString[LBL23], FallbackValue=DocTypes}" Grid.Column="0"
-                   Visibility="{Binding Visibility, ElementName=DocTypeCombo}" />
-                        <ComboBox x:Name="DocTypeCombo" Grid.Column="1"
-                      IsEnabled="{Binding CreateMode}"
-                      DisplayMemberPath="DocName"
-                      SelectedValuePath="Path"
-                      SelectedValue="{Binding TemplatePath}"
-                      SelectedIndex="0"
-                      ItemsSource="{Binding Mode=OneTime, Source={StaticResource DocTypes}, XPath=DocTypeInfo}"
-                      Style="{StaticResource DocTypeStyle}" />
+                            Visibility="{Binding Visibility, ElementName=DocTypeCombo}" />
+                        <!-- Don't use static xml resource, use viewmodel binding instead. -->
+                        <ComboBox ItemsSource="{Binding PsList[GetTemplateFolders], Mode=OneTime}"
+                              x:Name="DocTypeCombo"
+                              Grid.Row="1"
+                              Grid.Column="1"
+                              IsEnabled="{Binding CreateMode}"
+                              DisplayMemberPath="DocName"
+                              SelectedValuePath="Path"
+                              SelectedValue="{Binding TemplatePath, Mode=OneWayToSource}"
+                              SelectedIndex="0"
+                              Style="{StaticResource DocTypeStyle}" />
                         <Label Content="{Binding UIString[LBL9], FallbackValue=Templates}" Grid.Row="1" Grid.Column="0"
-                   Visibility="{Binding Visibility, ElementName=TemplateCB}" />
+                            Visibility="{Binding Visibility, ElementName=TemplateCB}" />
                         <Grid Grid.Row="1" Grid.Column="1">
                             <ComboBox x:Name="TemplateCB" IsSynchronizedWithCurrentItem="True"
                           SelectedItem="{Binding SelectedTemplate}" Style="{StaticResource TemplateCbStyle}" />
@@ -492,18 +491,18 @@
                             </TextBlock>
                         </Grid>
                         <Label Content="{Binding UIString[LBL10], FallbackValue=Numberingscheme}" Grid.Column="0" Grid.Row="3"
-                   Visibility="{Binding Visibility, ElementName=NumSchms}" />
+                            Visibility="{Binding Visibility, ElementName=NumSchms}" />
                         <ComboBox x:Name="NumSchms" Grid.Column="1" Grid.Row="3"
-                      SelectedIndex="0"
-                      DisplayMemberPath="Name"
-                      SelectedValuePath="Name"
-                      SelectedValue="{Binding Prop[_NumSchm].Value}"
-                      ItemsSource="{Binding PsList[GetNumSchms], Mode=OneTime}"
-                      IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}"
-                      Visibility="{Binding NotEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
-                      />
+                            SelectedIndex="0"
+                            DisplayMemberPath="Name"
+                            SelectedValuePath="Name"
+                            SelectedValue="{Binding Prop[_NumSchm].Value}"
+                            ItemsSource="{Binding PsList[GetNumSchms], Mode=OneTime}"
+                            IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}"
+                            Visibility="{Binding NotEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            />
                         <Label Content="{Binding UIString[LBL31], FallbackValue=Number}" Grid.Column="0" Grid.Row="4" Height="Auto"
-                   Visibility="{Binding Visibility, ElementName=DSNumSchmsCtrl}" />
+                            Visibility="{Binding Visibility, ElementName=DSNumSchmsCtrl}" />
                         <WPF:DSNumSchemeCtrl Grid.Column="1" Grid.Row="4" x:Name="DSNumSchmsCtrl"
                                  IsEnabled="{Binding IsEnabled, ElementName=NumSchms}"
                                  Scheme="{Binding SelectedItem, ElementName=NumSchms}"
@@ -517,7 +516,7 @@
                         <TextBox Text="{Binding Prop[_XLTN_CREATED BY].Value}" Grid.Row="7" Grid.Column="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True" />
                         <Label x:Name="lblComments" Content="{Binding UIString[LBL7], FallbackValue=Comments}" Grid.Row="9" Height="Auto" Grid.RowSpan="2" BorderThickness="1" />
                         <TextBox Grid.Row="9" Text="{Binding Prop[_XLTN_COMMENTS].Value}" x:Name="Comments" Grid.Column="1" VerticalScrollBarVisibility="Auto" 
-                     Height="Auto" TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top" BorderThickness="0,1,1,1" MinHeight="50" MaxWidth="220" MaxHeight="50" />
+                            Height="Auto" TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top" BorderThickness="0,1,1,1" MinHeight="50" MaxWidth="220" MaxHeight="50" />
                     </Grid>
                     <DataGrid Grid.Column="1" x:Name="DSDynCatPropGrid" MaxHeight="500"
                   ItemsSource="{Binding DynamicProperties}"

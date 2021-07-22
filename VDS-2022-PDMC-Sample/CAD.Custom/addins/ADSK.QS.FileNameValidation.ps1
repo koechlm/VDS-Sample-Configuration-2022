@@ -9,10 +9,7 @@
                 $dsWindow.FindName("Format").add_SelectionChanged({
                     PreviewExportFileName
                 })
-			}
-			$Prop["DocNumber"].CustomValidation = { FileNameCustomValidation }
-			
-			$dsWindow.FindName("NumSchms").add_SelectionChanged({
+                $dsWindow.FindName("NumSchms").add_SelectionChanged({
 					PreviewExportFileName
 				})
 				$dsWindow.FindName("FILENAME").add_LostFocus({
@@ -21,6 +18,8 @@
 				$Prop["Folder"].add_PropertyChanged({
 					PreviewExportFileName
 				})
+			}
+			$Prop["DocNumber"].CustomValidation = { FileNameCustomValidation }
         }
         elseif($dsWindow.Name -eq 'AutoCADWindow')
         {
@@ -61,6 +60,21 @@ function FileNameCustomValidation
     }
     
     $rootFolder = GetVaultRootFolder
+
+    $fileName = $Prop["_FileName"].Value
+    if ($fileName.IndexOfAny([System.IO.Path]::GetInvalidFileNameChars()) -ne -1)
+    {
+        $Prop["$($propertyName)"].CustomValidationErrorMessage = "$($UIString["VAL10"])"
+        return $false
+    }
+
+    $fullFileName = [System.IO.Path]::Combine($Prop["_FilePath"].Value, $fileName)
+    if ([System.IO.File]::Exists($fullFileName))
+    {
+        $Prop["$($propertyName)"].CustomValidationErrorMessage = "$($UIString["MSG4"])"
+        return $false
+    }
+
     $file = FindLatestFileInVaultByPath($rootFolder.FullName + "/" + $Prop["Folder"].Value.Replace(".\", "") + $Prop["_FileName"].Value)
     if ($file)
     {
