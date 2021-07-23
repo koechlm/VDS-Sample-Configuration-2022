@@ -2,14 +2,36 @@
 {
     if ($Prop["_CreateMode"].Value)
     {
-	    if($dsWindow.Name -eq 'InventorWindow')
-	    {
+        if($dsWindow.Name -eq 'InventorWindow')
+        {
+            if($Prop["_SaveCopyAsMode"].Value -eq $true)
+            {
+                $dsWindow.FindName("Format").add_SelectionChanged({
+                    PreviewExportFileName
+                })
+                $dsWindow.FindName("NumSchms").add_SelectionChanged({
+                    PreviewExportFileName
+                })
+                $dsWindow.FindName("FILENAME").add_LostFocus({
+                    PreviewExportFileName
+                })
+                $Prop["Folder"].add_PropertyChanged({
+                    PreviewExportFileName
+                })
+            }
             $Prop["DocNumber"].CustomValidation = { FileNameCustomValidation }
-		}
+        }
         elseif($dsWindow.Name -eq 'AutoCADWindow')
-		{
-		    $Prop["GEN-TITLE-DWG"].CustomValidation = { FileNameCustomValidation }
-		}                
+        {
+            if($Prop["GEN-TITLE-DWG"].Value)
+            {
+                $Prop["GEN-TITLE-DWG"].CustomValidation = { FileNameCustomValidation }
+            }
+            else
+            {
+                $Prop["DocNumber"].CustomValidation = { FileNameCustomValidation }
+            }
+        }                             
     }
 }
 
@@ -21,33 +43,58 @@ function FileNameCustomValidation
         return $true
     }
     if($dsWindow.Name -eq 'InventorWindow')
-	{
-        $propertyName = "DocNumber"
-	}
-    elseif($dsWindow.Name -eq 'AutoCADWindow')
-	{
-		$propertyName = "GEN-TITLE-DWG"
-	}
-	
-    $rootFolder = GetVaultRootFolder
-    $fullFileName = [System.IO.Path]::Combine($Prop["_FilePath"].Value, $Prop["_FileName"].Value)
-    if ([System.IO.File]::Exists($fullFileName))
     {
-		$Prop["$($propertyName)"].CustomValidationErrorMessage = "$($UIString["MSG4"])"
+        $propertyName = "DocNumber"
+    }
+    elseif($dsWindow.Name -eq 'AutoCADWindow')
+    {
+        if($Prop["GEN-TITLE-DWG"].Value)
+        {
+            $propertyName = "GEN-TITLE-DWG"
+        }
+        else
+        {
+            $propertyName = "DocNumber"
+        }
+    }
+    
+    $rootFolder = GetVaultRootFolder
+
+    $fileName = $Prop["_FileName"].Value
+    if ($fileName.IndexOfAny([System.IO.Path]::GetInvalidFileNameChars()) -ne -1)
+    {
+        $Prop["$($propertyName)"].CustomValidationErrorMessage = "$($UIString["VAL10"])"
         return $false
     }
-    $isinvault = FileExistsInVault($rootFolder.FullName + "/" + $Prop["Folder"].Value.Replace(".\", "") + $Prop["_FileName"].Value)
-    if ($isinvault)
+
+    $fullFileName = [System.IO.Path]::Combine($Prop["_FilePath"].Value, $fileName)
+    if ([System.IO.File]::Exists($fullFileName))
     {
-		$Prop["$($propertyName)"].CustomValidationErrorMessage = "$($UIString["VAL12"])"
+        $Prop["$($propertyName)"].CustomValidationErrorMessage = "$($UIString["MSG4"])"
         return $false
+    }
+
+    $file = FindLatestFileInVaultByPath($rootFolder.FullName + "/" + $Prop["Folder"].Value.Replace(".\", "") + $Prop["_FileName"].Value)
+    if ($file)
+    {
+        $fileIteration = New-Object Autodesk.DataManagement.Client.Framework.Vault.Currency.Entities.FileIteration($vaultConnection, $file)
+        if ($fileIteration.IsCheckedOut)
+        {
+            If(!$fileIteration.IsCheckedOutToCurrentUser)
+            {
+                $Prop["$($propertyName)"].CustomValidationErrorMessage = "$($UIString["VAL14"])"
+                return $false
+            }
+            return $true
+        }
+        return $true
     }
     if ($vault.DocumentService.GetUniqueFileNameRequired())
     {    
         $result = FindFile -fileName $Prop["_FileName"].Value
         if ($result)
         {
-			$Prop["$($propertyName)"].CustomValidationErrorMessage = "$($UIString["VAL13"])"
+            $Prop["$($propertyName)"].CustomValidationErrorMessage = "$($UIString["VAL13"])"
             return $false
         }
     }
@@ -81,7 +128,7 @@ function FindFile($fileName)
     return $totalResults;
 }
 
-function FileExistsInVault($vaultPath)
+function FindLatestFileInVaultByPath($vaultPath)
 {
     $pathWithoutDot = $vaultPath.Replace("/.", "/")
     $pathInVaultFormat = $pathWithoutDot.Replace("\", "/")
@@ -91,12 +138,33 @@ function FileExistsInVault($vaultPath)
         if ($files.Count -gt 0)
         {
             if ($files[0].Id -ne -1)
-            { return $true }
+            { return $files[0] }
         }
     }
     catch
     {
         #$dsDiag.Inspect()
     }    
-    return $false
+    return $null
+}
+
+function PreviewExportFileName()
+{
+    $knownextensions = @("ipt","iam","idw","dwg","dxf","pdf","jt","stp")
+    if (-not $Prop["DocNumber"].Value)
+    {
+        return 
+    }
+    $newFileName = @()
+    $newFileName += ($Prop["DocNumber"].Value.Split("."))
+    $ext = $newFileName[$newFileName.Count-1]
+    $newExt = $Prop["_FileExt"].Value.ToLower()
+    if ($knownextensions -contains $ext)
+    {        
+        $Prop["DocNumber"].Value = $Prop["DocNumber"].Value -replace "(.*).$ext(.*)", "`$1$newExt`$2"
+    }
+    else
+    {
+        $Prop["DocNumber"].Value = $Prop["DocNumber"].Value + "$newExt"
+    }
 }
