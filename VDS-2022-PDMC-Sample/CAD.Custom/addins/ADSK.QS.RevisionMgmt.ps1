@@ -190,10 +190,10 @@ function InitializeRevisionValidation
 						$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true }
 						
 						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						#if($Prop["GEN-TITLE-CHKD"].Value -eq "")
-						#{
-						#	$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						#}
+						if($Prop["GEN-TITLE-CHKD"].Value -eq "")
+						{
+							$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
 					}
 
 					if($Prop["GEN-TITLE-ISSM"]) 
@@ -206,10 +206,10 @@ function InitializeRevisionValidation
 						$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
 
 						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						#if($Prop["GEN-TITLE-ISSD"].Value -eq "")
-						#{
-						#	$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						#}
+						if($Prop["GEN-TITLE-ISSD"].Value -eq "")
+						{
+							$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
 					}
 
 					if($Prop["Change Descr"])
@@ -223,11 +223,11 @@ function InitializeRevisionValidation
 						$Prop["Customer Approved By"].CustomValidation = { $true}
 						$Prop["Customer Approved Date"].CustomValidation = { $true}
 					
-						##workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						#if($Prop["Customer Approved Date"].Value -eq "")
-						#{
-						#	$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						#}
+						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
+						if($Prop["Customer Approved Date"].Value -eq "")
+						{
+							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
 					}
 					else
 					{
@@ -250,10 +250,10 @@ function InitializeRevisionValidation
 						$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true }
 
 						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						#if($Prop["GEN-TITLE-CHKD"].Value -eq "")
-						#{
-						#	$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						#}
+						if($Prop["GEN-TITLE-CHKD"].Value -eq "")
+						{
+							$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
 					}
 
 					if($Prop["GEN-TITLE-ISSM"]) 
@@ -266,10 +266,10 @@ function InitializeRevisionValidation
 						$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
 
 						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						#if($Prop["GEN-TITLE-ISSD"].Value -eq "")
-						#{
-						#	$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						#}
+						if($Prop["GEN-TITLE-ISSD"].Value -eq "")
+						{
+							$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
 					}
 
 					if($Prop["Change Descr"])
@@ -284,10 +284,10 @@ function InitializeRevisionValidation
 						$Prop["Customer Approved Date"].CustomValidation = { $true}
 
 						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						#if($Prop["Customer Approved Date"].Value -eq "")
-						#{
-						#	$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						#}
+						if($Prop["Customer Approved Date"].Value -eq "")
+						{
+							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
 					}
 					else
 					{
@@ -326,20 +326,20 @@ function InitializeRevisionValidation
 						$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved By"] }
 						$Prop["Customer Approved Date"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved Date"] }
 						
-						#if($Prop["Customer Approved Date"].Value -eq "")
-						#{
-						#	$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						#}
+						if($Prop["Customer Approved Date"].Value -eq "")
+						{
+							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
 					}
 					else
 					{
 						$Prop["Customer Approved By"].CustomValidation = { $true }
 						$Prop["Customer Approved Date"].CustomValidation = { $true }
 						
-						#if($Prop["Customer Approved Date"].Value -eq "")
-						#{
-						#	$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						#}
+						if($Prop["Customer Approved Date"].Value -eq "")
+						{
+							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
+						}
 					}
 
 				}
@@ -368,12 +368,12 @@ function ValidateRevisionField($mProp)
 		else
 		{
 			#workaround VDS AutoCAD Date Issue (2022.1)
-			#$tempDateTime = Get-Date -Year "2021" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
-			#if($mProp.Value -eq $tempDateTime.ToString()) 
-			#{ 
-			#	$mProp.CustomValidationErrorMessage = "Date 2021-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
-			#	return $false
-			#}
+			$tempDateTime = Get-Date -Year "2021" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
+			if($mProp.Value -eq $tempDateTime.ToString()) 
+			{ 
+				$mProp.CustomValidationErrorMessage = "Date 2021-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
+				return $false
+			}
 
 			$dsDiag.Trace("...has Value: returning true<<")
 			return $true
