@@ -225,46 +225,47 @@
     </WPF:MainWindow.InputBindings>
     <TabControl Background="#FFE5E5E5" MaxWidth="1200">
         <TabItem Name="tabProperties" Header="{Binding UIString[MSDCE_MultiTab_01], FallbackValue=Properties}">
-            <Grid x:Name="grdMain" Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid x:Name="grdGeneralProps" Margin="0"
-              ToolTip="{Binding UIString[LBL73], FallbackValue='General Properties'}"
-              Width="Auto">
+            <AdornerDecorator>
+                <Grid x:Name="grdMain" Margin="5">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" MinWidth="140" />
-                        <ColumnDefinition Width="*"
-                                  MinWidth="180" MaxWidth="180" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Label Content="{Binding UIString[LBL8], FallbackValue=Categories}" Grid.Row="2" Grid.Column="0" />
-                    <ComboBox x:Name="Categories" Grid.Row="2" Grid.Column="1"
+                    <Grid x:Name="grdGeneralProps" Margin="0"
+              ToolTip="{Binding UIString[LBL73], FallbackValue='General Properties'}"
+              Width="Auto">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="140" />
+                            <ColumnDefinition Width="*"
+                                  MinWidth="180" MaxWidth="180" />
+                        </Grid.ColumnDefinitions>
+                        <Label Content="{Binding UIString[LBL8], FallbackValue=Categories}" Grid.Row="2" Grid.Column="0" />
+                        <ComboBox x:Name="Categories" Grid.Row="2" Grid.Column="1"
                       DisplayMemberPath="Name" SelectedItem="{Binding DynamicPropertiesCategory}"
                       SelectedValuePath="Name" SelectedValue="{Binding Prop[_Category].Value}"
                       ItemsSource="{Binding PsList[GetCategories], Mode=OneTime}"
                       IsEnabled="{Binding CreateMode}" />
-                    <Label Content="{Binding UIString[LBL23], FallbackValue=DocTypes}" Grid.Column="0"
+                        <Label Content="{Binding UIString[LBL23], FallbackValue=DocTypes}" Grid.Column="0"
                     Visibility="{Binding Visibility, ElementName=DocTypeCombo}" />
-                    <!-- Don't use static xml resource, use viewmodel binding instead. -->
-                    <ComboBox ItemsSource="{Binding PsList[GetTemplateFolders], Mode=OneTime}"
+                        <!-- Don't use static xml resource, use viewmodel binding instead. -->
+                        <ComboBox ItemsSource="{Binding PsList[GetTemplateFolders], Mode=OneTime}"
                       x:Name="DocTypeCombo"
                       Grid.Row="1"
                       Grid.Column="1"
@@ -274,33 +275,33 @@
                       SelectedValue="{Binding TemplatePath, Mode=OneWayToSource}"
                       SelectedIndex="0"
                       Style="{StaticResource DocTypeStyle}" />
-                    <Label Content="{Binding UIString[LBL9], FallbackValue=Templates}" Grid.Row="1" Grid.Column="0"
+                        <Label Content="{Binding UIString[LBL9], FallbackValue=Templates}" Grid.Row="1" Grid.Column="0"
                    Visibility="{Binding Visibility, ElementName=TemplateCB}" />
-                    <Grid Grid.Row="1" Grid.Column="1">
-                        <ComboBox x:Name="TemplateCB" IsSynchronizedWithCurrentItem="True"
+                        <Grid Grid.Row="1" Grid.Column="1">
+                            <ComboBox x:Name="TemplateCB" IsSynchronizedWithCurrentItem="True"
                           SelectedItem="{Binding SelectedTemplate}" Style="{StaticResource TemplateCbStyle}" />
-                        <TextBlock x:Name="textblock" Text="{Binding UIString[LBL28]}" Margin="1" IsHitTestVisible="False">
-                            <TextBlock.Style>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding SelectedItem, ElementName=TemplateCB}"
+                            <TextBlock x:Name="textblock" Text="{Binding UIString[LBL28]}" Margin="1" IsHitTestVisible="False">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding SelectedItem, ElementName=TemplateCB}"
                                                    Value="{x:Null}" />
-                                                <Condition Binding="{Binding CreateMode}" Value="True" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility" Value="Visible" />
-                                            <Setter Property="Background" Value="#F0F0F0" />
-                                        </MultiDataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
-                    <Label Content="{Binding UIString[LBL10],FallbackValue=Numberingscheme}" Grid.Column="0" Grid.Row="3"
+                                                    <Condition Binding="{Binding CreateMode}" Value="True" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Setter Property="Background" Value="#F0F0F0" />
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <Label Content="{Binding UIString[LBL10],FallbackValue=Numberingscheme}" Grid.Column="0" Grid.Row="3"
                    Visibility="{Binding Visibility, ElementName=NumSchms}" />
-                    <ComboBox x:Name="NumSchms" Grid.Column="1" Grid.Row="3"
+                        <ComboBox x:Name="NumSchms" Grid.Column="1" Grid.Row="3"
                       SelectedIndex="0"
                       DisplayMemberPath="Name"
                       SelectedValuePath="Name"
@@ -309,23 +310,23 @@
                       IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}"
                       Visibility="{Binding NotEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"
                       />
-                    <Label Content="{Binding UIString[LBL31], FallbackValue=Number}" Grid.Column="0" Grid.Row="4" Height="Auto"
+                        <Label Content="{Binding UIString[LBL31], FallbackValue=Number}" Grid.Column="0" Grid.Row="4" Height="Auto"
                    Visibility="{Binding Visibility, ElementName=DSNumSchmsCtrl}" />
-                    <WPF:DSNumSchemeCtrl Grid.Column="1" Grid.Row="4" x:Name="DSNumSchmsCtrl"
+                        <WPF:DSNumSchemeCtrl Grid.Column="1" Grid.Row="4" x:Name="DSNumSchmsCtrl"
                                  IsEnabled="{Binding ElementName=NumSchms, Path=IsEnabled}"
                                  Scheme="{Binding ElementName=NumSchms, Path=SelectedItem}"
                                  GeneratedNumberProperty="_GeneratedNumber" Style="{StaticResource NumSchmCtrlStyle}" 
                                  Visibility="{Binding HasItems, ElementName=NumSchms, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                    <Label Content="{Binding UIString[LBL4], FallbackValue=State}" Grid.Column="0" Grid.Row="5" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    <TextBox Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Row="5" Grid.Column="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True"/>
-                    <Label Content="{Binding UIString[LBL33], FallbackValue=Date Created}" Grid.Column="0" Grid.Row="6" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                    <TextBox Text="{Binding Prop[_XLTN_DATE VERSION CREATED].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Grid.Row="6" Grid.Column="1"  Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True"/>
-                    <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Column="0" Grid.Row="7" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    <TextBox Text="{Binding Prop[_XLTN_CREATED BY].Value}" Grid.Row="7" Grid.Column="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True" />
-                    <Label x:Name="lblComments" Content="{Binding UIString[LBL7], FallbackValue=Comments}" Grid.Row="9" Height="Auto" Grid.RowSpan="2" BorderThickness="1" />
-                    <TextBox Grid.Row="9" Text="{Binding Prop[_XLTN_COMMENTS].Value}" x:Name="Comments" Grid.Column="1" VerticalScrollBarVisibility="Auto" MinHeight="50" MaxHeight="50" TextWrapping="Wrap" AcceptsReturn="True" Padding="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" Height="Auto" Grid.RowSpan="2" BorderThickness="0,1,1,1" MaxWidth="220" HorizontalScrollBarVisibility="Auto" />
-                </Grid>
-                <DataGrid Grid.Column="1" x:Name="DSDynCatPropGrid" MaxHeight="500"
+                        <Label Content="{Binding UIString[LBL4], FallbackValue=State}" Grid.Column="0" Grid.Row="5" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBox Text="{Binding Prop[_XLTN_STATE].Value}" Grid.Row="5" Grid.Column="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True"/>
+                        <Label Content="{Binding UIString[LBL33], FallbackValue=Date Created}" Grid.Column="0" Grid.Row="6" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <TextBox Text="{Binding Prop[_XLTN_DATE VERSION CREATED].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Grid.Row="6" Grid.Column="1"  Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True"/>
+                        <Label Content="{Binding UIString[LBL34], FallbackValue=Created By}" Grid.Column="0" Grid.Row="7" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBox Text="{Binding Prop[_XLTN_CREATED BY].Value}" Grid.Row="7" Grid.Column="1" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}" IsReadOnly="True" />
+                        <Label x:Name="lblComments" Content="{Binding UIString[LBL7], FallbackValue=Comments}" Grid.Row="9" Height="Auto" Grid.RowSpan="2" BorderThickness="1" />
+                        <TextBox Grid.Row="9" Text="{Binding Prop[_XLTN_COMMENTS].Value}" x:Name="Comments" Grid.Column="1" VerticalScrollBarVisibility="Auto" MinHeight="50" MaxHeight="50" TextWrapping="Wrap" AcceptsReturn="True" Padding="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" Height="Auto" Grid.RowSpan="2" BorderThickness="0,1,1,1" MaxWidth="220" HorizontalScrollBarVisibility="Auto" />
+                    </Grid>
+                    <DataGrid Grid.Column="1" x:Name="DSDynCatPropGrid" MaxHeight="500"
                   ItemsSource="{Binding DynamicProperties}"
                   ToolTip="{Binding UIString[LBL63], FallbackValue='Category Properties'}"
                   AutoGenerateColumns="False"
@@ -335,68 +336,69 @@
                   HorizontalGridLinesBrush="WhiteSmoke"
                   VerticalGridLinesBrush="WhiteSmoke" BorderBrush="Gray" MaxWidth="500"
                   Margin="5,0,0,0">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}"
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}"
                                     MinWidth="140" Width="Auto" IsReadOnly="True">
-                            <DataGridTextColumn.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
                                 Text="{Binding DataContext.UIString[LBL64], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                </DataTemplate>
-                            </DataGridTextColumn.HeaderTemplate>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding Value}" MinWidth="300" Width="*"
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Value}" MinWidth="300" Width="*"
                                     CellStyle="{StaticResource DynamicDataGridCellStyle}" IsReadOnly="True">
-                            <DataGridTextColumn.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
                                 Text="{Binding DataContext.UIString[LBL65], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                </DataTemplate>
-                            </DataGridTextColumn.HeaderTemplate>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn CellStyle="{StaticResource DynamicDataGridBtnCellStyle}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Expander x:Name="expFilePath" Grid.ColumnSpan="2" Header="{Binding UIString[LBL6], FallbackValue='File Name'}" Grid.Row="1"
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn CellStyle="{StaticResource DynamicDataGridBtnCellStyle}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Expander x:Name="expFilePath" Grid.ColumnSpan="2" Header="{Binding UIString[LBL6], FallbackValue='File Name'}" Grid.Row="1"
                   Style="{StaticResource ExpanderStyle}">
-                    <Grid Background="#FFE5E5E5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Label Content="{Binding UIString[LBL5], FallbackValue=Path}" Grid.Column="0"
+                        <Grid Background="#FFE5E5E5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="{Binding UIString[LBL5], FallbackValue=Path}" Grid.Column="0"
             		 Grid.Row="1" BorderThickness="1" />
-                        <TextBox Text="{WPF:ValidatedBinding Prop[_FilePath].Value}" IsReadOnly="True"
+                            <TextBox Text="{WPF:ValidatedBinding Prop[_FilePath].Value}" IsReadOnly="True"
             		IsTabStop="False" Grid.Row="1" Grid.Column="1" BorderThickness="0,1,1,1" />
-                        <Label Content="{Binding UIString[LBL6], FallbackValue=Filename}" Grid.Column="0"
+                            <Label Content="{Binding UIString[LBL6], FallbackValue=Filename}" Grid.Column="0"
             		Visibility="{Binding NumSchmFieldsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=DSNumSchmsCtrl}" />
-                        <TextBox x:Name="FILENAME" Text="{WPF:ValidatedBinding Name}"
+                            <TextBox x:Name="FILENAME" Text="{WPF:ValidatedBinding Name}"
             		IsTabStop="False" Style="{StaticResource Required}"
             		Visibility="{Binding NumSchmFieldsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=DSNumSchmsCtrl}" Grid.Column="1" />
-                    </Grid>
-                </Expander>
-                <Grid x:Name="ButtonGrid" Style="{StaticResource ButtonGridStyle}" Grid.Row="3" Grid.ColumnSpan="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="80" />
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="btnOK" Content="{Binding UIString[BTN1], FallbackValue=OK}"
+                        </Grid>
+                    </Expander>
+                    <Grid x:Name="ButtonGrid" Style="{StaticResource ButtonGridStyle}" Grid.Row="3" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="80" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnOK" Content="{Binding UIString[BTN1], FallbackValue=OK}"
                     Command="{Binding CloseWindowCommand, ElementName=FileWindow}" IsEnabled="{Binding Properties.IsValid}"
                     Grid.Column="2" Width="80" Height="24" IsDefault="True" ToolTipService.ShowOnDisabled="True" />
-                    <Button x:Name="btnEsc" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
+                        <Button x:Name="btnEsc" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
                     Command="{Binding CancelWindowCommand, ElementName=FileWindow}" Grid.Column="4" Width="80"
                     HorizontalAlignment="Right" Height="24" IsCancel="True" />
-                    <Button x:Name="btnHelp" Content="{Binding UIString[MSDCE_BTN1], FallbackValue=Help}" 
+                        <Button x:Name="btnHelp" Content="{Binding UIString[MSDCE_BTN1], FallbackValue=Help}" 
                     Command="{Binding PsCmd[mHelp(550)]}" Height="24" ToolTip="F1" Margin="0" Width="80" />
+                    </Grid>
                 </Grid>
-            </Grid>
+            </AdornerDecorator>
         </TabItem>
     </TabControl>
 </WPF:MainWindow>
