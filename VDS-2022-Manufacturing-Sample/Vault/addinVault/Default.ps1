@@ -357,3 +357,20 @@ function ItemDescription
     }
 }
  
+function GetTemplateFolders
+{
+	$xmldata = [xml](Get-Content "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault\Configuration\File.xml")
+
+	[string[]] $folderPath = $xmldata.DocTypeData.DocTypeInfo | foreach { $_.Path }
+	$folders = $vault.DocumentService.FindFoldersByPaths($folderPath)
+
+	return $xmldata.DocTypeData.DocTypeInfo | foreach {
+		$path = $_.Path
+		$folder = $folders | where { $_.FullName -eq $path } | Select -index 0
+		if($folder -eq $null)
+		{
+			return
+		}
+		return $_
+	}
+}

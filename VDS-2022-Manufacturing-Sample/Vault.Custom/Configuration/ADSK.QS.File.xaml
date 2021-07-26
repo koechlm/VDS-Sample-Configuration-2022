@@ -316,10 +316,6 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <!-- This XmlDataProvider is used for defining Name/TemplatePath pairs that are used in the combo box "Document Type" and can be easily extended -->
-        <XmlDataProvider x:Key="DocTypes"
-                         Source="C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.File.xml"
-                         XPath="/DocTypeData" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </WPF:MainWindow.Resources>
     <WPF:MainWindow.InputBindings>
@@ -372,14 +368,17 @@
                       ItemsSource="{Binding PsList[GetCategories], Mode=OneTime}"
                       IsEnabled="{Binding CreateMode}" />
                     <Label Content="{Binding UIString[LBL23], FallbackValue=DocTypes}" Grid.Column="0"
-                   Visibility="{Binding Visibility, ElementName=DocTypeCombo}" />
-                    <ComboBox x:Name="DocTypeCombo" Grid.Column="1"
+                    Visibility="{Binding Visibility, ElementName=DocTypeCombo}" />
+                    <!-- Don't use static xml resource, use viewmodel binding instead. -->
+                    <ComboBox ItemsSource="{Binding PsList[GetTemplateFolders], Mode=OneTime}"
+                      x:Name="DocTypeCombo"
+                      Grid.Row="1"
+                      Grid.Column="1"
                       IsEnabled="{Binding CreateMode}"
                       DisplayMemberPath="DocName"
                       SelectedValuePath="Path"
-                      SelectedValue="{Binding TemplatePath}"
+                      SelectedValue="{Binding TemplatePath, Mode=OneWayToSource}"
                       SelectedIndex="0"
-                      ItemsSource="{Binding Mode=OneTime, Source={StaticResource DocTypes}, XPath=DocTypeInfo}"
                       Style="{StaticResource DocTypeStyle}" />
                     <Label Content="{Binding UIString[LBL9], FallbackValue=Templates}" Grid.Row="1" Grid.Column="0"
                    Visibility="{Binding Visibility, ElementName=TemplateCB}" />
