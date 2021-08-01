@@ -484,7 +484,6 @@
     <Resource Include="Vault.Custom\Milestone-edit.ico" />
     <Resource Include="Vault.Custom\Milestone-info.ico" />
     <Resource Include="Vault.Custom\Milestone-ok.ico" />
-    <Resource Include="Vault.Custom\NewCO.ico" />
     <Resource Include="Vault.Custom\NewStandardFile.ico" />
     <Resource Include="Vault.Custom\NewStandardFolder.ico" />
     <Resource Include="Vault.Custom\ok.ico" />

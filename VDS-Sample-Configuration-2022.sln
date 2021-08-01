@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDS-2022-Manufacturing-Sample", "VDS-2022-Manufacturing-Sample.csproj", "{4D7DFB6F-464F-4834-8F58-53F251E4C3ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDS-2022-Manufacturing-Sample", "VDS-2022-Manufacturing-Sample\VDS-2022-Manufacturing-Sample.csproj", "{4D7DFB6F-464F-4834-8F58-53F251E4C3ED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4B2DA3C-1631-464D-A10E-4446F4C8F743}"
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDS-2022-PDMC-Sample", "..\VDS-2022-PDMC-Sample\VDS-2022-PDMC-Sample.csproj", "{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDS-2022-PDMC-Sample", "VDS-2022-PDMC-Sample\VDS-2022-PDMC-Sample.csproj", "{3840F57F-5930-4BDD-8820-EF3ED6B46A5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
