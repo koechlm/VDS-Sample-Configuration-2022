@@ -135,12 +135,16 @@ function InitializeWindow
 					$Prop["_Category"].Value = $UIString["CAT1"]
 				}
 			}
+
 			#region VDS-PDMC-Sample to get category from selected template
-			$dsWindow.FindName("DocTypeCombo").add_SelectionChanged({
-					mResetTemplates
-				})
+			#$dsWindow.FindName("DocTypeCombo").add_SelectionChanged({
+			#		mResetTemplates #no longer required starting 2022.1?
+			#	})
+
 			$dsWindow.FindName("TemplateCB").add_SelectionChanged({
-				m_TemplateChanged})
+				#update the category = selected template's category
+				m_TemplateChanged
+			})
 
 			if($dsWindow.FindName("tabItemProperties")) { mInitializeTabItemProps}
 
@@ -1177,7 +1181,7 @@ function mFindFolder($FolderName, $rootFolder)
 #added by 2022 Update 1 - to resolve issue with cloaked template folders for users
 function GetTemplateFolders
 {
-	$xmldata = [xml](Get-Content "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault\Configuration\File.xml")
+	$xmldata = [xml](Get-Content "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.File.xml")
 
 	[string[]] $folderPath = $xmldata.DocTypeData.DocTypeInfo | foreach { $_.Path }
 	$folders = $vault.DocumentService.FindFoldersByPaths($folderPath)
@@ -1191,14 +1195,4 @@ function GetTemplateFolders
 		}
 		return $_
 	}
-}
-
-#custom onPostClose actions called via command overrides of the OK button
-function mPersonOnPostClose
-{
-	#region of postclose actions
-		
-	$dsDiag.Inspect()
-
-	$dsWindow.CloseWindowCommand.Execute($this)
 }

@@ -118,12 +118,16 @@ function InitializeWindow
 					$Prop["_Category"].Value = $UIString["CAT1"]
 				}
 			}
+
 			#region VDS MFG Sample to get category from selected template
-			$dsWindow.FindName("DocTypeCombo").add_SelectionChanged({
-					mResetTemplates
-				})
+			#$dsWindow.FindName("DocTypeCombo").add_SelectionChanged({
+			#		mResetTemplates #no longer required starting 2022.1?
+			#	})
+
 			$dsWindow.FindName("TemplateCB").add_SelectionChanged({
-				m_TemplateChanged})
+				#update the category = selected template's category
+				m_TemplateChanged
+			})
 			#endregion VDS MFG Sample			
 		}
 		"FolderWindow"
@@ -670,4 +674,23 @@ function mFindFolder($FolderName, $rootFolder)
         else {break}
     }
     return $totalResults;
+}
+
+#added by 2022 Update 1 - to resolve issue with cloaked template folders for users
+function GetTemplateFolders
+{
+	$xmldata = [xml](Get-Content "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.File.xml")
+
+	[string[]] $folderPath = $xmldata.DocTypeData.DocTypeInfo | foreach { $_.Path }
+	$folders = $vault.DocumentService.FindFoldersByPaths($folderPath)
+
+	return $xmldata.DocTypeData.DocTypeInfo | foreach {
+		$path = $_.Path
+		$folder = $folders | where { $_.FullName -eq $path } | Select -index 0
+		if($folder -eq $null)
+		{
+			return
+		}
+		return $_
+	}
 }

@@ -379,6 +379,9 @@
                 <DataTrigger Binding="{Binding EditMode}" Value="True">
                     <Setter Property="Visibility" Value="Collapsed" />
                 </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=TemplateTB, Path=Visibility}" Value="Visible">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="ButtonGridStyle" TargetType="{x:Type Grid}">
@@ -458,7 +461,7 @@
                         <!-- Don't use static xml resource, use viewmodel binding instead. -->
                         <ComboBox ItemsSource="{Binding PsList[GetTemplateFolders], Mode=OneTime}"
                               x:Name="DocTypeCombo"
-                              Grid.Row="1"
+                              Grid.Row="0"
                               Grid.Column="1"
                               IsEnabled="{Binding CreateMode}"
                               DisplayMemberPath="DocName"
@@ -471,7 +474,7 @@
                         <Grid Grid.Row="1" Grid.Column="1">
                             <ComboBox x:Name="TemplateCB" IsSynchronizedWithCurrentItem="True"
                           SelectedItem="{Binding SelectedTemplate}" Style="{StaticResource TemplateCbStyle}" />
-                            <TextBlock x:Name="textblock" Text="{Binding UIString[LBL28]}" Margin="1" IsHitTestVisible="False">
+                            <TextBlock x:Name="TemplateTB" Text="{Binding UIString[LBL28]}" Margin="1" IsHitTestVisible="False">
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Setter Property="Visibility" Value="Collapsed" />
