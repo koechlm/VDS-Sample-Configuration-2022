@@ -23,15 +23,52 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
           PSFile = "ADSK.QS.ImportFiles.ps1" Image="FileImport.ico" ToolbarPaintStyle = "TextAndGlyph"
           MultiSelectEnabled = "false"/>
     <!--FileImportNnumbering Menu item end-->
-    
+
     <!--CatalogTermsTranslations-->
     <newTermObject Label = "$UIString[ClassTerms_MNU10]" Description = "$UIString[ClassTerms_MNU11]" Hint = "$UIString[ClassTerms_MNU11]"
-          PSFile = "ADSK.QS.CreateCustomObjectTerm.ps1" Image="Term-add.ico" ToolbarPaintStyle = "TextAndGlyph"
+          PSFile = "ADSK.QS.CreateCustomObjectClassified.ps1" Image="Term-add.ico" ToolbarPaintStyle = "TextAndGlyph"
           NavigationTypes ="Term" MultiSelectEnabled = "false" />
     <editTermObject Label = "$UIString[ClassTerms_MNU12]" Description = "$UIString[ClassTerms_MNU13]" Hint = "$UIString[ClassTerms_MNU13]"
-      PSFile = "ADSK.QS.EditCustomObjectTerm.ps1" Image="Term-edit.ico" ToolbarPaintStyle = "TextAndGlyph"
+      PSFile = "ADSK.QS.EditCustomObjectClassified.ps1" Image="Term-edit.ico" ToolbarPaintStyle = "TextAndGlyph"
       NavigationTypes ="Term" MultiSelectEnabled = "false"/>
     <!--CatalogTermsTranslations End-->
+
+    <!--Classification Menu Items Start-->
+    <newClassObject Label = "$UIString[Adsk.Qs.ClassMnu_20]" Description = "$UIString[Adsk.Qs.ClassMnu_21]" Hint = "$UIString[Adsk.Qs.ClassMnu_21]"
+        PSFile = "ADSK.QS.CreateCustomObjectClassified.ps1" Image="class-add.ico" ToolbarPaintStyle = "TextAndGlyph"
+        NavigationTypes ="Class" MultiSelectEnabled = "false" />
+    <editClassObject Label = "$UIString[Adsk.Qs.ClassMnu_22]" Description = "$UIString[Adsk.Qs.ClassMnu_23]" Hint = "$UIString[Adsk.Qs.ClassMnu_23]"
+        PSFile = "ADSK.QS.EditCustomObjectClassified.ps1" Image="class-edit.ico" ToolbarPaintStyle = "TextAndGlyph"
+        NavigationTypes ="Class" MultiSelectEnabled = "false"/>
+
+    <newSegmentObject Label = "$UIString[Adsk.Qs.ClassMnu_24]" Description = "$UIString[Adsk.Qs.ClassMnu_25]" Hint = "$UIString[Adsk.Qs.ClassMnu_25]"
+        PSFile = "ADSK.QS.CreateCustomObject.ps1" Image="CustomObject-Add.ico" ToolbarPaintStyle = "TextAndGlyph"
+        NavigationTypes ="Segment" MultiSelectEnabled = "false" />
+    <editSegmentObject Label = "$UIString[Adsk.Qs.ClassMnu_26]" Description = "$UIString[Adsk.Qs.ClassMnu_27]" Hint = "$UIString[Adsk.Qs.ClassMnu_27]"
+        PSFile = "ADSK.QS.EditCustomObject.ps1" Image="CustomObject-Edit.ico" ToolbarPaintStyle = "TextAndGlyph"
+        NavigationTypes ="Segment" MultiSelectEnabled = "false"/>
+
+    <newMainGroupObject Label = "$UIString[Adsk.Qs.ClassMnu_28]" Description = "$UIString[Adsk.Qs.ClassMnu_29]" Hint = "$UIString[Adsk.Qs.ClassMnu_29]"
+        PSFile = "ADSK.QS.CreateCustomObjectClassified.ps1" Image="CustomObject-Add.ico" ToolbarPaintStyle = "TextAndGlyph"
+        NavigationTypes ="Main Group" MultiSelectEnabled = "false" />
+    <editMainGroupObject Label = "$UIString[Adsk.Qs.ClassMnu_30]" Description = "$UIString[Adsk.Qs.ClassMnu_31]" Hint = "$UIString[Adsk.Qs.ClassMnu_31]"
+        PSFile = "ADSK.QS.EditCustomObjectClassified.ps1" Image="CustomObject-Edit.ico" ToolbarPaintStyle = "TextAndGlyph"
+        NavigationTypes ="Main Group" MultiSelectEnabled = "false"/>
+
+    <newGroupObject Label = "$UIString[Adsk.Qs.ClassMnu_32]" Description = "$UIString[Adsk.Qs.ClassMnu_33]" Hint = "$UIString[Adsk.Qs.ClassMnu_33]"
+        PSFile = "ADSK.QS.CreateCustomObjectClassified.ps1" Image="CustomObject-Add.ico" ToolbarPaintStyle = "TextAndGlyph"
+        NavigationTypes ="Group" MultiSelectEnabled = "false" />
+    <editGroupObject Label = "$UIString[Adsk.Qs.ClassMnu_34]" Description = "$UIString[Adsk.Qs.ClassMnu_35]" Hint = "$UIString[Adsk.Qs.ClassMnu_35]"
+        PSFile = "ADSK.QS.EditCustomObjectClassified.ps1" Image="CustomObject-Edit.ico" ToolbarPaintStyle = "TextAndGlyph"
+        NavigationTypes ="Group" MultiSelectEnabled = "false"/>
+
+    <newSubGroupObject Label = "$UIString[Adsk.Qs.ClassMnu_36]" Description = "$UIString[Adsk.Qs.ClassMnu_37]" Hint = "$UIString[Adsk.Qs.ClassMnu_37]"
+        PSFile = "ADSK.QS.CreateCustomObjectClassified.ps1" Image="CustomObject-Add.ico" ToolbarPaintStyle = "TextAndGlyph"
+        NavigationTypes ="Sub Group" MultiSelectEnabled = "false" />
+    <editSubGroupObject Label = "$UIString[Adsk.Qs.ClassMnu_38]" Description = "$UIString[Adsk.Qs.ClassMnu_39]" Hint = "$UIString[Adsk.Qs.ClassMnu_39]"
+        PSFile = "ADSK.QS.EditCustomObjectClassified.ps1" Image="CustomObject-Edit.ico" ToolbarPaintStyle = "TextAndGlyph"
+        NavigationTypes ="Sub Group" MultiSelectEnabled = "false"/>
+    <!--Classifcation Menu Items END-->
 
     <!--GoToNavigation MenuItem Start-->
     <GoToSourceFile Label = "$UIString[ADSK-GoToNavigation_MNU01]" Description = "$UIString[ADSK-GoToNavigation_MNU01]" Hint = "$UIString[ADSK-GoToNavigation_MNU01]"
@@ -174,6 +211,26 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
     <CustomObject Label="$UIString[ClassTerms_00]" DeployAsPullDown="False" Location="Term">
       <Item Name="newTermObject"></Item>
       <Item Name="editTermObject"></Item>
+    </CustomObject>
+    <CustomObject Label="$UIString[Adsk.QS.Classification_00]" DeployAsPullDown="False" Location="Class">
+      <Item Name="newClassObject"></Item>
+      <Item Name="editClassObject"></Item>
+    </CustomObject>
+    <CustomObject Label="$UIString[Adsk.QS.ClassLevel_00]" DeployAsPullDown="False" Location="Segment">
+      <Item Name="newSegmentObject"></Item>
+      <Item Name="editSegmentObject"></Item>
+    </CustomObject>
+    <CustomObject Label="$UIString[Adsk.QS.ClassLevel_01]" DeployAsPullDown="False" Location="Main Group">
+      <Item Name="newMainGroupObject"></Item>
+      <Item Name="editMainGroupObject"></Item>
+    </CustomObject>
+    <CustomObject Label="$UIString[Adsk.QS.ClassLevel_02]" DeployAsPullDown="False" Location="Group">
+      <Item Name="newGroupObject"></Item>
+      <Item Name="editGroupObject"></Item>
+    </CustomObject>
+    <CustomObject Label="$UIString[Adsk.QS.ClassLevel_03]" DeployAsPullDown="False" Location="Sub Group">
+      <Item Name="newSubGroupObject"></Item>
+      <Item Name="editSubGroupObject"></Item>
     </CustomObject>
     <ChangeOrder Label="Go To Linked Task" DeployAsPullDown="False" Location="ChangeOrderContextMenu">
       <Item Name ="GoToSelectedTask"></Item>

@@ -342,7 +342,7 @@
   <UIString ID="ADSK-GroupMemberOf-00">Angemeldeter Benutzer besitzt keine Berechtigung diesen Befehl aus zu führen.</UIString>
   <!--QuickstartExtensions functions library End-->
 
-  <!--GoToNavigation Snippet Start-->
+  <!--GoToSourceFile-GoToReplacement Start-->
   <UIString ID="ADSK-GoToNavigation_MNU00">Datei-Navigation</UIString>
   <UIString ID="ADSK-GoToNavigation_MNU01">Gehe zu Ursprung</UIString>
   <UIString ID="ADSK-GoToNavigation_MNU02">Gehe zu Nachfolger</UIString>
@@ -352,7 +352,7 @@
   <UIString ID="ADSK-GoToNavigation_Prop02">Replaced by</UIString>
   <UIString ID="ADSK-GoToNavigation_MSG00">Eigenschaft '{0}' ist entweder nicht vorhanden oder leer.</UIString>
   <UIString ID="ADSK-GoToNavigation_MSG01">Angegebene Datei '{0}' im Feld '{1}' konnte nicht gefunden werden.</UIString>
-  <!--GoToNavigation Snippet Start-->
+  <!--GoToSourceFile-GoToReplacement End-->
 
   <!--GoToInvSibling-->
   <UIString ID="ADSK-GoToInvSibl_LBL00">Suche Inventor Geschwister </UIString>
@@ -438,7 +438,33 @@
   <!--ItemMaster Search and Item Tab END-->
   
   <!--Classification start-->
-  <UIString ID="Adsk.QS.ClassLevel_00">Segment</UIString>
+  <!--Class Menu Definitions-->
+  <UIString ID="Adsk.Qs.ClassMnu_20">Neue Klasse...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_21">Neue Klasse erstellen</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_22">Klasse bearbeiten...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_23">Bestehende Klasse bearbeiten</UIString>
+  <!--Segment Menu Definitions-->
+  <UIString ID="Adsk.Qs.ClassMnu_24">Neues Sachgebiet...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_25">Neues Sachgebiet erstellen</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_26">Sachgebiet bearbeiten...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_27">Bestehendes Sachgebiet bearbeiten</UIString>
+  <!--Main Group Menu Definitions-->
+  <UIString ID="Adsk.Qs.ClassMnu_28">Neue Hauptgruppe...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_29">Neue Hauptgruppe erstellen</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_30">Hauptgebiet bearbeien...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_31">Bestehende Hauptgruppe bearbeiten</UIString>
+  <!--Group Menu Definition-->
+  <UIString ID="Adsk.Qs.ClassMnu_32">Neue Gruppe...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_33">Neue Gruppe erstellen</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_34">Gruppe bearbeiten...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_35">Bestehende Gruppe bearbeiten</UIString>
+  <!--Sub Group Menu Definition-->
+  <UIString ID="Adsk.Qs.ClassMnu_36">Neue Untergruppe...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_37">Neue Untergruppe erstellen</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_38">Untergruppe bearbeiten...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_39">Bestehende Untergruppe bearbeiten</UIString>
+  <!-- Class Menu Definitions end-->
+  <UIString ID="Adsk.QS.ClassLevel_00">Sachgebiet</UIString>
   <UIString ID="Adsk.QS.ClassLevel_01">Hauptgruppe</UIString>
   <UIString ID="Adsk.QS.ClassLevel_02">Gruppe</UIString>
   <UIString ID="Adsk.QS.ClassLevel_03">Untergruppe</UIString>
@@ -452,13 +478,12 @@
   <UIString ID="Adsk.QS.Classification_07">Eigenschaften</UIString>
   <UIString ID="Adsk.QS.Classification_08">Klasse Aktivieren</UIString>
   <UIString ID="Adsk.QS.Classification_09">Klasse Entfernen</UIString>
-
   <UIString ID="Adsk.QS.Classification_10">Die Klasse ist entweder nicht vorhanden oder nicht ein-eindeutig. Nur eindeutige Klassennamen werden verarbeitet.</UIString>
   <UIString ID="Adsk.QS.Classification_11">Entfernen einer Klassifizierung löscht alle Merkmale und Werte der Klasse! {0}Möchten Sie wirklich die Klassifizierung aufheben?</UIString>
   <UIString ID="Adsk.QS.Classification_12">Achtung: Das Ergebnis beruht auf einem unvollständigen Suchindex. Wenden Sie sich an den Administrator, wenn diese Meldung immer erscheint.</UIString>
   <UIString ID="Adsk.QS.Classification_13">Der Benutzerdefinierte Arbeitsbereich 'Klassen' steht nicht zur Verfügung. Wenden Sie sich an ihren Administrator.</UIString>
-
   <UIString ID="Adsk.QS.Classification_14">Klassifizierung d. primär verknüpften Datei</UIString>
+  <UIString ID="Adsk.QS.Classification_15">Schreibgeschützt: Wert wird aus Hierarchiepfad übernommen</UIString>
   <!--Classification end-->
 
   <!--CatalogTermsTranslations-->
@@ -555,13 +580,12 @@
   <!--UIStrings for PDMC-Sample Dynamic Grids - Note these mappings are only valid for the original PDMC-Sample Vault!-->
   <UIString ID="1907cfc4-134b-4151-b04b-263627b8d37e">Geprüft am</UIString>
   <UIString ID="89aa6d67-d68f-4b2e-938e-94fe670d783d">Prüfvermerk erf.</UIString>
-  <!---->
+  <!--Checked By is a default mapping-->
   <UIString ID="b7509fa1-4956-4681-b898-9814bdf11101">Freigegeben am</UIString>
   <!--Engr Approved By is a default mapping-->
   <UIString ID="c1311f9f-daff-4d62-8f1a-cf949a5e43e2">Freigabe Kunde erforderlich</UIString>
   <UIString ID="4289da0f-984f-47b2-b6ed-ff2cafbe7a9b">Freigabe Kunde von</UIString>
-  <UIString ID="bb92906f-75ca-415b-b0c6-242e4e02d58b">Freigabe Kunde Datum</UIString>
-  
+  <UIString ID="bb92906f-75ca-415b-b0c6-242e4e02d58b">Freigabe Kunde Datum</UIString> 
   <!--Revision Property Tab end-->  
 
 </UIStrings>

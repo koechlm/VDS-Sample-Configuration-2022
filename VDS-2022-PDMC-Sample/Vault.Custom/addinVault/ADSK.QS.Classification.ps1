@@ -285,14 +285,14 @@ function mAddClassification()
 	if ($Global:mFile)
 	{
 		$mActiveClass = @()
-		$mActiveClass += mGetCustentiesByName -Name $dsWindow.FindName("cmbAvailableClasses").SelectedValue #custom object names are not unique, only its Number
-
+		$mActiveClass += mFindCustent -Name $dsWindow.FindName("cmbAvailableClasses").SelectedValue -Category "Class" #custom object names should be unique per category
 		If($mActiveClass.Count -eq 1)
 		{
 			$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass.Id
 			$mPropsAdd = @()
 			$mPropsAdd += $mClsPrpNames.Keys
 		}
+		else
 		{
 			[System.Windows.MessageBox]::Show($UIString["Adsk.QS.Classification_10"], "Vault Data Standard", "", "Exclamation")
 			return
@@ -307,6 +307,10 @@ function mAddClassification()
 	$Prop["_XLTN_CLASS"].Value = $dsWindow.FindName("cmbAvailableClasses").SelectedValue
 	$dsWindow.FindName("btnRemoveClass").IsEnabled = $true
 	$dsWindow.FindName("btnAddClass").IsEnabled = $false
+
+				
+	$value = $dsWindow.FindName("cmbAvailableClasses").SelectedItem.Id
+	$value | Out-File $env:TEMP"\mFileClassId.txt"
 
 	mGetClsDfltValues
 	
@@ -324,7 +328,7 @@ function mRemoveClassification()
 		{
 			$dsDiag.Trace("...remove class - file found")
 			$mActiveClass = @()
-			$mActiveClass += mGetCustentiesByName -Name $Prop["_XLTN_CLASS"].Value #custom object names are not unique, only its Number
+			$mActiveClass += mFindCustent -Name $Prop["_XLTN_CLASS"].Value -Category "Class" #custom object names should be unique within a category, only its Number
 
 			If($mActiveClass.Count -eq 1)
 			{
@@ -353,6 +357,11 @@ function mRemoveClassification()
 
 	$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
 	if($dsWindow.FindName("cmbAvailableClasses").SelectedIndex -ne -1 -and $Prop["_ReadOnly"].Value -eq $false) { $dsWindow.FindName("btnAddClass").IsEnabled = $true}
+	
+	#write the highest level Custent Id to a text file for post-close event
+	$value = -1
+	$value | Out-File $env:TEMP"\mFileClassId.txt"
+
 	$dsDiag.Trace("...remove classification finished.")
 }
 

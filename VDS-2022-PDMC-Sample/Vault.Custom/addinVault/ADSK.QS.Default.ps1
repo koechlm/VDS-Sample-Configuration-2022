@@ -47,6 +47,11 @@ function Validate
 			foreach ($func in dir function:ValidateCustomObject*) { if(!(&$func)) { return $false } }
 			return $true
 		}
+		"CustomObjectClassifiedWindow"
+		{
+			foreach ($func in dir function:ValidateCustomObject*) { if(!(&$func)) { return $false } }
+			return $true
+		}
 		default { return $true }
 	}
     
@@ -74,11 +79,20 @@ function ValidateFolderName
 
 function ValidateCustomObjectName
 {
-	if($Prop["_CustomObjectName"].Value -or !$dsWindow.FindName("DSNumSchmsCtrl").NumSchmFieldsEmpty)
+	if($Prop["_CreateMode"].Value)
 	{
-		return $true;
+		if($Prop["_CustomObjectName"].Value -or !$dsWindow.FindName("DSNumSchmsCtrl").NumSchmFieldsEmpty)
+		{
+			return ValidateCustentName;
+		}
+		$dsWindow.FindName("CUSTOMOBJECTNAME").ToolTip = "Custom Object name must not be empty."
+		$dsWindow.FindName("CUSTOMOBJECTNAME").Border = "Red"
+		$dsWindow.FindName("CUSTOMOBJECTNAME").BackGround = "#FFFFFFFF"
+		return $false;
 	}
-	return $false;
+	else{
+		return $true
+	}
 }
 
 function InitializeTabWindow
@@ -193,9 +207,106 @@ function InitializeWindow
 					$dsWindow.FindName("NumSchms").Visibility = "Collapsed"
 					$Prop["_NumSchm"].Value = $Prop["_Category"].Value
 				#endregion
+
+				if($Prop["_Category"].Value -eq "Person")
+				{
+					$dsWindow.FindName("CUSTOMOBJECTNAME").add_LostFocus({
+						$Prop["First Name"].Value = ($dsWindow.FindName("CUSTOMOBJECTNAME").Text).Split(" ")[0]
+						$Prop["Last Name"].Value = ($dsWindow.FindName("CUSTOMOBJECTNAME").Text).Split(" ")[1]
+					})
+
+					$Prop["First Name"].add_PropertyChanged({
+						$dsWindow.FindName("CUSTOMOBJECTNAME").Text = $Prop["First Name"].Value + " " + $Prop["Last Name"].Value
+					})
+
+					$Prop["Last Name"].add_PropertyChanged({
+						$dsWindow.FindName("CUSTOMOBJECTNAME").Text = $Prop["First Name"].Value + " " + $Prop["Last Name"].Value
+					})
+
+					$dsWindow.FindName("CUSTOMOBJECTNAME").IsEnabled = $false
+					$dsWindow.FindName("CUSTOMOBJECTNAME").ToolTip = "Name derives from First and Last Name."
+				}
 			}
 		}
 
+
+		#region CustomObjectClassifiedWindow
+		"CustomObjectClassifiedWindow"
+		{      
+			IF ($Prop["_CreateMode"].Value -eq $true) 
+			{
+				$Prop["_Category"].Value = $Prop["_CustomObjectDefName"].Value
+
+					$dsWindow.FindName("Categories").IsEnabled = $false
+					$dsWindow.FindName("NumSchms").Visibility = "Collapsed"
+					$Prop["_NumSchm"].Value = $Prop["_Category"].Value
+
+				IF($Prop["_XLTN_IDENTNUMBER"]){ $Prop["_XLTN_IDENTNUMBER"].Value = $UIString["LBL27"]}
+
+				$dsWindow.Title = "New $($Prop["_Category"].Value)..."
+
+				#synchronize property with CO name
+				if($Prop["_Category"].Value -eq "Class")
+				{
+					$dsWindow.FindName("CUSTOMOBJECTNAME").add_LostFocus({
+						$Prop["Class"].Value = $dsWindow.FindName("CUSTOMOBJECTNAME").Text
+					})
+
+					$Prop["Class"].add_PropertyChanged({
+						$dsWindow.FindName("CUSTOMOBJECTNAME").Text = $Prop["Class"].Value
+					})
+				}
+
+				if($Prop["_Category"].Value -eq "Term")
+				{
+					$dsWindow.FindName("CUSTOMOBJECTNAME").add_LostFocus({
+						$Prop["Term EN"].Value = $dsWindow.FindName("CUSTOMOBJECTNAME").Text
+					})
+
+					$Prop["Term EN"].add_PropertyChanged({
+						$dsWindow.FindName("CUSTOMOBJECTNAME").Text = $Prop["Term EN"].Value
+					})
+				}
+			}
+
+			#region EditMode
+			IF ($Prop["_EditMode"].Value -eq $true) 
+			{
+				if($Prop["_ReadOnly"].Value -eq $true)
+				{
+					$dsWindow.Title = "Edit $($Prop["_Category"].Value) - $($Prop["Name"].Value) - $($UIString["LBL26"])"
+				}
+				else
+				{
+					$dsWindow.Title = "Edit $($Prop["_Category"].Value) - $($Prop["Name"].Value)"
+				}
+
+				#read existing classification elements
+				$_classes = @()
+				Try{ #likely not all properties are used...
+					If ($Prop["_XLTN_SEGMENT"].Value.Length -gt 1){
+						$_classes += $Prop["_XLTN_SEGMENT"].Value
+						If ($Prop["_XLTN_MAINGROUP"].Value.Length -gt 1){
+							$_classes += $Prop["_XLTN_MAINGROUP"].Value
+							If ($Prop["_XLTN_GROUP"].Value.Length -gt 1){
+								$_classes += $Prop["_XLTN_GROUP"].Value
+								If ($Prop["_XLTN_SEGMENT"].Value.Length -gt 1){
+									$_classes += $Prop["_XLTN_SUBGROUP"].Value
+								}
+							}
+						}
+					}
+				}
+				catch {}
+			}
+			#endregion EditMode
+			mAddCoCombo -_CoName "Segment" -_classes $_classes #enables classification for class objects
+			# ToDo: createmode: activate last used classification
+			
+		}
+		#endregion CustomObjectClassifiedWindow
+		
+		
 		#region GoToInvSibling
 		"GoToInvSibling"
 		{
@@ -268,48 +379,6 @@ function InitializeWindow
 				}
 		}
 		#endregion GoToInvSibling
-
-		#region CustomObjectTermWindow-CatalogTermsTranslations
-		"CustomObjectTermWindow"
-		{      
-			IF ($Prop["_CreateMode"].Value -eq $true) 
-			{
-				$Prop["_Category"].Value = $Prop["_CustomObjectDefName"].Value
-
-					$dsWindow.FindName("Categories").IsEnabled = $false
-					$dsWindow.FindName("NumSchms").Visibility = "Collapsed"
-					$Prop["_NumSchm"].Value = $Prop["_Category"].Value
-
-				IF($Prop["_XLTN_IDENTNUMBER"]){ $Prop["_XLTN_IDENTNUMBER"].Value = $UIString["LBL27"]}
-			}
-
-			#region EditMode
-			IF ($Prop["_EditMode"].Value -eq $true) 
-			{
-				#read existing classification elements
-				$_classes = @()
-				Try{ #likely not all properties are used...
-					If ($Prop["_XLTN_SEGMENT"].Value.Length -gt 1){
-						$_classes += $Prop["_XLTN_SEGMENT"].Value
-						If ($Prop["_XLTN_MAINGROUP"].Value.Length -gt 1){
-							$_classes += $Prop["_XLTN_MAINGROUP"].Value
-							If ($Prop["_XLTN_GROUP"].Value.Length -gt 1){
-								$_classes += $Prop["_XLTN_GROUP"].Value
-								If ($Prop["_XLTN_SEGMENT"].Value.Length -gt 1){
-									$_classes += $Prop["_XLTN_SUBGROUP"].Value
-								}
-							}
-						}
-					}
-				}
-				catch {}
-			}
-			#endregion EditMode
-			mAddCoCombo -_CoName "Segment" -_classes $_classes #enables classification for catalog of terms
-			# ToDo: createmode: activate last used classification
-			
-		} # objectterm Window
-		#endregion CatalogTermsTranslations-CustomObjectTermsWindow
 
 		"ActivateSchedTaskWindow"
 		{
@@ -751,7 +820,7 @@ function GetCategories
 	{
 		return $vault.CategoryService.GetCategoriesByEntityClassId("CUSTENT", $true)
 	}
-	elseif ($dsWindow.Name -eq "CustomObjectTermWindow")
+	elseif ($dsWindow.Name -eq "CustomObjectClassifiedWindow")
 	{
 		return $vault.CategoryService.GetCategoriesByEntityClassId("CUSTENT", $true)
 	}
@@ -1122,4 +1191,14 @@ function GetTemplateFolders
 		}
 		return $_
 	}
+}
+
+#custom onPostClose actions called via command overrides of the OK button
+function mPersonOnPostClose
+{
+	#region of postclose actions
+		
+	$dsDiag.Inspect()
+
+	$dsWindow.CloseWindowCommand.Execute($this)
 }

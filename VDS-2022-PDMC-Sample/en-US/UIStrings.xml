@@ -438,6 +438,32 @@
   <!--ItemMaster Search and Item Tab END-->
 
   <!--Classification start-->
+    <!--Class Menu Definitions-->
+  <UIString ID="Adsk.Qs.ClassMnu_20">New Class...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_21">Create new Class</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_22">Edit Class...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_23">Edit existing Class</UIString>
+  <!--Segment Menu Definitions-->
+  <UIString ID="Adsk.Qs.ClassMnu_24">New Segment...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_25">Create new Segment</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_26">Edit Segment...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_27">Edit existing Segment</UIString>
+  <!--Main Group Menu Definitions-->
+  <UIString ID="Adsk.Qs.ClassMnu_28">New Main Group...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_29">Create new Main Group</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_30">Edit Main Group...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_31">Edit existing Main Group</UIString>
+  <!--Group Menu Definition-->
+  <UIString ID="Adsk.Qs.ClassMnu_32">New Group...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_33">Create new Group</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_34">Edit Group...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_35">Edit existing Group</UIString>
+  <!--Sub Group Menu Definition-->
+  <UIString ID="Adsk.Qs.ClassMnu_36">New Sub Group...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_37">Create new Sub Group</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_38">Edit Sub Group...</UIString>
+  <UIString ID="Adsk.Qs.ClassMnu_39">Edit existing Sub Group</UIString>
+  <!-- Class Menu Definitions end-->
   <UIString ID="Adsk.QS.ClassLevel_00">Segment</UIString>
   <UIString ID="Adsk.QS.ClassLevel_01">Main Group</UIString>
   <UIString ID="Adsk.QS.ClassLevel_02">Group</UIString>
@@ -452,13 +478,12 @@
   <UIString ID="Adsk.QS.Classification_07">Properties</UIString>
   <UIString ID="Adsk.QS.Classification_08">Activate Class</UIString>
   <UIString ID="Adsk.QS.Classification_09">Remove Class</UIString>
-
   <UIString ID="Adsk.QS.Classification_10">The class doesn't exist or multiple classes are equally named.Only unique class names are processes.</UIString>
   <UIString ID="Adsk.QS.Classification_11">Removal of class will delete all attributes and values of this assignment. {0}Do you really want to remove the classificatoin?</UIString>
   <UIString ID="Adsk.QS.Classification_12">Attention: The result is based on an incomplete index! Contact your Administrator, if you continue seeing this message.</UIString>
   <UIString ID="Adsk.QS.Classification_13">The custom workspace 'Classes' is not available. Contact your Administrator.</UIString>
-
   <UIString ID="Adsk.QS.Classification_14">Classification of Primary Linked File</UIString>
+  <UIString ID="Adsk.QS.Classification_15">Read-Only: Values derive from breadcrumb selection</UIString>
   <!--Classification end-->
 
   <!--CatalogTermsTranslations-->

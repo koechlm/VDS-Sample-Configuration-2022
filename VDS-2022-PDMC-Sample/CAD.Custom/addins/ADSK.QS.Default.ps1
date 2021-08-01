@@ -407,7 +407,7 @@ function InitializeWindow
 	If ($dsWindow.FindName("expTermSearch"))
 	{			
 		Try{
-			Import-Module -FullyQualifiedName "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\addinVault\ADSK.QS.TermsTranslations.psm1"
+			Import-Module -FullyQualifiedName "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\addinVault\ADSK.QS.CustomObjectsClassified.psm1"
 		}
 		catch{
 			$dsWindow.FindName("tabTermsCatalog").Visibility = "Collapsed"

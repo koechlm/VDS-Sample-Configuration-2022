@@ -406,6 +406,7 @@
     <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty Hidden="True">DWG Type</DynamicProperty>
     <DynamicProperty Hidden="True">Application Version</DynamicProperty>
+    <DynamicProperty>Replaced by</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Managed Asset" Type="File">
     <DynamicProperty>Author</DynamicProperty>
@@ -439,5 +440,35 @@
     <DynamicProperty>Description</DynamicProperty>
     <DynamicProperty>Street address</DynamicProperty>
     <DynamicProperty>Web link</DynamicProperty>
+  </DynamicPropertiesCategory>
+  <DynamicPropertiesCategory Category="Class" Type="CustomObject">
+    <DynamicProperty>Segment</DynamicProperty>
+    <DynamicProperty>Main Group</DynamicProperty>
+    <DynamicProperty>Group</DynamicProperty>
+    <DynamicProperty>Sub Group</DynamicProperty>
+    <DynamicProperty>Class</DynamicProperty>
+  </DynamicPropertiesCategory>
+  <DynamicPropertiesCategory Category="Sub Group" Type="CustomObject">
+    <DynamicProperty>Segment</DynamicProperty>
+    <DynamicProperty>Main Group</DynamicProperty>
+    <DynamicProperty>Group</DynamicProperty>
+  </DynamicPropertiesCategory>
+  <DynamicPropertiesCategory Category="Term" Type="CustomObject">
+    <DynamicProperty>Segment</DynamicProperty>
+    <DynamicProperty>Main Group</DynamicProperty>
+    <DynamicProperty>Group</DynamicProperty>
+    <DynamicProperty>Sub Group</DynamicProperty>
+    <DynamicProperty>Term EN</DynamicProperty>
+    <DynamicProperty>Term DE</DynamicProperty>
+    <DynamicProperty>Term FR</DynamicProperty>
+    <DynamicProperty>Term IT</DynamicProperty>
+    <DynamicProperty>Ident Number</DynamicProperty>
+  </DynamicPropertiesCategory>
+  <DynamicPropertiesCategory Category="Main Group" Type="CustomObject">
+    <DynamicProperty>Segment</DynamicProperty>
+  </DynamicPropertiesCategory>
+  <DynamicPropertiesCategory Category="Group" Type="CustomObject">
+    <DynamicProperty>Segment</DynamicProperty>
+    <DynamicProperty>Main Group</DynamicProperty>
   </DynamicPropertiesCategory>
 </DynamicProperties>
