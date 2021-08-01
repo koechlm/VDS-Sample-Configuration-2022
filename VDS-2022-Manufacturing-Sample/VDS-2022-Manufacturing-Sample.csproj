@@ -113,7 +113,6 @@
     <None Include="CAD\Configuration\AutoCAD-Vanilla.cfg" />
     <None Include="CAD\Configuration\AutoCAD.cfg" />
     <None Include="CAD\Configuration\Inventor.cfg" />
-    <None Include="HelpFiles\debug.log" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
