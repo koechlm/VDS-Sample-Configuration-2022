@@ -1,7 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
   <ConfigInfo>
-    <ConfigHistoryInfo Branch="Master" Version="2022">
+    <ConfigHistoryInfo Branch="main" Version="2022.0.1">
+      <Changes>
+        <!--minor enhancements in CAD.Library and CAD..QS.Default derived from PDMC-Sample-Configuration-->
+      </Changes>
+    </ConfigHistoryInfo>
+    <ConfigHistoryInfo Branch="main" Version="2022">
       <Changes>
         <!--Migration 2022 according slide deck Vault 2022 Data Standard | Updates and Migration-->
       </Changes>

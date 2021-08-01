@@ -95,7 +95,7 @@
         <ComboBox x:Name="cmbNumType" ItemsSource="{Binding PsList[mGetNumType], Mode=OneTime}" SelectedIndex="0" Grid.Column="1" Height="Auto"/>
 
         <Label Content="{Binding UIString[LBL10], FallbackValue=Numbering Scheme}" Grid.Row="1" FontWeight="Bold" />
-        <ComboBox x:Name="NumSchms" DisplayMemberPath="Name" SelectedValuePath="Name" Grid.Column="1" SelectedIndex="0" Grid.Row="1" BorderThickness="1,0"/>
+        <ComboBox x:Name="NumSchms" DisplayMemberPath="Name" SelectedValuePath="Name" Grid.Column="1" SelectedIndex="0" Grid.Row="1" BorderThickness="1,0,1,1"/>
         <WPF:DSNumSchemeCtrl x:Name="DSNumSchmsCtrl" IsEnabled="{Binding IsEnabled, ElementName=NumSchms}" Scheme="{Binding SelectedItem, ElementName=NumSchms}"  GeneratedNumberProperty="_GeneratedNumber" Grid.Row="2" Grid.Column="1" Height="Auto" MinHeight="26"/>
         <Label Content="{Binding UIString[ADSK-RSRVNUMBERS_LBL105], FallbackValue=Range To Reserve}" Grid.Column="0" Grid.Row="3" Style="{StaticResource lblRequired}" />
         <TextBox Grid.Column="1" Grid.Row="3" x:Name="TotalNum" Style="{StaticResource Required}" Margin="0,2,244,3" Width="60" HorizontalContentAlignment="Center" HorizontalAlignment="Left"/>
