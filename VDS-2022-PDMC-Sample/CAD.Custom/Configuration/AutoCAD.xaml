@@ -73,7 +73,7 @@
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="GEN-TITLE-CHKD">
+                <!--<DataTrigger Binding="{Binding Name}" Value="GEN-TITLE-CHKD">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
@@ -81,8 +81,8 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="GEN-TITLE-ISSD">
+                </DataTrigger>-->
+                <!--<DataTrigger Binding="{Binding Name}" Value="GEN-TITLE-ISSD">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
@@ -90,7 +90,7 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-                </DataTrigger>
+                </DataTrigger>-->
                 <DataTrigger Binding="{Binding Name}" Value="GEN-TITLE-NR">
                     <Setter Property="Template">
                         <Setter.Value>

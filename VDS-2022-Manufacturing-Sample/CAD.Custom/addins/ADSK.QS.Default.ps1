@@ -275,27 +275,12 @@ function InitializeWindow
 		  }
 		"AutoCADWindow"
 		{
-			#workaround 2021.1 and 2022 RTM Acad Date field type issue
-				if($Prop["GEN-TITLE-CHKD"])
-				{
-					$Prop["GEN-TITLE-CHKD"].Typ = "DateTime"
-					if($Prop["GEN-TITLE-CHKD"].Value -eq "")
-					{
-						$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-					}
-					$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true}
-				}
-				if($Prop["GEN-TITLE-ISSD"])
-				{
-					$Prop["GEN-TITLE-ISSD"].Typ = "DateTime"
-					if($Prop["GEN-TITLE-ISSD"].Value -eq "")
-					{
-						$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-					}
-					$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true}
-				}
-			#end workaround date type issue
-
+			#set the active user as Designer for file property mapping or mechanical title attribute mapping
+			$mUser = $vault.AdminService.Session.User
+			if($Prop["GEN-TITLE-NAME"].Value -eq "") #if($Prop["Designer"].Value)
+			{
+				$Prop["GEN-TITLE-NAME"].Value = $mUser.Name #	$Prop["Designer"].Value = $mUser.Name
+			}
 
 			InitializeBreadCrumb
 			switch ($Prop["_CreateMode"].Value) 

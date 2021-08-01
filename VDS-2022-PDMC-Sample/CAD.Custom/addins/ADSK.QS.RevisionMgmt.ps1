@@ -11,6 +11,9 @@
 #endregion =============================================================================
 
 #region - version history
+# Version Info - VDS-PDMC-Sample Revision Management 2022.2.0
+	# removed workarounds required by RTM and 2022.1 and fixed by pre-liminary patch and 2022.2
+
 # Version Info - VDS-PDMC-Sample Revision Management 2022.0.0
 	# initial version
 #endregion
@@ -188,12 +191,6 @@ function InitializeRevisionValidation
 					if($Prop["GEN-TITLE-CHKD"]) 
 					{
 						$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true }
-						
-						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						if($Prop["GEN-TITLE-CHKD"].Value -eq "")
-						{
-							$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						}
 					}
 
 					if($Prop["GEN-TITLE-ISSM"]) 
@@ -204,12 +201,6 @@ function InitializeRevisionValidation
 					if($Prop["GEN-TITLE-ISSD"]) 
 					{
 						$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
-
-						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						if($Prop["GEN-TITLE-ISSD"].Value -eq "")
-						{
-							$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						}
 					}
 
 					if($Prop["Change Descr"])
@@ -222,12 +213,6 @@ function InitializeRevisionValidation
 					{
 						$Prop["Customer Approved By"].CustomValidation = { $true}
 						$Prop["Customer Approved Date"].CustomValidation = { $true}
-					
-						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						if($Prop["Customer Approved Date"].Value -eq "")
-						{
-							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						}
 					}
 					else
 					{
@@ -248,12 +233,6 @@ function InitializeRevisionValidation
 					if($Prop["GEN-TITLE-CHKD"]) 
 					{
 						$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true }
-
-						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						if($Prop["GEN-TITLE-CHKD"].Value -eq "")
-						{
-							$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						}
 					}
 
 					if($Prop["GEN-TITLE-ISSM"]) 
@@ -264,12 +243,6 @@ function InitializeRevisionValidation
 					if($Prop["GEN-TITLE-ISSD"]) 
 					{
 						$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
-
-						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						if($Prop["GEN-TITLE-ISSD"].Value -eq "")
-						{
-							$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						}
 					}
 
 					if($Prop["Change Descr"])
@@ -282,12 +255,6 @@ function InitializeRevisionValidation
 					{
 						$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField($Prop["Customer Approved By"]) }
 						$Prop["Customer Approved Date"].CustomValidation = { $true}
-
-						#workaround Date issue of 2021.1 and 2022 RTM that does not allow blank Date values
-						if($Prop["Customer Approved Date"].Value -eq "")
-						{
-							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						}
 					}
 					else
 					{
@@ -325,21 +292,11 @@ function InitializeRevisionValidation
 					{
 						$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved By"] }
 						$Prop["Customer Approved Date"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved Date"] }
-						
-						if($Prop["Customer Approved Date"].Value -eq "")
-						{
-							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						}
 					}
 					else
 					{
 						$Prop["Customer Approved By"].CustomValidation = { $true }
 						$Prop["Customer Approved Date"].CustomValidation = { $true }
-						
-						if($Prop["Customer Approved Date"].Value -eq "")
-						{
-							$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01"
-						}
 					}
 
 				}
@@ -367,14 +324,6 @@ function ValidateRevisionField($mProp)
 		}
 		else
 		{
-			#workaround VDS AutoCAD Date Issue (2022.1)
-			$tempDateTime = Get-Date -Year "2021" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
-			if($mProp.Value -eq $tempDateTime.ToString()) 
-			{ 
-				$mProp.CustomValidationErrorMessage = "Date 2021-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
-				return $false
-			}
-
 			$dsDiag.Trace("...has Value: returning true<<")
 			return $true
 		}
@@ -448,11 +397,6 @@ function ResetRevisionProperties
 				if($Prop["Engr Date Approved"]){
 					$Prop["Engr Date Approved"].Value = ""
 				}
-				#move down after switch as the AutoCAD workaround is no longer required
-				if($Prop["Customer Approved Date"]) 
-				{
-					$Prop["Customer Approved Date"].Value = ""
-				}
 			}
 		}
 		"AutoCADWindow"
@@ -464,21 +408,15 @@ function ResetRevisionProperties
 					$Prop["GEN-TITLE-CHKM"].Value = ""
 				}					
 				if($Prop["GEN-TITLE-CHKD"]) {
-					$Prop["GEN-TITLE-CHKD"].Value = Get-Date -Year "2021" -Month "01" -Day "01" #workaround before Update 1 required
+					$Prop["GEN-TITLE-CHKD"].Value = ""
 				}
 				if($Prop["GEN-TITLE-ISSM"]) {
 					$Prop["GEN-TITLE-ISSM"].Value = ""
 				}
 				if($Prop["GEN-TITLE-ISSD"]) {
-					$Prop["GEN-TITLE-ISSD"].Value = Get-Date -Year "2021" -Month "01" -Day "01" #workaround before Update 1 required
-				}
-				#move down after switch as the AutoCAD workaround is no longer required
-				if($Prop["Customer Approved Date"]) 
-				{
-					$Prop["Customer Approved Date"].Value = Get-Date -Year "2021" -Month "01" -Day "01" #workaround before Update 1 required
+					$Prop["GEN-TITLE-ISSD"].Value = ""
 				}
 			}
-
 		} #AutoCADWindow
 
 	} #switch WindowName
@@ -492,6 +430,10 @@ function ResetRevisionProperties
 	{
 		$Prop["Customer Approved By"].Value = ""
 	}
-	#move the customer approved date reset to here, once the Acad workaround for dates is no longer required
+
+	if($Prop["Customer Approved Date"]) 
+	{
+		$Prop["Customer Approved Date"].Value = ""
+	}
 
 }

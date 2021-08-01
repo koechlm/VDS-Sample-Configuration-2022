@@ -170,7 +170,7 @@
   <UIString ID="Engineer">Engineer</UIString>
   <UIString ID="GeoRss">GeoRss</UIString>
   <UIString ID="Material">Material</UIString>
-  <UIString ID="Designer">Designer</UIString>
+  <!--<UIString ID="Designer">Designer</UIString>-->
   <UIString ID="StockNumber">Stock Number</UIString>
   <UIString ID="Title">Title</UIString>
   <UIString ID="SharePath">Share Path</UIString>
