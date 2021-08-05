@@ -643,7 +643,7 @@ function OnPostCloseDialog
 	{
 		"InventorWindow"
 		{
-			if (!($Prop["_CopyMode"].Value -and !$Prop["_GenerateFileNumber4SpecialFiles"].Value -and @(".DWG",".IDW",".IPN") -contains $Prop["_FileExt"].Value))
+			if ($Prop["_CreateMode"].Value -and !($Prop["_CopyMode"].Value -and !$Prop["_GenerateFileNumber4SpecialFiles"].Value -and @(".DWG",".IDW",".IPN") -contains $Prop["_FileExt"].Value))
 			{
 				mWriteLastUsedFolder
 			}
