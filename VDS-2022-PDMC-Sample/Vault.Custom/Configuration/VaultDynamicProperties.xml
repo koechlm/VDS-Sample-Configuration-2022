@@ -32,7 +32,7 @@
     <DynamicProperty>Engr Approved By</DynamicProperty>
     <DynamicProperty>Engr Approved Date</DynamicProperty>
     <DynamicProperty>Source File</DynamicProperty>
-    <DynamicProperty>Replaced by</DynamicProperty>
+    <DynamicProperty>Replaced By</DynamicProperty>
     <DynamicProperty Hidden="True">MBD</DynamicProperty>
     <DynamicProperty Hidden="True">BOM Type</DynamicProperty>
     <DynamicProperty Hidden="True">FDS Key</DynamicProperty>
@@ -150,7 +150,7 @@
     <DynamicProperty Hidden="True">Key Parameters</DynamicProperty>
     <DynamicProperty Hidden="True">Comments</DynamicProperty>
     <DynamicProperty Hidden="True">Application Version</DynamicProperty>
-    <DynamicProperty>Replaced by</DynamicProperty>
+    <DynamicProperty>Replaced By</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Purchased" Type="File">
     <DynamicProperty>Title</DynamicProperty>
@@ -206,7 +206,7 @@
     <DynamicProperty Hidden="True">Key Parameters</DynamicProperty>
     <DynamicProperty Hidden="True">Comments</DynamicProperty>
     <DynamicProperty Hidden="True">Application Version</DynamicProperty>
-    <DynamicProperty>Replaced by</DynamicProperty>
+    <DynamicProperty>Replaced By</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Weldment Assembly" Type="File">
     <DynamicProperty>Title</DynamicProperty>
@@ -369,7 +369,7 @@
     <DynamicProperty Hidden="True">Customer Approved By</DynamicProperty>
     <DynamicProperty Hidden="True">Customer Approved Date</DynamicProperty>
     <DynamicProperty>Source File</DynamicProperty>
-    <DynamicProperty>Replaced by</DynamicProperty>
+    <DynamicProperty>Replaced By</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Folder" Type="Folder">
     <DynamicProperty>Title</DynamicProperty>
@@ -406,7 +406,7 @@
     <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty Hidden="True">DWG Type</DynamicProperty>
     <DynamicProperty Hidden="True">Application Version</DynamicProperty>
-    <DynamicProperty>Replaced by</DynamicProperty>
+    <DynamicProperty>Replaced By</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Managed Asset" Type="File">
     <DynamicProperty>Author</DynamicProperty>

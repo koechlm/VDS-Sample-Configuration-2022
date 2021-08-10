@@ -122,7 +122,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Vault.Custom\addinVault\ADSK.Org.Pers.Link.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.ActivateSchedTaskAsJob.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.Classification.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.CustomObjectsClassified.psm1" />
@@ -140,7 +139,6 @@
     <None Include="Vault.Custom\addinVault\ADSK.QS.Org.Pers.Link.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.ReserveFileNumber.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.RevisionMgmt.ps1" />
-    <None Include="Vault.Custom\addinVault\ADSK.QS.TermsTranslations.psm1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.VLT.Library.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.ActivateSchedTask.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.AdskFilePropProvider.ps1" />
