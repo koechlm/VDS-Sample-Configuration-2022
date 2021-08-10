@@ -1,9 +1,9 @@
 function InitializeFolderNameValidation
 {
-    $Prop["_FolderName"].CustomValidation = { ValidateFolderName }
+    $Prop["_FolderName"].CustomValidation = { mValidateUniqueFldrName }
 }
 
-function ValidateFolderName 
+function mValidateUniqueFldrName 
 {
     #in case a numbering scheme is active, the validation is positiv
     if(-not $dsWindow.FindName("DSNumSchmsCtrl").NumSchmFieldsEmpty)
