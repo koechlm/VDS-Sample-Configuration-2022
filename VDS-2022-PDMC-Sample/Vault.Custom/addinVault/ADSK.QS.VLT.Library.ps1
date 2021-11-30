@@ -1,7 +1,7 @@
 #region disclaimer
 #=============================================================================
 #                                                                             
-# Copyright (c) Autodesk 2020 - All rights reserved.                               
+# Copyright (c) Autodesk 2021 - All rights reserved.                               
 #                                                                             
 # THIS SCRIPT/CODE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER   
 # EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
@@ -15,6 +15,9 @@
 
 #Version Info - VDS-PDMC-Sample CAD Library 2022
 	# migrated paths to 2022
+
+#Version Info - VDS Quickstart CAD Library 2021.1
+	#new functions mGetCUsPermissions and mCopyEntACL
 
 # Version Info - VDS-PDMC-Sample Vault Library 2019.2
 	# added mRecursivelyCreateFolders - create folder structures using folder template(s)
@@ -376,7 +379,7 @@ function mGetProjectFolderPropToVaultFile ([String] $mFolderSourcePropertyName, 
 }
 
 #create folder structure based on a template;
-function mRecursivelyCreateFolders($sourceFolder, $targetFolder)
+function mRecursivelyCreateFolders($sourceFolder, $targetFolder, $inclACL)
 {
 	If(-not $Global:FldPropDefs){
 		$Global:FldPropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("FLDR")
@@ -414,14 +417,60 @@ function mRecursivelyCreateFolders($sourceFolder, $targetFolder)
 			}
 						
 			$propInstParamArrayArray += $propInstParamArray
-			mrecursivelyCreateFolders -targetFolder $newTargetSubFolder -sourceFolder $folder
-		
-			#returning to the initial level we can update the level folder's properties
+
+			#copy Access Control List if user's permission include ACLRead, ACLWrite
+			if($inclACL -eq $true)
+			{
+				$mCopiedACL = mCopyEntACL -SourceEnt  $folder -TargetEnt  $newTargetSubFolder
+			}
+			#recursively iterate
+			mrecursivelyCreateFolders -targetFolder $newTargetSubFolder -sourceFolder $folder -inclACL $inclACL
 
 		 }
-
+		
+		#returning to the initial level we can update the level folder's properties
 		Try{
 				$vault.DocumentServiceExtensions.UpdateFolderProperties($mFldIdsArray, $propInstParamArrayArray)
 			}
 			catch {}
 } #end function mRecursivelyCreateFolders
+
+
+function mGetCUsPermissions
+{
+	$mUserId = $vault.AdminService.Session.User.Id
+    $mAllPermisObjects = $vault.AdminService.GetPermissionsByUserId($mUserId) #allowed for the current logged in user's id, otherwise the AdminUserRead is required
+    $mAllPermissions = @()
+
+    Foreach($item in $mAllPermisObjects)
+	{
+		$mAllPermissions += $item.Descr
+	}
+	return $mAllPermissions
+}
+
+function mCopyEntACL($SourceEnt, $TargetEnt)
+{
+	#read the Access Control Entries (ACE) of the source
+	$mFldrAcls = New-Object Autodesk.Connectivity.WebServices.EntsAndACLs
+	$mFldrACEs = @(New-Object Autodesk.Connectivity.WebServices.ACE)
+
+	$mFldrAcls = $vault.SecurityService.GetEntACLsByEntityIds(@($SourceEnt.Id));
+               
+    #prefer the override if exists
+    if ($mFldrAcls.EntACLArray[0].SysAclBeh -eq ([Autodesk.Connectivity.Webservices.SysAclBeh]::Override))
+    {
+        $mAclId = $mFldrAcls.EntACLArray[0].SysACLId;
+    }
+    else
+    {
+        $mAclId = $mFldrAcls.EntACLArray[0].ACLId;
+    }
+
+    $mFldrACEs = ($mFldrAcls.ACLArray | Where-Object { $_.Id -eq $mAclId})[0].ACEArray;
+   
+	#write the ACE to the new folder
+	[Autodesk.Connectivity.Webservices.ACL]$mNewACL = $vault.SecurityService.UpdateACL($TargetEnt.Id, $mFldrACEs, [Autodesk.Connectivity.Webservices.PrpgType]::ReplacePermissions);
+
+	return $mNewACL
+}

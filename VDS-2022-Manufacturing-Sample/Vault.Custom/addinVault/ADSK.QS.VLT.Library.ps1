@@ -1,7 +1,7 @@
 #region disclaimer
 #=============================================================================
 #                                                                             
-# Copyright (c) Autodesk 2022 - All rights reserved.                               
+# Copyright (c) Autodesk 2021 - All rights reserved.                               
 #                                                                             
 # THIS SCRIPT/CODE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER   
 # EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
@@ -10,6 +10,9 @@
 #endregion
 
 #region - version history
+#Version Info - VDS-PDMC-Sample CAD Library 2022.1
+	# added methods mGetCustentPropValue and mGetCustentPropDefId
+
 #Version Info - VDS Quickstart CAD Library 2021.1
 	#new functions mGetCUsPermissions and mCopyEntACL
 
@@ -56,6 +59,35 @@ function mGetFolderPropValue ([Int64] $mFldID, [STRING] $mDispName)
 #retrieve the definition ID for given property by displayname
 function mGetFolderPropertyDefId ([STRING] $mDispName) {
 	$PropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("FLDR")
+	$propDefIds = @()
+	$PropDefs | ForEach-Object {
+		$propDefIds += $_.Id
+	} 
+	$mPropDef = $propDefs | Where-Object { $_.DispName -eq $mDispName}
+	Return $mPropDef.Id
+}
+
+#retrieve property value given by displayname from Custom Object (ID)
+function mGetCustentPropValue ([Int64] $mCentID, [STRING] $mDispName)
+{
+	$PropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT")
+	$propDefIds = @()
+	$PropDefs | ForEach-Object {
+		$propDefIds += $_.Id
+	} 
+	$mPropDef = $propDefs | Where-Object { $_.DispName -eq $mDispName}
+	$mEntIDs = @()
+	$mEntIDs += $mCentID
+	$mPropDefIDs = @()
+	$mPropDefIDs += $mPropDef.Id
+	$mProp = $vault.PropertyService.GetProperties("CUSTENT",$mEntIDs, $mPropDefIDs)
+	$mProp | Where-Object { $mPropVal = $_.Val }
+	Return $mPropVal
+}
+
+#retrieve the definition ID for given property by displayname
+function mGetCustentPropertyDefId ([STRING] $mDispName) {
+	$PropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT")
 	$propDefIds = @()
 	$PropDefs | ForEach-Object {
 		$propDefIds += $_.Id
