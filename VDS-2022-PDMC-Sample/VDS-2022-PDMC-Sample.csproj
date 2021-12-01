@@ -56,19 +56,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autodesk.Connectivity.WebServices">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Autodesk Vault 2022 SDK\bin\x64\Autodesk.Connectivity.WebServices.dll</HintPath>
+      <HintPath>..\..\..\..\OneDrive - Autodesk\Vault Customization\SDK References 2022\Autodesk Vault 2022 SDK\bin\x64\Autodesk.Connectivity.WebServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Common">
-      <HintPath>..\..\..\..\..\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Common.dll</HintPath>
+      <HintPath>..\..\..\..\OneDrive - Autodesk\Vault Customization\SDK References 2022\VDS 2022 Bin\Common.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CreateObject">
-      <HintPath>..\..\..\..\..\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\CreateObject.dll</HintPath>
+      <HintPath>..\..\..\..\OneDrive - Autodesk\Vault Customization\SDK References 2022\VDS 2022 Bin\CreateObject.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="dataStandard.UI">
-      <HintPath>..\..\..\..\..\ProgramData\Autodesk\ApplicationPlugins\VDSI2022.bundle\Contents\dataStandard.UI.dll</HintPath>
+      <HintPath>..\..\..\..\OneDrive - Autodesk\Vault Customization\SDK References 2022\VDS 2022 Bin\dataStandard.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
