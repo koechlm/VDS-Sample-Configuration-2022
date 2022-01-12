@@ -48,7 +48,7 @@ function InitializeWindow
 				#check if a drawing is a model documentation or a sketched 2D drawing only, or an empty presentation (IPN)
 				$_ModelFullFileName = $_mInvHelpers.m_GetMainViewModelPath($Application)
 				#model documentation
-				If ($global:mIsInvDocumentationFile-eq $true -and $global:mGFN4Special -eq $false -and $_ModelFullFileName -ne $null)
+				If ($global:mIsInvDocumentationFile -eq $true -and $global:mGFN4Special -eq $false -and $_ModelFullFileName -ne $null)
 				{ 
 					$dsWindow.FindName("BreadCrumb").IsEnabled = $false
 					$dsWindow.FindName("GroupFolder").Visibility = "Collapsed"
@@ -166,10 +166,6 @@ function InitializeWindow
 								})
 							}
 						}
-					}
-					else
-					{
-						[System.Windows.MessageBox]::Show("FDU-AddIn expected; contact your Administrator to install FDU or to disable FDU Support for VDS.","VDS MFG Sample")
 					}
 					#endregion FDU Support --------------------------------------------------------------------------
 
@@ -575,7 +571,7 @@ function GetNumSchms
 		if (-Not $Prop["_EditMode"].Value)
         {
             #VDS MFG Sample - there is the use case that we don't need a number: IDW/DWG, IPN and Option Generate new file number = off
-			If ($global:mIsInvDocumentationFile-eq $true -and $global:mGFN4Special -eq $false) 
+			If ($global:mIsInvDocumentationFile -eq $true -and $global:mGFN4Special -eq $false) 
 			{ 
 				return
 			}
