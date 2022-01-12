@@ -10,6 +10,10 @@
 #endregion
 
 #region - version history
+
+#Version Info - VDS-MFG-Sample CAD Library 2022.2
+	# added function mGetParentProjectFldr
+
 #Version Info - VDS-PDMC-Sample CAD Library 2022.1
 	# added methods mGetCustentPropValue and mGetCustentPropDefId
 
@@ -54,6 +58,29 @@ function mGetFolderPropValue ([Int64] $mFldID, [STRING] $mDispName)
 	$mProp = $vault.PropertyService.GetProperties("FLDR",$mEntIDs, $mPropDefIDs)
 	$mProp | Where-Object { $mPropVal = $_.Val }
 	Return $mPropVal
+}
+
+#Get parent project folder object
+function mGetParentProjectFldr
+{
+	$mPath = $Prop["_FilePath"].Value
+	$mFld = $vault.DocumentService.GetFolderByPath($mPath)
+
+	IF ($mFld.Cat.CatName -eq $UIString["CAT6"]) { $Global:mProjectFound = $true}
+	ElseIf ($mPath -ne "$"){
+		Do {
+			$mParID = $mFld.ParID
+			$mFld = $vault.DocumentService.GetFolderByID($mParID)
+			IF ($mFld.Cat.CatName -eq $UIString["CAT6"]) { $Global:mProjectFound = $true}
+		} Until (($mFld.Cat.CatName -eq $UIString["CAT6"]) -or ($mFld.FullName -eq "$"))
+	}
+	
+	If ($mProjectFound -eq $true) {
+		return $mFld
+	}
+	Else{
+		return $null
+	}
 }
 
 #retrieve the definition ID for given property by displayname

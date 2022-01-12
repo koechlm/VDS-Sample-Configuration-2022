@@ -284,8 +284,9 @@ function mAddClassification()
 
 	if ($Global:mFile)
 	{
+		#the function mFindCustent returns a generic list object
 		$mActiveClass = @()
-		$mActiveClass += mFindCustent -Name $dsWindow.FindName("cmbAvailableClasses").SelectedValue -Category "Class" #custom object names should be unique per category
+		$mActiveClass += mFindCustent -CustentName $dsWindow.FindName("cmbAvailableClasses").SelectedValue -Category "Class" #custom object names should be unique per category
 		If($mActiveClass.Count -eq 1)
 		{
 			$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass.Id
@@ -310,7 +311,7 @@ function mAddClassification()
 
 				
 	$value = $dsWindow.FindName("cmbAvailableClasses").SelectedItem.Id
-	$value | Out-File $env:TEMP"\mFileClassId.txt"
+	$value | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\mFileClassId.txt"
 
 	mGetClsDfltValues
 	
@@ -328,8 +329,7 @@ function mRemoveClassification()
 		{
 			$dsDiag.Trace("...remove class - file found")
 			$mActiveClass = @()
-			$mActiveClass += mFindCustent -Name $Prop["_XLTN_CLASS"].Value -Category "Class" #custom object names should be unique within a category, only its Number
-
+			$mActiveClass +=  mFindCustent -CustentName $Prop["_XLTN_CLASS"].Value -Category "Class" #custom object names should be unique within a category, only its Number
 			If($mActiveClass.Count -eq 1)
 			{
 				$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass.Id
@@ -360,7 +360,7 @@ function mRemoveClassification()
 	
 	#write the highest level Custent Id to a text file for post-close event
 	$value = -1
-	$value | Out-File $env:TEMP"\mFileClassId.txt"
+	$value | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\mFileClassId.txt"
 
 	$dsDiag.Trace("...remove classification finished.")
 }

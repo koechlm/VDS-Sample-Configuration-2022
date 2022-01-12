@@ -39,7 +39,6 @@ function InitializeWindow
 	{
 		$_DataContext = $dsWindow.DataContext
 		$Prop["Source File"].Value = $_DataContext.PathAndFileNameHandler.OriginalFilename
-		ResetRevisionProperties
 	}
 
 	$mWindowName = $dsWindow.Name
@@ -57,7 +56,7 @@ function InitializeWindow
 			InitializeBreadCrumb
 
 			#set the active user as Inventor Designer
-			if($Prop["Designer"].Value)
+			if($Prop["Designer"].Value -eq "")
 			{
 				$mUser = $vault.AdminService.Session.User
 				$Prop["Designer"].Value = $mUser.Name
@@ -85,7 +84,7 @@ function InitializeWindow
 				#check if a drawing is a model documentation or a sketched 2D drawing only, or an empty presentation (IPN)
 				$_ModelFullFileName = $_mInvHelpers.m_GetMainViewModelPath($Application)
 				#model documentation
-				If ($global:mIsInvDocumentationFile-eq $true -and $global:mGFN4Special -eq $false -and $_ModelFullFileName -ne $null)
+				If ($global:mIsInvDocumentationFile -eq $true -and $global:mGFN4Special -eq $false -and $_ModelFullFileName -ne $null)
 				{ 
 					$dsWindow.FindName("BreadCrumb").IsEnabled = $false
 					$dsWindow.FindName("GroupFolder").Visibility = "Collapsed"
@@ -118,6 +117,9 @@ function InitializeWindow
 			{
 				$true 
 				{
+					#create mode is relevant for copies; reset revision data
+					ResetRevisionProperties
+
 					#reset the part number for new files as Inventor writes the file name (no extension) as a default.
 					If($Prop["Part Number"]) #Inventor returns null if the Part Number has no custom value
 					{
@@ -203,10 +205,6 @@ function InitializeWindow
 								})
 							}
 						}
-					}
-					else
-					{
-						[System.Windows.MessageBox]::Show("FDU-AddIn expected; contact your Administrator to install FDU or to disable FDU Support for VDS.","VDS MFG Sample")
 					}
 					#endregion FDU Support --------------------------------------------------------------------------
 
@@ -346,6 +344,9 @@ function InitializeWindow
 			{
 				$true 
 				{
+					#create mode is relevant for copies; reset revision data
+					ResetRevisionProperties
+
 					#$dsDiag.Trace(">> CreateMode Section executes...")
 					# set the category: VDS-PDMC-Sample = "AutoCAD Drawing"
 					$mCatName = $Global:mCategories | Where {$_.Name -eq $UIString["MSDCE_CAT01"]}
@@ -377,10 +378,7 @@ function InitializeWindow
 
 					If($Prop["_CopyMode"].value -eq $true)
 					{
-						$Prop["GEN-TITLE-NR"].Value = ""
-						$_DataContext = $dsWindow.DataContext
-						$Prop["Source File"].Value = $_DataContext.PathAndFileNameHandler.OriginalFilename
-						ResetRevisionProperties
+						#add property reset or other action that apply for AutoCAD only here; there is a _CopyMode section before the switch for Windows.
 					}
 
 				}
@@ -409,12 +407,19 @@ function InitializeWindow
 		Try{
 			Import-Module -FullyQualifiedName "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\addinVault\ADSK.QS.CustomObjectsClassified.psm1"
 		}
-		catch{
-			$dsWindow.FindName("tabTermsCatalog").Visibility = "Collapsed"
-			return
-		}
+		catch{}
 	}
 	#endregionCatalogTerm
+
+	#region ISO61355
+	If ($dsWindow.FindName("expISO61355"))
+	{			
+		Try{
+			Import-Module -FullyQualifiedName "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\addinVault\ADSK.QS.ISO61355.psm1"
+		}
+		catch{}
+	}
+	#endregion ISO61355
 
 	InitializeFileNameValidation #do this at the end of all other event initializations
 	
@@ -423,11 +428,11 @@ function InitializeWindow
 
 function AddinLoaded
 {
-	#Executed when DataStandard is loaded in Inventor/AutoCAD
-	$m_File = $env:TEMP + "\Folder2022.xml"
+	#activate or create the user's VDS profile
+	$m_File = "$($env:appdata)\Autodesk\DataStandard 2022\Folder2022.xml"
 	if (!(Test-Path $m_File)){
-		$source = $Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Folder2022.xml"
-		Copy-Item $source $env:TEMP\Folder2022.xml
+		$source = "$($Env:ProgramData)\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Folder2022.xml"
+		Copy-Item $source $m_File
 	}
 }
 
@@ -643,7 +648,7 @@ function GetNumSchms
 		if (-Not $Prop["_EditMode"].Value)
         {
             #VDS-PDMC-Sample - there is the use case that we don't need a number: IDW/DWG, IPN and Option Generate new file number = off
-			If ($global:mIsInvDocumentationFile-eq $true -and $global:mGFN4Special -eq $false) 
+			If ($global:mIsInvDocumentationFile -eq $true -and $global:mGFN4Special -eq $false) 
 			{ 
 				return
 			}
@@ -903,14 +908,14 @@ function mAddShortCutByName([STRING] $mScName)
 	{
 		#$dsDiag.Trace(">> Continue to add ShortCut, creating new from template...")	
 		#read from template
-		$m_File = $env:TEMP + "\Folder2022.xml"
+		$m_File = "$($env:appdata)\Autodesk\DataStandard 2022\Folder2022.xml"
 		if (Test-Path $m_File)
 		{
 			#$dsDiag.Trace(">>-- Started to read Folder2022.xml...")
 			$global:m_XML = New-Object XML
 			$global:m_XML.Load($m_File)
 		}
-		$mShortCut = $global:m_XML.Folder.Shortcut | where { $_.Name -eq "Template"}
+		$mShortCut = $global:m_XML.VDSUserProfile.Shortcut | where { $_.Name -eq "Template"}
 		#clone the template completely and update name attribute and navigationcontext element
 		$mNewSc = $mShortCut.Clone() #.CloneNode($true)
 		#rename "Template" to new name

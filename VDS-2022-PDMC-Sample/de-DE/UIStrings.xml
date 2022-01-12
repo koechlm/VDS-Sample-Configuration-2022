@@ -303,6 +303,7 @@
 
   <!--VDS-PDMC-Sample Multitab Dialogs-->
   <UIString ID="MSDCE_MultiTab_01">Eigenschaften</UIString>
+  <UIString ID="ADSK.QS.DynGrid.01">Optionen</UIString>
   <!--VDS-PDMC-Sample Multitab Dialogs end-->
 
   <!--VDS-PDMC-Sample Multilang Strings End-->

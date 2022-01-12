@@ -92,6 +92,6 @@ function mTaskClick()
     $mOutFile = "mECOTabClick.txt"
 	foreach($mItem in $mSelItem)
 	{
-		$mItem.Name | Out-File $env:TEMP"\$mOutFile"
+		$mItem.Name | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\$($mOutFile)"
 	}
 }

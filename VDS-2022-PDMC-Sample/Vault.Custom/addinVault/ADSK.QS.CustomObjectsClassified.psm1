@@ -67,6 +67,7 @@ function mInitializeTermCatalog
 				#close the expander as another property is selected 
 				$dsWindow.FindName("DSDynCatPropGrid").add_GotFocus({
 					$dsWindow.FindName("expTermSearch").Visibility = "Collapsed"
+					$dsWindow.FindName("expTermSearch").IsExpanded = $false
 					$dsWindow.FindName("btnSearchTerm").IsDefault = $false
 				})
 
@@ -652,10 +653,10 @@ function mCoComboSelectionChanged ($sender) {
 		$children--;
 	}
 	Try{
-		$Prop["_XLTN_SEGMENT"].Value = $mBreadCrumb.Children[1].SelectedItem.Name
-		$Prop["_XLTN_MAINGROUP"].Value = $mBreadCrumb.Children[2].SelectedItem.Name
-		$Prop["_XLTN_GROUP"].Value = $mBreadCrumb.Children[3].SelectedItem.Name
-		$Prop["_XLTN_SUBGROUP"].Value = $mBreadCrumb.Children[4].SelectedItem.Name
+		if($mBreadCrumb.Children[1]){ $Prop["Segment"].Value = $mBreadCrumb.Children[1].SelectedItem.Name}
+		if($mBreadCrumb.Children[2]){ $Prop["Main Group"].Value = $mBreadCrumb.Children[2].SelectedItem.Name}
+		if($mBreadCrumb.Children[3]){ $Prop["Group"].Value = $mBreadCrumb.Children[3].SelectedItem.Name}
+		if($mBreadCrumb.Children[4]){ $Prop["Sub Group"].Value = $mBreadCrumb.Children[4].SelectedItem.Name}
 
 		#write the highest level Custent Id to a text file for post-close event
 		$value = $mBreadCrumb.Children[$children].SelectedItem.Id

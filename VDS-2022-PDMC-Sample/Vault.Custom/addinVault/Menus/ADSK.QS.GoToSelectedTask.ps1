@@ -10,7 +10,7 @@
 #=============================================================================
 #endregion
 
-$mTargetObject = Get-Content $env:TEMP"\mECOTabClick.txt"
+$mTargetObject = Get-Content "$($env:appdata)\Autodesk\DataStandard 2022\mECOTabClick.txt"
 
 	$srchCondAll = @()		
 	$mSearchString = "FLC-Task"
@@ -72,5 +72,5 @@ $vaultContext.GoToLocation = $location
 	$mSelItem = $null
     $mOutFile = "mECOTabClick.txt"
 	
-	$mSelItem | Out-File $env:TEMP"\$mOutFile"
+	$mSelItem | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\$($mOutFile)"
 	

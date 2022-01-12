@@ -14,7 +14,7 @@
 #this function will be called to check if the Ok button can be enabled
 function ActivateOkButton
 {
-		return Validate;
+	return Validate;
 }
 
 # sample validation function
@@ -86,7 +86,7 @@ function ValidateCustomObjectName
 			return ValidateCustentName;
 		}
 		$dsWindow.FindName("CUSTOMOBJECTNAME").ToolTip = "Custom Object name must not be empty."
-		$dsWindow.FindName("CUSTOMOBJECTNAME").Border = "Red"
+		$dsWindow.FindName("CUSTOMOBJECTNAME").BorderBrush = "Red"
 		$dsWindow.FindName("CUSTOMOBJECTNAME").BackGround = "#FFFFFFFF"
 		return $false;
 	}
@@ -105,18 +105,16 @@ function InitializeWindow
 {	      
         #$dsDiag.ShowLog()
         #$dsDiag.Clear()
-      
+
 	#begin rules applying commonly
 	$Prop["_Category"].add_PropertyChanged({
         if ($_.PropertyName -eq "Value")
         {
-			#region VDS-PDMC-Sample
-				#$Prop["_NumSchm"].Value = $Prop["_Category"].Value
-				m_CategoryChanged
-			#endregion
+			m_CategoryChanged
         }		
     })
 	#end rules applying commonly
+
 	$mWindowName = $dsWindow.Name
 	switch($mWindowName)
 	{
@@ -124,6 +122,7 @@ function InitializeWindow
 		{
 			#rules applying for File
 			$dsWindow.Title = SetWindowTitle $UIString["LBL24"] $UIString["LBL25"] $Prop["_FileName"].Value
+
 			if ($Prop["_CreateMode"].Value)
 			{
 				if ($Prop["_IsOfficeClient"].Value)
@@ -174,9 +173,13 @@ function InitializeWindow
 			if($dsWindow.FindName("tabRevision")) 
 			{
 				$dsWindow.FindName("tabRevision").Visibility = "Visible"
+								
+				InitializeRevisionValidation
+				
+				$Prop["_Category"].add_PropertyChanged({
 					InitializeRevisionValidation
+				})
 			}
-
 			#endregion VDS-PDMC-Sample
 			
 		}
@@ -245,7 +248,7 @@ function InitializeWindow
 					$dsWindow.FindName("NumSchms").Visibility = "Collapsed"
 					$Prop["_NumSchm"].Value = $Prop["_Category"].Value
 
-				IF($Prop["_XLTN_IDENTNUMBER"]){ $Prop["_XLTN_IDENTNUMBER"].Value = $UIString["LBL27"]}
+				#IF($Prop["_XLTN_IDENTNUMBER"]){ $Prop["_XLTN_IDENTNUMBER"].Value = $UIString["LBL27"]}
 
 				$dsWindow.Title = "New $($Prop["_Category"].Value)..."
 
@@ -316,7 +319,7 @@ function InitializeWindow
 		{
 			$_t = $Prop["Internal ID"].Value
 
-			$mTargetFile = Get-Content $env:TEMP"\mStrTabClick.txt"
+			$mTargetFile = Get-Content "$($env:appdata)\Autodesk\DataStandard 2022\mStrTabClick.txt"
 
 			#create search conditions for 
 			$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 1
@@ -770,6 +773,7 @@ function GetNewFileName
 		$dsDiag.Trace("-> GenerateNumber")
 		$fileName = $Prop["_GeneratedNumber"].Value
 		$dsDiag.Trace("fileName = $fileName")
+		
 		#VDS-PDMC-Sample
 			If($Prop["_XLTN_PARTNUMBER"]) { $Prop["_XLTN_PARTNUMBER"].Value = $Prop["_GeneratedNumber"].Value }
 		#VDS-PDMC-Sample
@@ -1041,7 +1045,7 @@ function m_CategoryChanged
 			{
 				If ($Prop['_XLTN_DESIGNER'].Value -eq $null) 
 				{ 
-					$Prop['_XLTN_DESIGNER'].Value = $VaultConnection.UserName
+					$Prop['_XLTN_DESIGNER'].Value = $Vault.AdminService.Session.User.Name
 				}
 			}
 			
@@ -1049,7 +1053,7 @@ function m_CategoryChanged
 			{
 				If ($Prop['_XLTN_AUTHOR'].Value -eq $null) 
 				{
-					$Prop['_XLTN_AUTHOR'].Value = $VaultConnection.UserName
+					$Prop['_XLTN_AUTHOR'].Value = $Vault.AdminService.Session.User.Name
 				}
 			}
 			
@@ -1057,6 +1061,7 @@ function m_CategoryChanged
 			If($Prop["_XLTN_PROJECT"]){
 				mGetProjectFolderPropToVaultFile -mFolderSourcePropertyName "Name" -mFileTargetPropertyName $Prop["_XLTN_PROJECT"].Name
 			}
+			
 		}
 
 		"FolderWindow" 

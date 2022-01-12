@@ -11,6 +11,9 @@
 #endregion
 
 #region - version history
+#Version Info - VDS-MFG-Sample CAD Library 2022.1
+	# added function mGetParentProjectFldr
+
 #Version Info - VDS-MFG-Sample CAD Library 2022
 	# migrated paths to 2022
 
@@ -52,6 +55,7 @@ function mGetFolderPropValue ([Int64] $mFldID, [STRING] $mDispName)
 
 function mGetProjectFolderPropToCADFile ([String] $mFolderSourcePropertyName, [String] $mCadFileTargetPropertyName)
 {
+
 	#does the target property to write to exist?
 	if(-not $Prop[$mCadFileTargetPropertyName])
 	{
@@ -83,12 +87,12 @@ function mGetProjectFolderPropToCADFile ([String] $mFolderSourcePropertyName, [S
 		[System.Windows.MessageBox]::Show("Copy Project Property Expects Enforced Working Folder & IPJ!" , "Inventor VDS Client")
 		return
 	}
-		
+
 	try {
 		$dsDiag.Trace("mWF: $mWF")
 		$mWFCAD = $mWF + $mCAxRoot
 		#avoid for temporary files
-		if($Prop["_FilePath"].Value -notcontains $mWFCAD)
+		if(-not $Prop["_FilePath"].Value -like $mWFCAD+"*")
 		{
 			$Prop[$mCadFileTargetPropertyName].Value = ""
 			return
@@ -113,7 +117,7 @@ function mGetProjectFolderPropToCADFile ([String] $mFolderSourcePropertyName, [S
 	catch { 
 		[System.Windows.MessageBox]::Show("Failed retreiving the target Vault folder's path of this new file" , "Inventor VDS Client")
 	}			
-			
+
 	If ($mProjectFound -eq $true) {
 		#Project's property Value copied to CAD file property
 		$Prop[$mCadFileTargetPropertyName].Value = mGetFolderPropValue $mFld.Id $mFolderSourcePropertyName
@@ -123,6 +127,75 @@ function mGetProjectFolderPropToCADFile ([String] $mFolderSourcePropertyName, [S
 		$Prop[$mCadFileTargetPropertyName].Value = ""
 	}
 }
+
+
+#Get parent project folder object
+function mGetParentProjectFldr
+{
+	#get the Vault path of Inventors working folder
+	$mappedRootPath = $Prop["_VaultVirtualPath"].Value + $Prop["_WorkspacePath"].Value
+    $mappedRootPath = $mappedRootPath -replace "\\", "/" -replace "//", "/"
+    if ($mappedRootPath -eq '')
+    {
+        $mappedRootPath = '$/'
+    }
+	$dsDiag.Trace("mapped root: $($mappedRootPath)")
+	$mWfVault = $mappedRootPath
+					
+	#get local path of vault workspace path for Inventor
+	If($dsWindow.Name -eq "InventorWindow"){
+		$mCAxRoot = $mappedRootPath.Split("/.")[1]
+	}
+	if ($dsWindow.Name -eq "AutoCADWindow") {
+		$mCAxRoot = ""
+	}
+
+	if($vault.DocumentService.GetEnforceWorkingFolder() -eq "true") {
+		$mWF = $vault.DocumentService.GetRequiredWorkingFolderLocation()
+	}
+	else {
+		[System.Windows.MessageBox]::Show("Copy Project Property Expects Enforced Working Folder & IPJ!" , "Inventor VDS Client")
+		return
+	}
+
+	try {
+		$dsDiag.Trace("mWF: $mWF")
+		$mWFCAD = $mWF + $mCAxRoot
+		#avoid for temporary files
+		if(-not $Prop["_FilePath"].Value -like $mWFCAD+"*")
+		{
+			$Prop[$mCadFileTargetPropertyName].Value = ""
+			return
+		}
+		#merge the local path and relative target path of new file in vault
+		$mPath = $Prop["_FilePath"].Value.Replace($mWFCAD, "")
+		$mPath = $mWfVault + $mPath
+		$mPath = $mPath.Replace(".\","")
+		$mPath = $mPath.Replace("\", "/")
+		$mFld = $vault.DocumentService.GetFolderByPath($mPath)
+		#the loop to get the next parent project category folder; skip if you don't look for projects
+		IF ($mFld.Cat.CatName -eq $UIString["CAT6"]) { $mProjectFound = $true}
+		ElseIf ($mPath -ne "$/"){
+			Do {
+				$mParID = $mFld.ParID
+				$mFld = $vault.DocumentService.GetFolderByID($mParID)
+				IF ($mFld.Cat.CatName -eq $UIString["CAT6"]) { $mProjectFound = $true}
+			} 
+			Until (($mFld.Cat.CatName -eq $UIString["CAT6"]) -or ($mFld.FullName -eq "$"))
+		}	
+	}
+	catch { 
+		[System.Windows.MessageBox]::Show("Failed retreiving the target Vault folder's path of this new file" , "Inventor VDS Client")
+	}			
+
+	If ($mProjectFound -eq $true) {
+		return $mFld
+	}
+	Else{
+		return $null
+	}
+}
+
 
 # VDS Dialogs and Tabs share property name translations $Prop[_XLTN_*] according DSLanguage.xml override or default powerShell UI culture;
 # VDS MenuCommand scripts don't read as a default; call this function in case $UIString[] key value pairs are needed
