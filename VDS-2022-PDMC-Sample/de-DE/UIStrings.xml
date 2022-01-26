@@ -199,6 +199,7 @@
   <UIString ID="Dimensions">Abmessungen</UIString>
   <UIString ID="Thickness">Blechstärke</UIString>
   <UIString ID="Part Type name">Modell Typ</UIString>
+  <UIString ID="G_D">Durchmesser</UIString>
 
   <!--Vault Categories for de-DE database-->
   <!--<UIString ID="CAT1">Konstruktion</UIString>

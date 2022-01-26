@@ -130,7 +130,7 @@
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="Document Tag">
+                <DataTrigger Binding="{Binding Name}" Value="Document Code">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
@@ -141,40 +141,7 @@
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="Document Type">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" Background="WhiteSmoke" 
-                                    ToolTip="{Binding DataContext.UIString[], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue='Select the document tag for automatic naming'}" 
-                                    IsReadOnly="True" IsTabStop="False"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="Document Type DE">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" Background="WhiteSmoke" 
-                                    ToolTip="{Binding DataContext.UIString[], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue='Select the document tag for automatic naming'}" 
-                                    IsReadOnly="True" IsTabStop="False"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="Document Subtype">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" Background="WhiteSmoke" 
-                                    ToolTip="{Binding DataContext.UIString[], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue='Select the document tag for automatic naming'}" 
-                                    IsReadOnly="True" IsTabStop="False"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="Document Subtype DE">
+                <DataTrigger Binding="{Binding Name}" Value="Document Class">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
@@ -230,7 +197,7 @@
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="BENENNUNG_SP2_PD_ENG">
+                <DataTrigger Binding="{Binding Name}" Value="Title">
                     <Setter Property="IsHitTestVisible" Value="True" />
                     <Setter Property="Width" Value="Auto"/>
                     <Setter Property="Template">
@@ -244,21 +211,7 @@
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="X15_GENERAL_NOTES">
-                    <Setter Property="IsHitTestVisible" Value="True" />
-                    <Setter Property="Width" Value="Auto"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <CheckBox IsChecked="{Binding DataContext.Prop[X15_GENERAL_NOTES_INHERITANCE].Value, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                    ToolTip="{Binding DataContext.UIString[], FallbackValue='Derive General Notes from Project', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                          HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="#FFB4B4B4">
-                                </CheckBox>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="DCC">
+                <DataTrigger Binding="{Binding Name}" Value="Document Code">
                     <Setter Property="IsHitTestVisible" Value="True" />
                     <Setter Property="Width" Value="Auto"/>
                     <Setter Property="Template">

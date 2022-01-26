@@ -196,9 +196,10 @@
   <!--<UIString ID="Mass">Mass</UIString>-->
   <UIString ID="Original">Source File</UIString>
   <UIString ID="Replacement">Replaced by</UIString>
-  <UIString ID="Dimensions">Dimensions</UIString>
-  <UIString ID="Thickness">Sheet Thickness</UIString>
+  <!--<UIString ID="Dimensions">Dimensions</UIString>-->
+  <!--<UIString ID="Thickness">Sheet Thickness</UIString>-->
   <UIString ID="Part Type name">Sub-Type</UIString>
+  <UIString ID="G_D">Diameter</UIString>
 
   <!--Vault Categories for de-DE database-->
   <!--<UIString ID="CAT1">Konstruktion</UIString>
