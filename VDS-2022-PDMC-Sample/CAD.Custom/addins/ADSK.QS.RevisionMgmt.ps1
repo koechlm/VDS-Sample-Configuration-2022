@@ -12,32 +12,25 @@
 
 #region - version history
 
-# Version Info - VDS-PDMC-Sample Revision Management 2022.2.0
-	# removed workarounds required by RTM and 2022.1 and fixed by pre-liminary patch and 2022.2
+#Version Info - VDS-PDMC-Sample Revision Management 2022.2.0
+# removed workarounds required by RTM and 2022.1 and fixed by pre-liminary patch and 2022.2
 
-# Version Info - VDS-PDMC-Sample Revision Management 2022.0.0
-	# initial version
+#Version Info - VDS-PDMC-Sample Revision Management 2022.0.0
+# initial version
 
 #endregion
 
-function InvertReadOnly
-{
-	if($Prop["_EditMode"].Value -eq $true)
-	{
-		switch($dsWindow.Name)
-		{
-			"InventorWindow"
-			{
-				if ((Get-Item $document.FullFileName).IsReadOnly)
-				{
+function InvertReadOnly {
+	if ($Prop["_EditMode"].Value -eq $true) {
+		switch ($dsWindow.Name) {
+			"InventorWindow" {
+				if ((Get-Item $document.FullFileName).IsReadOnly) {
 					return $false
 				}
 			}
 
-			"AutoCADWindow"
-			{
-				if ((Get-Item $document.Name).IsReadOnly)
-				{
+			"AutoCADWindow" {
+				if ((Get-Item $document.Name).IsReadOnly) {
 					return $false
 				}
 			}
@@ -48,57 +41,46 @@ function InvertReadOnly
 	} #EditMode
 }
 
-function InitializeRevisionValidation
-{
-	if (-not $dsWindow.FindName("tabRevision"))
-	{
+function InitializeRevisionValidation {
+	if (-not $dsWindow.FindName("tabRevision")) {
 		return
 	}
 
 	#copy number if ECO drives the revision
 	$mFile = mGetVaultFile
 	$mEcoFile = $vault.ChangeOrderService.GetChangeOrderFilesByFileMasterId($mFile.MasterId)
-	if($mEcoFile -ne $null)
-	{
+	if ($null -ne $mEcoFile) {
 		$mEcoNum = $mEcoFile[0].ChangeOrder.Num
 		$Prop["Change Descr"].Value = $mEcoNum
 	}
 
 	#set the display state of XAML controls
-	if (@(".DWG",".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value)
-	{
+	if (@(".DWG", ".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value) {
 		$dsWindow.FindName("grdApproval").Visibility = "Visible"
 	}
-	else
-	{
+	else {
 		$dsWindow.FindName("grdApproval").Visibility = "Collapsed"
 	}
 
-	if(@(".DWG",".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value -and $Prop["Customer Approval Required"])
-	{
-		if($Prop["Customer Approval Required"].Value -eq "True")
-		{
+	if (@(".DWG", ".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value -and $Prop["Customer Approval Required"]) {
+		if ($Prop["Customer Approval Required"].Value -eq "True") {
 			$dsWindow.FindName("grdCustomerApproval").Visibility = "Visible"
 		}
-		else
-		{
+		else {
 			$dsWindow.FindName("grdCustomerApproval").Visibility = "Collapsed"
 		}
 	}
 
 	#if the file exists in Vault, state and revision information are available
 	$mFile = mGetVaultFile
-	if($mFile)
-	{
+	if ($mFile) {
 		$mFileState = $mFile.FileLfCyc.LfCycStateName
 	}
-	else 
-	{ 
+	else { 
 		$mFileState = $null
 	}
 										
-	if($mFile -ne $null)
-	{
+	if ($null -ne $mFile) {
 		$mFileProperties = @{}
 		$mFileProperties = mGetFilePropValues $mFile.Id
 		$dsWindow.FindName("txtRevision").Text = $mFileProperties.Get_Item("Revision")
@@ -110,75 +92,66 @@ function InitializeRevisionValidation
 		$mInitialApprover = $mFileProperties.Get_Item("Initial Approver") #system property to indicate that the file has been released already
 	}
 
-	switch($dsWindow.Name)
-	{
-		"InventorWindow"
-		{
+	switch ($dsWindow.Name) {
+		"InventorWindow" {
 			$dsDiag.Trace("ExtendedRevision Validation for Inventor starts...")
-			if (@(".DWG",".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value)
-			{
+			if (@(".DWG", ".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value) {
 
 				#new files
-				if($mFileState -eq $null)
-				{
-					if($Prop["Checked By"]) {
+				if ($null -eq $mFileState) {
+					if ($Prop["Checked By"]) {
 						$Prop["Checked By"].CustomValidation = { $true }
 					}
-					if($Prop["Date Checked"]){
+					if ($Prop["Date Checked"]) {
 						$Prop["Date Checked"].CustomValidation = { $true }
 					}
-					if($Prop["Engr Approved By"]){
+					if ($Prop["Engr Approved By"]) {
 						$Prop["Engr Approved By"].CustomValidation = { $true }
 					}
-					if($Prop["Engr Date Approved"]){
+					if ($Prop["Engr Date Approved"]) {
 						$Prop["Engr Date Approved"].CustomValidation = { $true }
 					}
-					if($Prop["Change Descr"]){
+					if ($Prop["Change Descr"]) {
 						$Prop["Change Descr"].CustomValidation = { $true }
 					}
 				}
 
 				# Work in Progress or 'Quick-Change'
-				if($mFileState -eq $UIString["Adsk.QS.RevTab_05"] -or $mFileState -eq $UIString["Adsk.QS.RevTab_04"]) 
-				{
-					if($Prop["Checked By"]) {
+				if ($mFileState -eq $UIString["Adsk.QS.RevTab_05"] -or $mFileState -eq $UIString["Adsk.QS.RevTab_04"]) {
+					if ($Prop["Checked By"]) {
 						$Prop["Checked By"].CustomValidation = { ValidateRevisionField $Prop["Checked By"] }
 					}
 				}
 
 				#there is an option to enforce external customer approval
-				if($Prop["Customer Approval Required"].Value -eq $true)
-				{
-					$Prop["Customer Approved By"].CustomValidation = { $true}
-					$Prop["Customer Approved Date"].CustomValidation = { $true}
+				if ($Prop["Customer Approval Required"].Value -eq $true) {
+					$Prop["Customer Approved By"].CustomValidation = { $true }
+					$Prop["Customer Approved Date"].CustomValidation = { $true }
 				}
 
 				# 'For Review'
-				if($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) 
-				{
-					if($Prop["Checked By"]) {
+				if ($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) {
+					if ($Prop["Checked By"]) {
 						$Prop["Checked By"].CustomValidation = { ValidateRevisionField $Prop["Checked By"] }
 					}
-					if($Prop["Date Checked"]){
+					if ($Prop["Date Checked"]) {
 						$Prop["Date Checked"].CustomValidation = { ValidateRevisionField $Prop["Date Checked"] }
 					}
-					if($Prop["Engr Approved By"]){
+					if ($Prop["Engr Approved By"]) {
 						$Prop["Engr Approved By"].CustomValidation = { ValidateRevisionField $Prop["Engr Approved By"] }
 					}
-					if($Prop["Engr Date Approved"]){
-						$Prop["Engr Date Approved"].CustomValidation = { ValidateRevisionField $Prop["Engr Date Approved"]}
+					if ($Prop["Engr Date Approved"]) {
+						$Prop["Engr Date Approved"].CustomValidation = { ValidateRevisionField $Prop["Engr Date Approved"] }
 					}
-					if($Prop["Change Descr"]){
-						$Prop["Change Descr"].CustomValidation = { ValidateRevisionField $Prop["Change Descr"]}
+					if ($Prop["Change Descr"]) {
+						$Prop["Change Descr"].CustomValidation = { ValidateRevisionField $Prop["Change Descr"] }
 					}
 					#there is an option to enforce external approval
-					if($Prop["Customer Approval Required"].Value -eq $true)
-					{
+					if ($Prop["Customer Approval Required"].Value -eq $true) {
 						$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved By"] }
 						$Prop["Customer Approved Date"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved Date"] }
 					}
-					else
-					{
+					else {
 						$Prop["Customer Approved By"].CustomValidation = { $true }
 						$Prop["Customer Approved Date"].CustomValidation = { $true }
 					}
@@ -188,46 +161,36 @@ function InitializeRevisionValidation
 			}
 		}
 
-		"AutoCADWindow"
-		{
+		"AutoCADWindow" {
 			#AutoCAD Mechanical Block Attributes, 
-			if($Prop["GEN-TITLE-DWG"].Value)
-			{
+			if ($Prop["GEN-TITLE-DWG"].Value) {
 				#new file
-				if($mFileState -eq $null) 
-				{
-					if($Prop["GEN-TITLE-CHKM"]) 
-					{
+				if ($null -eq $mFileState) {
+					if ($Prop["GEN-TITLE-CHKM"]) {
 						$Prop["GEN-TITLE-CHKM"].CustomValidation = { $true }
 					}
-					if($Prop["GEN-TITLE-CHKD"]) 
-					{
+					if ($Prop["GEN-TITLE-CHKD"]) {
 						$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true }
 					}
 
-					if($Prop["GEN-TITLE-ISSM"]) 
-					{
+					if ($Prop["GEN-TITLE-ISSM"]) {
 						$Prop["GEN-TITLE-ISSM"].CustomValidation = { $true }
 					}
 
-					if($Prop["GEN-TITLE-ISSD"]) 
-					{
+					if ($Prop["GEN-TITLE-ISSD"]) {
 						$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
 					}
 
-					if($Prop["Change Descr"])
-					{
+					if ($Prop["Change Descr"]) {
 						$Prop["Change Descr"].CustomValidation = { $true }
 					}
 
 					#there is an option to enforce external customer approval
-					if($Prop["Customer Approval Required"].Value -eq $true)
-					{
-						$Prop["Customer Approved By"].CustomValidation = { $true}
-						$Prop["Customer Approved Date"].CustomValidation = { $true}
+					if ($Prop["Customer Approval Required"].Value -eq $true) {
+						$Prop["Customer Approved By"].CustomValidation = { $true }
+						$Prop["Customer Approved Date"].CustomValidation = { $true }
 					}
-					else
-					{
+					else {
 						$Prop["Customer Approved By"].CustomValidation = { $true }
 						$Prop["Customer Approved Date"].CustomValidation = { $true }
 					}
@@ -235,41 +198,33 @@ function InitializeRevisionValidation
 				}
 
 				# Work in Progress or 'Quick-Change'
-				if($mFileState -eq $UIString["Adsk.QS.RevTab_05"] -or $mFileState -eq $UIString["Adsk.QS.RevTab_04"])
-				{
-					if($Prop["GEN-TITLE-CHKM"]) 
-					{
+				if ($mFileState -eq $UIString["Adsk.QS.RevTab_05"] -or $mFileState -eq $UIString["Adsk.QS.RevTab_04"]) {
+					if ($Prop["GEN-TITLE-CHKM"]) {
 						$Prop["GEN-TITLE-CHKM"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-CHKM"] }
 					}
 
-					if($Prop["GEN-TITLE-CHKD"]) 
-					{
+					if ($Prop["GEN-TITLE-CHKD"]) {
 						$Prop["GEN-TITLE-CHKD"].CustomValidation = { $true }
 					}
 
-					if($Prop["GEN-TITLE-ISSM"]) 
-					{
+					if ($Prop["GEN-TITLE-ISSM"]) {
 						$Prop["GEN-TITLE-ISSM"].CustomValidation = { $true }
 					}
 
-					if($Prop["GEN-TITLE-ISSD"]) 
-					{
+					if ($Prop["GEN-TITLE-ISSD"]) {
 						$Prop["GEN-TITLE-ISSD"].CustomValidation = { $true }
 					}
 
-					if($Prop["Change Descr"])
-					{
+					if ($Prop["Change Descr"]) {
 						$Prop["Change Descr"].CustomValidation = { $true }
 					}
 
 					#there is an option to enforce external approval
-					if($Prop["Customer Approval Required"].Value -eq $true)
-					{
+					if ($Prop["Customer Approval Required"].Value -eq $true) {
 						$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField($Prop["Customer Approved By"]) }
-						$Prop["Customer Approved Date"].CustomValidation = { $true}
+						$Prop["Customer Approved Date"].CustomValidation = { $true }
 					}
-					else
-					{
+					else {
 						$Prop["Customer Approved By"].CustomValidation = { $true }
 						$Prop["Customer Approved Date"].CustomValidation = { $true }
 					}
@@ -277,36 +232,29 @@ function InitializeRevisionValidation
 				}#work in Progress
 
 				#For Review	
-				if($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) 
-				{
-					if($Prop["GEN-TITLE-CHKM"]) 
-					{
+				if ($mFileState -eq $UIString["Adsk.QS.RevTab_03"]) {
+					if ($Prop["GEN-TITLE-CHKM"]) {
 						$Prop["GEN-TITLE-CHKM"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-CHKM"] }
 					}
-					if($Prop["GEN-TITLE-CHKD"]) 
-					{
+					if ($Prop["GEN-TITLE-CHKD"]) {
 						$Prop["GEN-TITLE-CHKD"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-CHKD"] }
 					}
-					if($Prop["GEN-TITLE-ISSM"]) 
-					{
+					if ($Prop["GEN-TITLE-ISSM"]) {
 						$Prop["GEN-TITLE-ISSM"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-ISSM"] }
 					}
-					if($Prop["GEN-TITLE-ISSD"]) {
+					if ($Prop["GEN-TITLE-ISSD"]) {
 						$Prop["GEN-TITLE-ISSD"].CustomValidation = { ValidateRevisionField $Prop["GEN-TITLE-ISSD"] }
 					}
-					if($Prop["Change Descr"])
-					{
-						$Prop["Change Descr"].CustomValidation = { ValidateRevisionField $Prop["Change Descr"]} #revision table property in PDMC-Sample
+					if ($Prop["Change Descr"]) {
+						$Prop["Change Descr"].CustomValidation = { ValidateRevisionField $Prop["Change Descr"] } #revision table property in PDMC-Sample
 					}
 					
 					#there is an option to enforce external approval
-					if($Prop["Customer Approval Required"].Value -eq $true)
-					{
+					if ($Prop["Customer Approval Required"].Value -eq $true) {
 						$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved By"] }
 						$Prop["Customer Approved Date"].CustomValidation = { ValidateRevisionField $Prop["Customer Approved Date"] }
 					}
-					else
-					{
+					else {
 						$Prop["Customer Approved By"].CustomValidation = { $true }
 						$Prop["Customer Approved Date"].CustomValidation = { $true }
 					}
@@ -322,22 +270,18 @@ function InitializeRevisionValidation
 }#end function InitializeRevisionValidation
 
 
-function ValidateRevisionField($mProp)
-{
+function ValidateRevisionField($mProp) {
 	$dsDiag.Trace(">>Validation runs for '$($mProp.Name)', $($mProp.Typ)")
 
-	If ($Prop["_EditMode"].Value -eq $true)
-	{		
+	If ($Prop["_EditMode"].Value -eq $true) {		
 		$dsDiag.Trace("...EditMode...")
 
-		if ($mProp.Value -eq "" -OR $mProp.Value -eq $null)
-		{
+		if ($mProp.Value -eq "" -OR $null -eq $mProp.Value) {
 			$dsDiag.Trace("...no Value: returning false<<")
 			$mProp.CustomValidationErrorMessage = "Empty value are not allowed for the current life cylce state!"
 			return $false
 		}
-		else
-		{
+		else {
 			$dsDiag.Trace("...has Value: returning true<<")
 			return $true
 		}
@@ -346,10 +290,8 @@ function ValidateRevisionField($mProp)
 }
 
 
-function mGetVaultFile
-{
-	if($Prop["_CreateMode"].Value -eq $true)
-	{
+function mGetVaultFile {
+	if ($Prop["_CreateMode"].Value -eq $true) {
 		return $null
 	}
 	#we need the current file object
@@ -360,8 +302,7 @@ function mGetVaultFile
 
 	$mFile = $vault.DocumentService.FindLatestFilesByPaths(@($mVaultFilePath))[0]	
 
-	if($mFile.id -ne -1)
-	{
+	if ($mFile.id -ne -1) {
 		return $mFile
 	}
 
@@ -369,8 +310,7 @@ function mGetVaultFile
 
 }
 
-function mGetFilePropValues ([Int64] $mFileId)
-{
+function mGetFilePropValues ([Int64] $mFileId) {
 	$mPropInsts = @()
 	$mPropInsts += $vault.PropertyService.GetPropertiesByEntityIds("FILE", @($mFileId))
 	
@@ -379,9 +319,8 @@ function mGetFilePropValues ([Int64] $mFileId)
 
 	$mPropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("FILE")
 	
-	ForEach($mPropInst in $mPropInsts)
-	{
-		$mDispName =  ($mPropDefs | Where-Object { $_.Id -eq $mPropInst.PropDefId } ).DispName
+	ForEach ($mPropInst in $mPropInsts) {
+		$mDispName = ($mPropDefs | Where-Object { $_.Id -eq $mPropInst.PropDefId } ).DispName
 		$mPropNameValueMap.Add($mDispName, $mPropInst.Val)
 	}
 	
@@ -390,44 +329,38 @@ function mGetFilePropValues ([Int64] $mFileId)
 }
 
 
-function ResetRevisionProperties
-{
-	switch($dsWindow.Name)
-	{
-		"InventorWindow"
-		{
+function ResetRevisionProperties {
+	switch ($dsWindow.Name) {
+		"InventorWindow" {
 			$dsDiag.Trace("ExtendedRevision Validation for Inventor starts...")
-			if (@(".DWG",".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value)
-			{
-				if($Prop["Checked By"]) {
+			if (@(".DWG", ".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value) {
+				if ($Prop["Checked By"]) {
 					$Prop["Checked By"].Value = ""
 				}
-				if($Prop["Date Checked"]){
+				if ($Prop["Date Checked"]) {
 					$Prop["Date Checked"].Value = ""
 				}
-				if($Prop["Engr Approved By"]){
+				if ($Prop["Engr Approved By"]) {
 					$Prop["Engr Approved By"].Value = ""
 				}
-				if($Prop["Engr Date Approved"]){
+				if ($Prop["Engr Date Approved"]) {
 					$Prop["Engr Date Approved"].Value = ""
 				}
 			}
 		}
-		"AutoCADWindow"
-		{
+		"AutoCADWindow" {
 			#AutoCAD Mechanical Block Attribute Template
-			if($Prop["GEN-TITLE-DWG"].Value)
-			{		
-				if($Prop["GEN-TITLE-CHKM"]) {
+			if ($Prop["GEN-TITLE-DWG"].Value) {		
+				if ($Prop["GEN-TITLE-CHKM"]) {
 					$Prop["GEN-TITLE-CHKM"].Value = ""
 				}					
-				if($Prop["GEN-TITLE-CHKD"]) {
+				if ($Prop["GEN-TITLE-CHKD"]) {
 					$Prop["GEN-TITLE-CHKD"].Value = ""
 				}
-				if($Prop["GEN-TITLE-ISSM"]) {
+				if ($Prop["GEN-TITLE-ISSM"]) {
 					$Prop["GEN-TITLE-ISSM"].Value = ""
 				}
-				if($Prop["GEN-TITLE-ISSD"]) {
+				if ($Prop["GEN-TITLE-ISSD"]) {
 					$Prop["GEN-TITLE-ISSD"].Value = ""
 				}
 			}
@@ -436,23 +369,19 @@ function ResetRevisionProperties
 
 	} #switch WindowName
 
-	if($Prop["Change Descr"])
-	{
+	if ($Prop["Change Descr"]) {
 		$Prop["Change Descr"].Value = "First Issue"
 	}
 	
-	if($Prop["Customer Approval Required"])
-	{
+	if ($Prop["Customer Approval Required"]) {
 		$Prop["Customer Approval Required"].Value = "False"
 	}
 
-	if($Prop["Customer Approved By"]) 
-	{
+	if ($Prop["Customer Approved By"]) {
 		$Prop["Customer Approved By"].Value = ""
 	}
 
-	if($Prop["Customer Approved Date"]) 
-	{
+	if ($Prop["Customer Approved Date"]) {
 		$Prop["Customer Approved Date"].Value = ""
 	}
 
