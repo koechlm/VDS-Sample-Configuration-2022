@@ -47,6 +47,10 @@ function InitializeWindow {
 
 	switch ($mWindowName) {
 		"InventorWindow" {
+
+			#support given file name and path for Inventor ShrinkWrap file (_SuggestedVaultPath is empty for these)
+			$global:mShrnkWrp = $false
+
 			InitializeBreadCrumb
 
 			#set the active user as Inventor Designer
@@ -549,9 +553,16 @@ function GetNumSchms {
 			if ($Prop["_NumSchm"].Value) { $Prop["_NumSchm"].Value = $_FilteredNumSchems[0].Name } #note - functional dialogs don't have the property _NumSchm, therefore we conditionally set the value
 			$dsWindow.FindName("NumSchms").IsEnabled = $true
 			$dsWindow.FindName("NumSchms").SelectedValue = $_FilteredNumSchems[0].Name
+			#add the "None" scheme to allow user interactive file name input
 			$noneNumSchm = New-Object 'Autodesk.Connectivity.WebServices.NumSchm'
 			$noneNumSchm.Name = $UIString["LBL77"] # None 
 			$_FilteredNumSchems += $noneNumSchm
+
+			#ShrinkWrap workflows suggest a file name; allow user overrides
+			if ($global:mShrnkWrp -eq $true) {
+				$dsDiag.Inspect()
+				if ($Prop["_NumSchm"].Value) { $Prop["_NumSchm"].Value = $_FilteredNumSchems[1].Name } # None 	
+			}
 
 			#reverse order for these cases; none is added latest; reverse the list, if None is pre-set to index = 0
 
