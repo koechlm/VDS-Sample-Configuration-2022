@@ -1044,8 +1044,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="5"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
@@ -1082,39 +1080,7 @@
                         <Label Content="{Binding UIString[LBL33], FallbackValue=Create Date}" Grid.Row="2" Grid.Column="3" Height="Auto" BorderThickness="1"/>
                         <TextBox x:Name="txtCreateDate" Text="{Binding Prop[_XLTN_DATE VERSION CREATED].Value}" Grid.Column="4" Grid.Row="2" IsReadOnly="True" Height="Auto" BorderThickness="0,1,1,1"/>
                     </Grid>
-                    <Grid x:Name="grdInitialRelease" Grid.Row="2" Visibility="Visible">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="2*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="26"/>
-                            <RowDefinition Height="26"/>
-                            <RowDefinition Height="26"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="Initial Creator" Height="Auto" Grid.Row="0"/>
-                        <TextBox x:Name="txtInitialCreator" Text="{WPF:ValidatedBinding Prop[Initial Creator].Value}" Grid.Column="1" Height="Auto" IsEnabled="{Binding PsVal[InvertReadOnly]}"/>
-                        <Label Content="Initial Create Date" Grid.Column="3" Height="Auto"/>
-                        <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,0" Grid.Column="4">
-                            <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Initial Create Date].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto"  />
-                        </Border>
-                        <Label Content="Initial Reviewer" Height="Auto" Grid.Row="1"/>
-                        <TextBox x:Name="txtInitialReviewer" Text="{WPF:ValidatedBinding Prop[Initial Reviewer].Value}" Grid.Column="1" Grid.Row="1" Height="Auto" IsEnabled="{Binding PsVal[InvertReadOnly]}"/>
-                        <Label Content="Initial Review Date" Grid.Column="3" Height="Auto" Grid.Row="1"/>
-                        <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,0" Grid.Column="4" Grid.Row="1">
-                            <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Initial Review Date].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto" />
-                        </Border>
-                        <Label Content="Initial Approved By" Height="Auto" Grid.Row="2" BorderThickness="1"/>
-                        <TextBox x:Name="txtInitialApprover" Text="{WPF:ValidatedBinding Prop[Initial Approved By].Value}" Grid.Column="1" Grid.Row="2" Height="Auto" BorderThickness="0,1,1,1" IsEnabled="{Binding PsVal[InvertReadOnly]}" />
-                        <Label Content="Initial Approval Date" Grid.Column="3" Height="Auto" Grid.Row="2" BorderThickness="1"/>
-                        <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,1" Grid.Column="4" Grid.Row="2">
-                            <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Initial Approval Date].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="26" />
-                        </Border>
-                    </Grid>
-                    <Grid x:Name="grdApproval" Grid.Row="2" d:IsHidden="True">
+                    <Grid x:Name="grdApproval" Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="2*"/>
@@ -1152,43 +1118,7 @@
                               IsEditable="True" IsEnabled="{Binding PsVal[InvertReadOnly]}"
                               Grid.Column="1" Height="Auto" Grid.Row="3" Grid.ColumnSpan="4" BorderThickness="0,1,1,1" />
                     </Grid>
-                    <Grid x:Name="grdIssues" Grid.Row="4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="2*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="24"/>
-                            <RowDefinition Height="26"/>
-                            <RowDefinition Height="26"/>
-                            <RowDefinition Height="26"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="{Binding UIString[FAM.Issue], FallbackValue='Issue'}" BorderThickness="1" Height="26"/>
-                        <ComboBox x:Name="cmbIssue1" Grid.Row="1" ItemsSource="{Binding Prop[Issue 1].ListValues}" SelectedItem="{Binding Prop[Issue 1].Value}" 
-                                  IsEnabled="{Binding PsVal[InvertReadOnly]}" BorderThickness="1,1,1,0" Height="26"/>
-                        <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,0" Grid.Column="1" Grid.Row="1" Height="26" VerticalAlignment="Bottom">
-                            <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Issue 1 Date].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto"  />
-                        </Border>
-                        <TextBox x:Name="txtIssueAppr1" Text="{Binding Prop[Issue 1 Approver].Value}" Grid.Column="2" Grid.Row="1" BorderThickness="0,1,1,0" Height="26"/>
-                        <Label Content="{Binding UIString[FAM.Issue.Name], FallbackValue='Approver'}" Grid.Column="2" Height="26" BorderThickness="0,1,1,1"/>
-                        <ComboBox x:Name="cmbIssue2" Grid.Row="2" ItemsSource="{Binding Prop[Issue 2].ListValues}" 
-                                  SelectedItem="{Binding Prop[Issue 2].Value}"
-                                  IsEnabled="{Binding PsVal[InvertReadOnly]}" BorderThickness="1,1,1,0" Height="26"/>
-                        <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,0" Grid.Column="1" Grid.Row="2" Height="26">
-                            <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Issue 2 Date].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="Auto"  />
-                        </Border>
-                        <TextBox x:Name="txtIssueAppr2" Text="{Binding Prop[Issue 2 Approver].Value}" Grid.Column="2" Grid.Row="2" BorderThickness="0,1,1,0" Height="26"/>
-                        <Label Content="{Binding UIString[FAM.Issue.Date], FallbackValue='Date'}" Grid.Column="1" BorderThickness="0,1,1,1" Height="26"/>
-                        <ComboBox x:Name="cmbIssue3" Grid.Row="3" ItemsSource="{Binding Prop[Issue 3].ListValues}" 
-                                  SelectedItem="{Binding Prop[Issue 3].Value}"
-                                  IsEnabled="{Binding PsVal[InvertReadOnly]}" BorderThickness="1" Height="26"/>
-                        <Border BorderBrush="#FFABADB3" BorderThickness="0,1,1,1" Grid.Column="1" Grid.Row="3" Height="26">
-                            <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[Issue 3 Date].Value}" IsEnabled="{Binding PsVal[InvertReadOnly]}" Height="26"  />
-                        </Border>
-                        <TextBox x:Name="txtIssueAppr3" Text="{Binding Prop[Issue 3 Approver].Value}" Grid.Column="2" Grid.Row="3" BorderThickness="0,1,1,1" Height="26"/>
-                    </Grid>
-                    <Grid x:Name="grdCustomerApproval" Grid.Row="6" >
+                    <Grid x:Name="grdCustomerApproval" Grid.Row="4" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="2*"/>
@@ -1206,7 +1136,7 @@
                             <DatePicker SelectedDate="{WPF:ValidatedBinding Prop[_XLTN_CUSTAPPRVDDATE].Value, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}, UpdateSourceTrigger=PropertyChanged}"  Height="Auto"  />
                         </Border>
                     </Grid>
-                    <Grid x:Name="ButtonGridTabRevision" Style="{StaticResource ButtonGridStyle}" Grid.Row="8" Grid.ColumnSpan="2" Margin="0,5,2,5">
+                    <Grid x:Name="ButtonGridTabRevision" Style="{StaticResource ButtonGridStyle}" Grid.Row="6" Grid.ColumnSpan="2" Margin="0,5,2,5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition />

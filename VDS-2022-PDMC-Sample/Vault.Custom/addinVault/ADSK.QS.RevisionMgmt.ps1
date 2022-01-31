@@ -46,8 +46,6 @@ function InitializeRevisionValidation
 
 	#set the display state of XAML controls
 	$dsWindow.FindName("grdCustomerApproval").Visibility = "Collapsed"
-	$dsWindow.FindName("grdInitialRelease").Visibility = "Collapsed"
-	$dsWindow.FindName("grdApproval").Visibility = "Collapsed"
 
 	#Inventor and AutoCAD Drawings initialize custom property validation only
 	if(@($UIString["MSDCE_CAT00"], $UIString["MSDCE_CAT01"]) -contains $Prop["_Category"].Value)
@@ -62,19 +60,6 @@ function InitializeRevisionValidation
 		{
 			$dsWindow.FindName("grdCustomerApproval").Visibility = "Collapsed"
 		}
-
-		if($Prop["_CreateMode"].Value -eq $true -or $Prop["Initial Approver"].Value -eq $null)
-		{
-			$dsWindow.FindName("grdInitialRelease").Visibility = "Visible"	
-			$dsWindow.FindName("grdApproval").Visibility = "Collapsed"
-		}
-		else
-		{
-			$dsWindow.FindName("grdInitialRelease").Visibility = "Collapsed"
-			$dsWindow.FindName("grdApproval").Visibility = "Visible"						
-		}
-
-
 
 		##don't enforce anything for new or WiP files
 		#if($Prop["Initial Approver"].Value -eq $null)
