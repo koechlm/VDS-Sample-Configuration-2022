@@ -599,7 +599,7 @@ function GetNumSchms {
 }
 
 function GetCategories {
-	$mAllCats = $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
+	$mAllCats = $Prop["_Category"].ListValues #$vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
 	$mFDSFilteredCats = $mAllCats | Where-Object { $_.Name -ne "Asset Library" }
 	return $mFDSFilteredCats | Sort-Object -Property "Name" #Ascending is default; no option required
 }

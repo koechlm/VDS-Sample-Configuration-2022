@@ -624,7 +624,7 @@ function GetNumSchms
 
 function GetCategories
 {
-	$mAllCats =  $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
+	$mAllCats =  $Prop["_Category"].ListValues
 	$mFDSFilteredCats = $mAllCats | Where { $_.Name -ne "Asset Library"}
 	return $mFDSFilteredCats | Sort-Object -Property "Name" #Ascending is default; no option required
 }

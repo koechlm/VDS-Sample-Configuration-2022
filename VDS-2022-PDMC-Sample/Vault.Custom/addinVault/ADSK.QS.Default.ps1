@@ -816,7 +816,7 @@ function GetCategories
 	{
 		#return $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
 		#region VDS-PDMC-Sample
-			$global:mFileCategories = $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
+			$global:mFileCategories = $Prop["_Category"].ListValues #$vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
 			return $global:mFileCategories | Sort-Object -Property "Name" #Ascending is default; no option required
 		#endregion
 	}

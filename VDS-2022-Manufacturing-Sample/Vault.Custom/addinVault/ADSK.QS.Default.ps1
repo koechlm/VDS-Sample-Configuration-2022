@@ -353,7 +353,7 @@ function GetCategories
 	{
 		#return $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
 		#region VDS MFG Sample
-			$global:mFileCategories = $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
+			$global:mFileCategories = $Prop["_Category"].ListValues # $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
 			return $global:mFileCategories | Sort-Object -Property Name #ascending is the default
 		#endregion
 	}
