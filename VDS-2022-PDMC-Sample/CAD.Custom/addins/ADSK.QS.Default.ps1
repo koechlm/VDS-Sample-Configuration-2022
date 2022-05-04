@@ -679,25 +679,17 @@ function mHelp ([Int] $mHContext) {
 		$mhelpfile = Invoke-Item $mHelpTarget 
 	}
 	catch {
-		[System.Windows.MessageBox]::Show($UIString["MSDCE_MSG02"], "Vault VDS-PDMC-Sample Client")
+		[System.Windows.MessageBox]::Show($UIString["MSDCE_MSG02"], "Vault VDS-Sample Client")
 	}
 }
 
 function mReadShortCuts {
 	if ($Prop["_CreateMode"].Value -eq $true) {
 		#$dsDiag.Trace(">> Looking for Shortcuts...")
-		$m_Server = $VaultConnection.Server
+		$m_Server = ($VaultConnection.Server).Replace(":", "_").Replace("/", "_")
 		$m_Vault = $VaultConnection.Vault
-		$m_AllFiles = @()
-		$m_FiltFiles = @()
-		$m_Path = $env:APPDATA + '\Autodesk\VaultCommon\Servers\Services_Security_12_17_2020\'
-		$m_AllFiles += Get-ChildItem -Path $m_Path -Filter 'Shortcuts.xml' -Recurse
-		$m_AllFiles | ForEach-Object {
-			if ($_.FullName -like "*" + $m_Server.Replace(":", "_").Replace("/", "_") + "*" -and $_.FullName -like "*" + $m_Vault + "*") {
-				$m_FiltFiles += $_
-			} 
-		}
-		$global:mScFile = $m_FiltFiles.SyncRoot[$m_FiltFiles.Count - 1].FullName
+		$m_Path = "$($env:appdata)\Autodesk\VaultCommon\Servers\Services_Security_12_17_2020\$($m_Server)\Vaults\$($m_Vault)\Objects\"
+		$global:mScFile = $m_Path + "Shortcuts.xml"
 		if (Test-Path $global:mScFile) {
 			#$dsDiag.Trace(">> Start reading Shortcuts...")
 			$global:m_ScXML = New-Object XML 
@@ -707,17 +699,19 @@ function mReadShortCuts {
 			$global:m_ScCAD = @{}
 			#$dsDiag.Trace("... Filtering Shortcuts...")
 			$m_ScAll | ForEach-Object { 
-				if (($_.NavigationContextType -eq "Connectivity.Explorer.Document.DocFolder") -and ($_.NavigationContext.URI -like "*" + $global:CAx_Root + "/*")) {
-					try {
+				if (($_.NavigationContextType -eq "Connectivity.Explorer.Document.DocFolder") -and ($_.NavigationContext.URI -like "*"+$global:CAx_Root + "/*"))
+				{
+					try
+					{
 						$_t = $global:m_ScCAD.Add($_.Name, $_.NavigationContext.URI)
 					}
 					catch {
-						#$dsDiag.Trace("... ERROR Filtering Shortcuts...")
+						$dsDiag.Trace("... ERROR Filtering Shortcuts...")
 					}
 				}
 			}
 		}
-		#$dsDiag.Trace("... returning Shortcuts")
+		$dsDiag.Trace("... returning Shortcuts")
 		return $global:m_ScCAD
 	}
 }
@@ -740,6 +734,7 @@ function mScClick {
 		if ($m_DesignPathNames.Count -eq 1) { $m_DesignPathNames += "." }
 		mActivateBreadCrumbCmbs $m_DesignPathNames
 		$global:expandBreadCrumb = $true
+		$dsWindow.FindName("lstBoxShortCuts").SelectedItem = $null
 	}
 	catch {
 		#$dsDiag.Trace("mScClick function - error reading selected value")
@@ -765,27 +760,33 @@ function mRemoveSc {
 	catch { }
 }
 
-function mAddShortCutByName([STRING] $mScName) {
-	try { #simply check that the name is unique
+function mAddShortCutByName([STRING] $mScName)
+{
+	try #simply check that the name is unique
+	{
 		#$dsDiag.Trace(">> Start to add ShortCut, check for used name...")
-		$global:m_ScCAD.Add($mScName, "Dummy")
+		$global:m_ScCAD.Add($mScName,"Dummy")
 		$global:m_ScCAD.Remove($mScName)
 	}
-	catch { #no reason to continue in case of existing name
-		[System.Windows.MessageBox]::Show($UIString["MSDCE_MSG01"], "Vault VDS-PDMC-Sample Client")
+	catch #no reason to continue in case of existing name
+	{
+		[System.Windows.MessageBox]::Show($UIString["MSDCE_MSG01"], "VDS MFG Sample Client")
 		end function
 	}
 
-	try {
+	try 
+	{
 		#$dsDiag.Trace(">> Continue to add ShortCut, creating new from template...")	
 		#read from template
 		$m_File = "$($env:appdata)\Autodesk\DataStandard 2022\Folder2022.xml"
-		if (Test-Path $m_File) {
+
+		if (Test-Path $m_File)
+		{
 			#$dsDiag.Trace(">>-- Started to read Folder2022.xml...")
 			$global:m_XML = New-Object XML
 			$global:m_XML.Load($m_File)
 		}
-		$mShortCut = $global:m_XML.VDSUserProfile.Shortcut | Where-Object { $_.Name -eq "Template" }
+		$mShortCut = $global:m_XML.VDSUserProfile.Shortcut | Where-Object { $_.Name -eq "Template"}
 		#clone the template completely and update name attribute and navigationcontext element
 		$mNewSc = $mShortCut.Clone() #.CloneNode($true)
 		#rename "Template" to new name
@@ -794,28 +795,29 @@ function mAddShortCutByName([STRING] $mScName) {
 		#derive the path from current selection
 		$breadCrumb = $dsWindow.FindName("BreadCrumb")
 		$newURI = "vaultfolderpath:" + $global:CAx_Root
-		foreach ($cmb in $breadCrumb.Children) {
-			$_N = $cmb.SelectedItem.Name
-			#$dsDiag.Trace(" - selecteditem.Name of cmb: $_N ")
-			if (($cmb.SelectedItem.Name.Length -gt 0) -and !($cmb.SelectedItem.Name -eq ".")) { 
+		foreach ($cmb in $breadCrumb.Children) 
+		{
+			if (($cmb.SelectedItem.Name.Length -gt 0) -and !($cmb.SelectedItem.Name -eq "."))
+			{ 
 				$newURI = $newURI + "/" + $cmb.SelectedItem.Name
 				#$dsDiag.Trace(" - the updated URI  of the shortcut: $newURI")
 			}
-			else { break }
+			else { break}
 		}
 		
 		#hand over the path in shortcut navigation format
 		$mNewSc.NavigationContext.URI = $newURI
 		#append the new shortcut and save back to file
-		$mImpNode = $global:m_ScXML.ImportNode($mNewSc, $true)
+		$mImpNode = $global:m_ScXML.ImportNode($mNewSc,$true)
 		$global:m_ScXML.Shortcuts.AppendChild($mImpNode)
 		$global:m_ScXML.Save($mScFile)
 		$dsWindow.FindName("txtNewShortCut").Text = ""
 		#$dsDiag.Trace("..successfully added ShortCut <<")
 		return $true
 	}
-	catch {
-		#$dsDiag.Trace("..problem encountered adding ShortCut <<")
+	catch 
+	{
+		$dsDiag.Trace("..problem encountered adding ShortCut <<")
 		return $false
 	}
 }
