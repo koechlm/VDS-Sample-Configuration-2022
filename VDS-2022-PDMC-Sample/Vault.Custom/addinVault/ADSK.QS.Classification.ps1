@@ -38,7 +38,7 @@ function mInitializeClassificationTab($ParentType, $file)
 
 	if($Global:mClsTabInitialized -ne $true)
 	{
-		$dsDiag.Trace("...not intialized yet -> Initialize classification tab.")
+		#$dsDiag.Trace("...not intialized yet -> Initialize classification tab.")
 		#variables, that we need in any case; limit number of server calls
 
 		$Global:mAllCustentPropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT")
@@ -59,7 +59,7 @@ function mInitializeClassificationTab($ParentType, $file)
 	{
 		"Dialog"
 		{
-			$dsDiag.Trace("Initialize UI Controls for Dialog starts...")
+			#$dsDiag.Trace("Initialize UI Controls for Dialog starts...")
 
 			$Global:mFile = mGetFileObject
 
@@ -74,7 +74,7 @@ function mInitializeClassificationTab($ParentType, $file)
 
 			$dsWindow.FindName("dtgrdClassProps").add_LostFocus({
 			#update property values by leaving the tab
-				$dsDiag.Trace("data grid Class Props lost focus")
+				#$dsDiag.Trace("data grid Class Props lost focus")
 				try{
 						Foreach($row in $dsWindow.FindName("dtgrdClassProps").Items)
 						{
@@ -103,32 +103,32 @@ function mInitializeClassificationTab($ParentType, $file)
 			}
 
 			$Global:mClsTabInitialized = $true
-			$dsDiag.Trace("...Initialize UI Controls for Dialog finished")
+			#$dsDiag.Trace("...Initialize UI Controls for Dialog finished")
 		}
 		default #data sheet tab
 		{
-			$dsDiag.Trace("Initialize Detail Tab Datasheet starts...")
+			#$dsDiag.Trace("Initialize Detail Tab Datasheet starts...")
 			$Global:mFile = $file
 			$Global:mClsTabInitialized = $true
-			$dsDiag.Trace("...Initialize Detail Tab Datasheet finished")
+			#$dsDiag.Trace("...Initialize Detail Tab Datasheet finished")
 		}
 	}
 
 	mGetFileClsValues
 
-	$dsDiag.Trace("...Initialize Classification Tab ended.")
+	#$dsDiag.Trace("...Initialize Classification Tab ended.")
 }
 
 function mGetFileClsValues
 {
-	$dsDiag.Trace(">>Function mGetFileClsValues starts...")
+	#$dsDiag.Trace(">>Function mGetFileClsValues starts...")
 	$dsWindow.FindName("dtgrdClassProps").ItemsSource = $null
 	$mActiveClass = @()
 	$mActiveClass += mGetCustentiesByName -Name $Prop["_XLTN_CLASS"].Value #Note - custom object names are not unique, only its Number, and we need to handle returning more than one.
 	if($mActiveClass.Count -eq 1)
 	{
 		#region get Property Ids and Displaynames for this class
-		$dsDiag.Trace("	...class object for file class property value found.")
+		#$dsDiag.Trace("	...class object for file class property value found.")
 		$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass[0].Id
 		$mClsPropTable = @{}
 		$mClsLevelProps = ("Segment", "Main Group", "Group", "Sub Group", "Class")
@@ -148,17 +148,17 @@ function mGetFileClsValues
 	}
 	if ($mActiveClass.Count -gt 1)
 	{
-		$dsDiag.Trace("	...multiple class objects for given name found.")
+		#$dsDiag.Trace("	...multiple class objects for given name found.")
 	}
-	$dsDiag.Trace("...Function mGetFileClsValues finished.<<")
+	#$dsDiag.Trace("...Function mGetFileClsValues finished.<<")
 }
 
 function mGetClsDfltValues
 {
-	$dsDiag.Trace(">>Function mGetClsDfltValues starts...")
+	#$dsDiag.Trace(">>Function mGetClsDfltValues starts...")
 	$mActiveClass = @()
 	$mActiveClass += mGetCustentiesByName -Name $dsWindow.FindName("cmbAvailableClasses").SelectedValue
-	$dsDiag.Trace("	...active class: " + '$mActiveClass' + "read from class property")
+	#$dsDiag.Trace("	...active class: " + '$mActiveClass' + "read from class property")
 	$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass[0].Id
 	$mClsPrpValues = mGetClsPrpValues -ClassId $mActiveClass[0].Id
 	$mClsPropTable = @{}
@@ -181,9 +181,9 @@ function mGetClsDfltValues
 		}
 	}
 	catch{
-		$dsDiag.Trace("	...Error writing class properties to file properties")
+		#$dsDiag.Trace("	...Error writing class properties to file properties")
 	}
-	$dsDiag.Trace("...Function mGetClsDfltValues finsihed.<<")
+	#$dsDiag.Trace("...Function mGetClsDfltValues finsihed.<<")
 }
 
 function mGetClsPrpNames($ClassId) #get Properties added to this class
@@ -280,7 +280,7 @@ function mGetFileObject()
 
 function mAddClassification()
 {
-	$dsDiag.Trace("AddClassification starts...")
+	#$dsDiag.Trace("AddClassification starts...")
 
 	if ($Global:mFile)
 	{
@@ -302,7 +302,7 @@ function mAddClassification()
 		$mAddRemoveComment = "Added classification"
 		$mFileUpdated = $vault.DocumentService.UpdateFilePropertyDefinitions(@($Global:mFile.MasterId), $mPropsAdd, $mPropsRemove, $mAddRemoveComment)
 		if ($null -eq $mFileUpdated) {
-			$dsDiag.Trace("AddClassification Error on UpdateFilePropertyDefinitions")
+			#$dsDiag.Trace("AddClassification Error on UpdateFilePropertyDefinitions")
 		}
 	}
 	$Prop["_XLTN_CLASS"].Value = $dsWindow.FindName("cmbAvailableClasses").SelectedValue
@@ -317,17 +317,17 @@ function mAddClassification()
 	
 	mResetClassSelection
 
-	$dsDiag.Trace("...AddClassification finished.")
+	#$dsDiag.Trace("...AddClassification finished.")
 }
 
 function mRemoveClassification()
 {
-	$dsDiag.Trace("Remove Class starts...")
+	#$dsDiag.Trace("Remove Class starts...")
 	if($Prop["_EditMode"])
 	{
 		if ($Global:mFile)
 		{
-			$dsDiag.Trace("...remove class - file found")
+			#$dsDiag.Trace("...remove class - file found")
 			$mActiveClass = @()
 			$mActiveClass +=  mFindCustent -CustentName $Prop["_XLTN_CLASS"].Value -Category "Class" #custom object names should be unique within a category, only its Number
 			If($mActiveClass.Count -eq 1)
@@ -346,7 +346,7 @@ function mRemoveClassification()
 			$mAddRemoveComment = "removed classification"
 			$mFileUpdated = $vault.DocumentService.UpdateFilePropertyDefinitions(@($Global:mFile.MasterId), $mPropsAdd, $mPropsRemove, $mAddRemoveComment)
 			if ($null -eq $mFileUpdated) {
-				$dsDiag.Trace("Removelassification Error on UpdateFilePropertyDefinitions")
+				#$dsDiag.Trace("Removelassification Error on UpdateFilePropertyDefinitions")
 			}
 		}
 	}
@@ -362,7 +362,7 @@ function mRemoveClassification()
 	$value = -1
 	$value | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\mFileClassId.txt"
 
-	$dsDiag.Trace("...remove classification finished.")
+	#$dsDiag.Trace("...remove classification finished.")
 }
 
 
@@ -397,7 +397,7 @@ function mAddClsLevelCombo ([String] $ClassLevelName, $ClsLvls) {
 		}
 	$cmb.add_SelectionChanged({
 			param($sender,$e)
-			$dsDiag.Trace("1. SelectionChanged, Sender = $sender, $e")
+			#$dsDiag.Trace("1. SelectionChanged, Sender = $sender, $e")
 			mClsLevelCmbSelectionChanged -sender $sender
 		});
 	$mBreadCrumb.RegisterName($cmb.Name, $cmb) #register the name to activate later via indexed name
@@ -411,28 +411,28 @@ function mAddClsLevelCombo ([String] $ClassLevelName, $ClsLvls) {
 			$_cmbNames = @()
 			Foreach ($_cmbItem in $cmb.Items)
 			{
-				$dsDiag.Trace("---$_cmbItem---")
+				#$dsDiag.Trace("---$_cmbItem---")
 				$_cmbNames += $_cmbItem.Name
 			}
-			$dsDiag.Trace("Combo $index Namelist = $_cmbNames")
+			#$dsDiag.Trace("Combo $index Namelist = $_cmbNames")
 			if ($ClsLvls[0]) #avoid activation of null ;)
 			{
 				$_CurrentName = $ClsLvls[0]
-				$dsDiag.Trace("Current Name: $_CurrentName ")
+				#$dsDiag.Trace("Current Name: $_CurrentName ")
 				#get the index of name in array
 				$i = 0
 				Foreach ($_Name in $_cmbNames)
 				{
 					$_1 = $_cmbNames.count
 					$_2 = $_cmbNames[$i]
-					$dsDiag.Trace(" Counter: $i von $_1 Value: $_2  and CurrentName: $_CurrentName ")
+					#$dsDiag.Trace(" Counter: $i von $_1 Value: $_2  and CurrentName: $_CurrentName ")
 					If ($_cmbNames[$i] -eq $_CurrentName)
 					{
 						$_IndexToActivate = $i
 					}
 					$i +=1
 				}
-				$dsDiag.Trace("Index of current name: $_IndexToActivate ")
+				#$dsDiag.Trace("Index of current name: $_IndexToActivate ")
 				$cmb.SelectedIndex = $_IndexToActivate
 			} #end if ClsLvls[0]
 
@@ -443,7 +443,7 @@ function mAddClsLevelCombo ([String] $ClassLevelName, $ClsLvls) {
 
 function mAddClsLevelCmbChild ($data) {
 	$children = mGetCustentClsLevelUsesList -sender $data
-	$dsDiag.Trace("check data object: $children")
+	#$dsDiag.Trace("check data object: $children")
 	if($children -eq $null) { return }
 	#Filter classification levels and classes
 	#mAvlblClsReset
@@ -490,7 +490,7 @@ function mAddClsLevelCmbChild ($data) {
 		}
 	$cmb.add_SelectionChanged({
 			param($sender,$e)
-			$dsDiag.Trace("next. SelectionChanged, Sender = $sender")
+			#$dsDiag.Trace("next. SelectionChanged, Sender = $sender")
 			mClsLevelCmbSelectionChanged -sender $sender
 		});
 	$mBreadCrumb.RegisterName($cmb.Name, $cmb) #register the name to activate later via indexed name
@@ -498,7 +498,7 @@ function mAddClsLevelCmbChild ($data) {
 
 	$_i = $mBreadCrumb.Children.Count
 	$_Label = "lblGroup_" + $_i
-	$dsDiag.Trace("Label to display: $_Label - but not longer used")
+	#$dsDiag.Trace("Label to display: $_Label - but not longer used")
 	# 	$dsWindow.FindName("$_Label").Visibility = "Visible"
 
 	#region EditMode for CustomObjectTerm Window
@@ -511,28 +511,28 @@ function mAddClsLevelCmbChild ($data) {
 				$_cmbNames = @()
 				Foreach ($_cmbItem in $cmb.Items)
 				{
-					$dsDiag.Trace("---$_cmbItem---")
+					#$dsDiag.Trace("---$_cmbItem---")
 					$_cmbNames += $_cmbItem.Name
 				}
-				$dsDiag.Trace("Combo $index Namelist = $_cmbNames")
+				#$dsDiag.Trace("Combo $index Namelist = $_cmbNames")
 				#get the index of name in array
 				if ($ClsLvls[$_i-2]) #avoid activation of null ;)
 				{
 					$_CurrentName = $ClsLvls[$_i-2] #remember the number of breadcrumb children is +2 (delete button, and the class start with index 0)
-					$dsDiag.Trace("Current Name: $_CurrentName ")
+					#$dsDiag.Trace("Current Name: $_CurrentName ")
 					$i = 0
 					Foreach ($_Name in $_cmbNames)
 					{
 						$_1 = $_cmbNames.count
 						$_2 = $_cmbNames[$i]
-						$dsDiag.Trace(" Counter: $i von $_1 Value: $_2  and CurrentName: $_CurrentName ")
+						#$dsDiag.Trace(" Counter: $i von $_1 Value: $_2  and CurrentName: $_CurrentName ")
 						If ($_cmbNames[$i] -eq $_CurrentName)
 						{
 							$_IndexToActivate = $i
 						}
 						$i +=1
 					}
-					$dsDiag.Trace("Index of current name: $_IndexToActivate ")
+					#$dsDiag.Trace("Index of current name: $_IndexToActivate ")
 					$cmb.SelectedIndex = $_IndexToActivate
 				} #end
 
@@ -548,7 +548,7 @@ function mAddClsLevelCmbChild ($data) {
 
 function mGetCustentClsLevelList ([String] $ClassLevelName) {
 	try {
-		$dsDiag.Trace(">> mGetCustentClsLevelList started")
+		#$dsDiag.Trace(">> mGetCustentClsLevelList started")
 		$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 1
 		$srchCond = New-Object autodesk.Connectivity.WebServices.SrchCond
 		#$propDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT") global var in ADSK.QS.Classification
@@ -569,7 +569,7 @@ function mGetCustentClsLevelList ([String] $ClassLevelName) {
 		$searchStatus = New-Object autodesk.Connectivity.WebServices.SrchStatus
 		$bookmark = ""
 		$_CustomEnts = $vault.CustomEntityService.FindCustomEntitiesBySearchConditions($srchConds,$null,[ref]$bookmark,[ref]$searchStatus)
-		$dsDiag.Trace(".. mGetCustentClsLevelList finished - returns $_CustomEnts <<")
+		#$dsDiag.Trace(".. mGetCustentClsLevelList finished - returns $_CustomEnts <<")
 		return $_CustomEnts
 	}
 	catch {
@@ -579,7 +579,7 @@ function mGetCustentClsLevelList ([String] $ClassLevelName) {
 
 function mGetCustentClsLevelUsesList ($sender) {
 	try {
-		$dsDiag.Trace(">> mGetCustentClsLevelUsesList started")
+		#$dsDiag.Trace(">> mGetCustentClsLevelUsesList started")
 		$mBreadCrumb = $dsWindow.FindName("wrpClassification2")
 		$_i = $mBreadCrumb.Children.Count -1
 		$_CurrentCmbName = "cmbClsBrdCrmb_" + $mBreadCrumb.Children.Count.ToString()
@@ -601,7 +601,7 @@ function mGetCustentClsLevelUsesList ($sender) {
 			$linkIds = @()
 			$links | ForEach-Object { $linkIds += $_.ToEntId }
 			$mLinkedCustObjects = $vault.CustomEntityService.GetCustomEntitiesByIds($linkIds)
-			$dsDiag.Trace(".. mGetCustentClsLevelUsesList finished - returns $mLinkedCustObjects <<")
+			#$dsDiag.Trace(".. mGetCustentClsLevelUsesList finished - returns $mLinkedCustObjects <<")
 			return $mLinkedCustObjects #$global:_Groups
 		}
 		catch {
@@ -639,12 +639,12 @@ function mClsLevelCmbSelectionChanged ($sender) {
 
 function mResetClassSelection
 {
-    $dsDiag.Trace(">> Reset Filter started...")
+    #$dsDiag.Trace(">> Reset Filter started...")
 
 	$mBreadCrumb = $dsWindow.FindName("wrpClassification2")
 	$mBreadCrumb.Children[0].SelectedIndex = -1
 
-	$dsDiag.Trace("...Reset Filter finished <<")
+	#$dsDiag.Trace("...Reset Filter finished <<")
 }
 
 function mAvlblClsReset

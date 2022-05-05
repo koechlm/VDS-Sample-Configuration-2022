@@ -28,7 +28,7 @@ public class mAssocCustent
 
 function mGetAssocCustents($mIds)
 {
-	$dsDiag.Trace(">> Starting mGetAssocCustents($mIds)")
+	#$dsDiag.Trace(">> Starting mGetAssocCustents($mIds)")
 	$mCustEntities = $vault.CustomEntityService.GetCustomEntitiesByIds($mIds)
 	$PropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT")
 	$propDefIds = @()

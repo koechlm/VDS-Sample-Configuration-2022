@@ -403,7 +403,7 @@ function mGetItemByFileFromVault() {
 			#return $result
 		}
 		default {
-			$dsDiag.Trace("More than one file in Vault found")
+			#$dsDiag.Trace("More than one file in Vault found")
 			mInitializeTabItemProps
 		}
 	}#end switch
@@ -414,7 +414,7 @@ function mGetItemByFileFromVault() {
 	if ($mappedRootPath -eq '') {
 		$mappedRootPath = '$/'
 	}
-	$dsDiag.Trace("mapped root: $($mappedRootPath)")
+	#$dsDiag.Trace("mapped root: $($mappedRootPath)")
 	$mWfVault = $mappedRootPath
 					
 	#get local path of vault workspace path for Inventor

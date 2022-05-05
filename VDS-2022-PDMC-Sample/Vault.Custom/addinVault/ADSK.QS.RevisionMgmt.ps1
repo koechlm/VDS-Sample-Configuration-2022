@@ -201,16 +201,16 @@ function ValidateRevisionField($mProp)
 
 	If ($Prop["_EditMode"].Value -eq $true)
 	{		
-		$dsDiag.Trace("...EditMode...")
+		#$dsDiag.Trace("...EditMode...")
 		
 		if ($mProp.Value -eq "" -OR $mProp.Value -eq $null)
 		{
-			$dsDiag.Trace(" '$($mProp)'...no Value: returning false<<")
+			#$dsDiag.Trace(" '$($mProp)'...no Value: returning false<<")
 			return $false
 		}
 		else
 		{
-			$dsDiag.Trace(" '$($mProp)'...has Value: returning true<<")
+			#$dsDiag.Trace(" '$($mProp)'...has Value: returning true<<")
 			return $true
 		}
 	}#edit mode

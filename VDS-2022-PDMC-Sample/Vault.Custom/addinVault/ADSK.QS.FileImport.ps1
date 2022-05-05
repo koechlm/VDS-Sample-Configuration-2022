@@ -74,7 +74,7 @@ function mImportUpdateProps
 			}
 		}
 		Catch{
-			$dsDiag.Trace("--Update-VaultFile failed for file: $($mGridItem.mFileNewFullName)")
+			#$dsDiag.Trace("--Update-VaultFile failed for file: $($mGridItem.mFileNewFullName)")
 		}
 		
 	}
@@ -88,7 +88,7 @@ function mImportUpdateProps
 
 function mDragEnter ($sender, $e)
 {
-	$dsDiag.Trace("Drag Enter fired")
+	#$dsDiag.Trace("Drag Enter fired")
 			[System.Windows.DataObject]$mDragData = $e.Data
 		$mFileList = $mDragData.GetFileDropList()
 		#Filter folders, we attach files directly selected only

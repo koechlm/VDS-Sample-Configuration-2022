@@ -94,7 +94,7 @@ function InitializeRevisionValidation {
 
 	switch ($dsWindow.Name) {
 		"InventorWindow" {
-			$dsDiag.Trace("ExtendedRevision Validation for Inventor starts...")
+			#$dsDiag.Trace("ExtendedRevision Validation for Inventor starts...")
 			if (@(".DWG", ".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value) {
 
 				#new files
@@ -271,18 +271,18 @@ function InitializeRevisionValidation {
 
 
 function ValidateRevisionField($mProp) {
-	$dsDiag.Trace(">>Validation runs for '$($mProp.Name)', $($mProp.Typ)")
+	#$dsDiag.Trace(">>Validation runs for '$($mProp.Name)', $($mProp.Typ)")
 
 	If ($Prop["_EditMode"].Value -eq $true) {		
-		$dsDiag.Trace("...EditMode...")
+		#$dsDiag.Trace("...EditMode...")
 
 		if ($mProp.Value -eq "" -OR $null -eq $mProp.Value) {
-			$dsDiag.Trace("...no Value: returning false<<")
+			#$dsDiag.Trace("...no Value: returning false<<")
 			$mProp.CustomValidationErrorMessage = "Empty value are not allowed for the current life cylce state!"
 			return $false
 		}
 		else {
-			$dsDiag.Trace("...has Value: returning true<<")
+			#$dsDiag.Trace("...has Value: returning true<<")
 			return $true
 		}
 	}
@@ -332,7 +332,7 @@ function mGetFilePropValues ([Int64] $mFileId) {
 function ResetRevisionProperties {
 	switch ($dsWindow.Name) {
 		"InventorWindow" {
-			$dsDiag.Trace("ExtendedRevision Validation for Inventor starts...")
+			#$dsDiag.Trace("ExtendedRevision Validation for Inventor starts...")
 			if (@(".DWG", ".IDW", ".dwg", ".idw") -contains $Prop["_FileExt"].Value) {
 				if ($Prop["Checked By"]) {
 					$Prop["Checked By"].Value = ""

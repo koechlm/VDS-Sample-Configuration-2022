@@ -710,7 +710,7 @@ function mReadShortCuts {
 				}
 			}
 		}
-		$dsDiag.Trace("... returning Shortcuts")
+		#$dsDiag.Trace("... returning Shortcuts")
 		return $global:m_ScCAD
 	}
 }
@@ -736,7 +736,7 @@ function mScClick {
 		$dsWindow.FindName("lstBoxShortCuts").SelectedItem = $null
 	}
 	catch {
-		#$dsDiag.Trace("mScClick function - error reading selected value")
+		$dsDiag.Trace("mScClick function - error reading selected value")
 	}
 	
 }
