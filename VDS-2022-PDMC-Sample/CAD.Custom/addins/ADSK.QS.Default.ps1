@@ -558,9 +558,8 @@ function GetNumSchms {
 			$noneNumSchm.Name = $UIString["LBL77"] # None 
 			$_FilteredNumSchems += $noneNumSchm
 
-			#ShrinkWrap workflows suggest a file name; allow user overrides
-			if ($global:mShrnkWrp -eq $true) {
-				$dsDiag.Inspect()
+			#Inventor ShrinkWrap workflows suggest a file name; allow user overrides
+			if ($dsWindow.Name -eq "InventorWindow" -and $global:mShrnkWrp -eq $true) {
 				if ($Prop["_NumSchm"].Value) { $Prop["_NumSchm"].Value = $_FilteredNumSchems[1].Name } # None 	
 			}
 
