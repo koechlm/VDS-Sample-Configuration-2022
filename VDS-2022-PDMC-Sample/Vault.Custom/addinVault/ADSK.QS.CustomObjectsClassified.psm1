@@ -448,21 +448,21 @@ function mAddCoCombo ([String] $_CoName, $_classes)
 			If ($_classes[0]) #avoid activation of null ;)
 			{
 				$_CurrentName = $_classes[0]
-				$dsDiag.Trace("Current Name: $_CurrentName ")
+				#$dsDiag.Trace("Current Name: $_CurrentName ")
 				#get the index of name in array
 				$i = 0
 				Foreach ($_Name in $_cmbNames) 
 				{
 					$_1 = $_cmbNames.count
 					$_2 = $_cmbNames[$i]
-					$dsDiag.Trace(" Counter: $i von $_1 Value: $_2  and CurrentName: $_CurrentName ")
+					#$dsDiag.Trace(" Counter: $i von $_1 Value: $_2  and CurrentName: $_CurrentName ")
 					If ($_cmbNames[$i] -eq $_CurrentName) 
 					{
 						$_IndexToActivate = $i
 					}
 					$i +=1
 				}
-				$dsDiag.Trace("Index of current name: $_IndexToActivate ")
+				#$dsDiag.Trace("Index of current name: $_IndexToActivate ")
 				$cmb.SelectedIndex = $_IndexToActivate			
 			} #end If classes[0]
 			
@@ -653,10 +653,13 @@ function mCoComboSelectionChanged ($sender) {
 		$children--;
 	}
 	Try{
-		if($mBreadCrumb.Children[1]){ $Prop["Segment"].Value = $mBreadCrumb.Children[1].SelectedItem.Name}
-		if($mBreadCrumb.Children[2]){ $Prop["Main Group"].Value = $mBreadCrumb.Children[2].SelectedItem.Name}
-		if($mBreadCrumb.Children[3]){ $Prop["Group"].Value = $mBreadCrumb.Children[3].SelectedItem.Name}
-		if($mBreadCrumb.Children[4]){ $Prop["Sub Group"].Value = $mBreadCrumb.Children[4].SelectedItem.Name}
+		if ($mBreadCrumb.Children[1]) { $Prop["Segment"].Value = $mBreadCrumb.Children[1].SelectedItem.Name }
+		if ($mBreadCrumb.Children[2]) { $Prop["Main Group"].Value = $mBreadCrumb.Children[2].SelectedItem.Name }
+		else { $Prop["Main Group"].Value = "" }
+		if ($mBreadCrumb.Children[3]) { $Prop["Group"].Value = $mBreadCrumb.Children[3].SelectedItem.Name }
+		else { $Prop["Group"].Value = "" }
+		if ($mBreadCrumb.Children[4]) { $Prop["Sub Group"].Value = $mBreadCrumb.Children[4].SelectedItem.Name }
+		else { $Prop["Sub Group"].Value = "" }
 
 		#write the highest level Custent Id to a text file for post-close event
 		$value = $mBreadCrumb.Children[$children].SelectedItem.Id

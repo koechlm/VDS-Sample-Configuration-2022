@@ -11,6 +11,9 @@
 #endregion =============================================================================
 
 #region - version history
+# Version Info - VDS-PDMC-Sample Classfication 2022.1.0
+	#merge IEC61355 classification support
+
 # Version Info - VDS-PDMC-Sample Classification 2022.0.1
 	#fixed issue of overlapping Initialization of DataSheet and Dialogs
 	#fixed error 303 if user does not have right Custom Entity Read as a minimum
@@ -64,13 +67,14 @@ function mInitializeClassificationTab($ParentType, $file)
 			$Global:mFile = mGetFileObject
 
 			#activate UI controls
-			$dsWindow.FindName("cmbAvailableClasses").add_SelectionChanged({
-				If($Prop["_ReadOnly"].Value -eq $false -and $dsWindow.FindName("txtActiveClass").Text -eq "" -and $dsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1)
-				{
-					$dsWindow.FindName("btnAddClass").IsEnabled = $true
-				}
-				Else { $dsWindow.FindName("btnAddClass").IsEnabled = $false}
-			})
+			if ($null -ne $dsWindow.FindName("cmbAvailableClasses")) {
+				$dsWindow.FindName("cmbAvailableClasses").add_SelectionChanged({
+						If ($Prop["_ReadOnly"].Value -eq $false -and $dsWindow.FindName("txtActiveClass").Text -eq "" -and $dsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1) {
+							$dsWindow.FindName("btnAssignClass").IsEnabled = $true
+						}
+						Else { $dsWindow.FindName("btnAssignClass").IsEnabled = $false }
+					})
+			}
 
 			$dsWindow.FindName("dtgrdClassProps").add_LostFocus({
 			#update property values by leaving the tab
@@ -87,12 +91,19 @@ function mInitializeClassificationTab($ParentType, $file)
 			}) #lostFocus
 
 			mAvlblClsReset
-			if($dsWindow.FindName("wrpClassification2").Children.Count -lt 1)
-			{
-				#activate command should not add another combo row, if already classe(s) are selected
-				mAddClsLevelCombo -ClassLevelName "Segment"
+			
+			if($dsWindow.FindName("wrpClassification2")){
+					if($dsWindow.FindName("wrpClassification2").Children.Count -lt 1)
+				{
+					#activate command should not add another combo row, if already classe(s) are selected
+					mAddClsLevelCombo -ClassLevelName "Segment"
+				}
 			}
-			if($Prop["_XLTN_CLASS"].Value.Length -lt 1) { $dsWindow.FindName("btnRemoveClass").IsEnabled = $false}
+			
+			if($Prop["_XLTN_CLASS"].Value.Length -lt 1 -and $false -eq $Prop["_ReadOnly"].Value) { 
+				$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
+				$dsWindow.FindName("btnAssignClass").IsEnabled = $true
+			}
 			if($Prop["_XLTN_CLASS"].Value.Length -gt 0 -and $Prop["_ReadOnly"].Value -eq $false) 
 			{ 	
 				$dsWindow.FindName("btnRemoveClass").IsEnabled = $true
@@ -307,7 +318,7 @@ function mAddClassification()
 	}
 	$Prop["_XLTN_CLASS"].Value = $dsWindow.FindName("cmbAvailableClasses").SelectedValue
 	$dsWindow.FindName("btnRemoveClass").IsEnabled = $true
-	$dsWindow.FindName("btnAddClass").IsEnabled = $false
+	$dsWindow.FindName("btnAssignClass").IsEnabled = $false
 
 				
 	$value = $dsWindow.FindName("cmbAvailableClasses").SelectedItem.Id
@@ -356,7 +367,7 @@ function mRemoveClassification()
 	$dsWindow.FindName("txtActiveClass").Text = ""
 
 	$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
-	if($dsWindow.FindName("cmbAvailableClasses").SelectedIndex -ne -1 -and $Prop["_ReadOnly"].Value -eq $false) { $dsWindow.FindName("btnAddClass").IsEnabled = $true}
+	if($dsWindow.FindName("cmbAvailableClasses").SelectedIndex -ne -1 -and $Prop["_ReadOnly"].Value -eq $false) { $dsWindow.FindName("btnAssignClass").IsEnabled = $true}
 	
 	#write the highest level Custent Id to a text file for post-close event
 	$value = -1
@@ -649,9 +660,44 @@ function mResetClassSelection
 
 function mAvlblClsReset
 {
-	$dsWindow.FindName("cmbAvailableClasses").ItemsSource = $null
-	$dsWindow.FindName("cmbAvailableClasses").SelectedIndex = -1
-	$dsWindow.FindName("cmbAvailableClasses").IsEnabled = $false
-	$dsWindow.FindName("btnAddClass").IsEnabled = $false
+	if ($null -ne $dsWindow.FindName("cmbAvailableClasses")) {
+		$dsWindow.FindName("cmbAvailableClasses").ItemsSource = $null
+		$dsWindow.FindName("cmbAvailableClasses").SelectedIndex = -1
+		$dsWindow.FindName("cmbAvailableClasses").IsEnabled = $false
+	}
+	$dsWindow.FindName("btnAssignClass").IsEnabled = $false
 }
 #endregion classification breadcrumb
+
+function mAssignClassification
+{
+	[xml]$AssignClsXaml = Get-Content "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.SelectClassification.xaml"
+    $reader = New-Object System.Xml.XmlNodeReader $AssignClsXaml
+    $AssignClsWindow = [Windows.Markup.XamlReader]::Load($reader) 
+    $AssignClsWindow.DataContext = $dsWindow.DataContext
+
+	mAssignClsGrdReset -ComboBox $AssignClsWindow.FindName("cmb_ClsStd")
+
+	$AssignClsWindow.FindName("cmb_ClsStd").add_SelectionChanged({
+		param ($sender, $e)
+		mAssignClsGrdReset -ComboBox $AssignClsWindow.FindName("cmb_ClsStd")
+	})
+
+	if ($AssignClsWindow.ShowDialog() -eq "OK") {
+        #grab all the values to return
+        return
+    } else {
+        return $null
+    }
+}
+
+function mAssignClsGrdReset ($ComboBox){
+	if ($ComboBox.SelectedIndex -eq "0"){
+			$AssignClsWindow.FindName("grdIEC61355").Visibility = "Visible"
+			$AssignClsWindow.FindName("grdClassification").Visibility = "Collapsed"
+		}
+		Else{
+			$AssignClsWindow.FindName("grdIEC61355").Visibility = "Collapsed"
+			$AssignClsWindow.FindName("grdClassification").Visibility = "Visible"
+		}
+}

@@ -131,7 +131,7 @@
     <None Include="Vault.Custom\addinVault\ADSK.QS.FileBOM.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.FileDocStructure.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.FileImport.ps1" />
-    <None Include="Vault.Custom\addinVault\ADSK.QS.ISO61355.psm1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.IEC61355.psm1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.ItemLookup.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.NameValidation.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.NameValidationCustent.ps1" />
@@ -274,6 +274,10 @@
     <Page Include="Vault.Custom\Configuration\ADSK.QS.ReserveNumbers.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\ADSK.QS.SelectClassification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vault.Custom\Configuration\Class\Adsk.QS.ClassifiedObject.DataSheet.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -476,10 +476,10 @@
   <UIString ID="Adsk.QS.Classification_03">Klassifizierung</UIString>
   <UIString ID="Adsk.QS.Classification_04">Klassenstruktur</UIString>
   <UIString ID="Adsk.QS.Classification_05">Verfügbare Klassen</UIString>
-  <UIString ID="Adsk.QS.Classification_06">Aktive Klasse</UIString>
+  <UIString ID="Adsk.QS.Classification_06">Zugewiesene Klasse</UIString>
   <UIString ID="Adsk.QS.Classification_07">Eigenschaften</UIString>
-  <UIString ID="Adsk.QS.Classification_08">Klasse Aktivieren</UIString>
-  <UIString ID="Adsk.QS.Classification_09">Klasse Entfernen</UIString>
+  <UIString ID="Adsk.QS.Classification_08">Klasse zuweisen...</UIString>
+  <UIString ID="Adsk.QS.Classification_09">Klasse entfernen</UIString>
   <UIString ID="Adsk.QS.Classification_10">Die Klasse ist entweder nicht vorhanden oder nicht ein-eindeutig. Nur eindeutige Klassennamen werden verarbeitet.</UIString>
   <UIString ID="Adsk.QS.Classification_11">Entfernen einer Klassifizierung löscht alle Merkmale und Werte der Klasse! {0}Möchten Sie wirklich die Klassifizierung aufheben?</UIString>
   <UIString ID="Adsk.QS.Classification_12">Achtung: Das Ergebnis beruht auf einem unvollständigen Suchindex. Wenden Sie sich an den Administrator, wenn diese Meldung immer erscheint.</UIString>
@@ -525,6 +525,11 @@
   <UIString ID="ClassTerms_MSG02">Anzeige auf Seitengröße {0} von {1} möglichen begrenzt; grenzen Sie die Suche ein.</UIString>
   <UIString ID="ClassTerms_MSG03">Keine übereinstimmenden Begriffe gefunden</UIString>
   <!--CatalogTermsTranslations End-->
+
+  <!--IEC61355 document classification start-->
+  <UIString ID="Adsk.IEC61355.00">IEC 61355</UIString>
+  <UIString ID="Adsk.IEC61355.TT01">Auswahl aus dem IEC 61355 Klassifizierungsschema.</UIString>
+  <!--IEC61355 document classification end-->
   
   <!--Document Structure Tab Extension-->
   <UIString ID="ADSK-DocStructure_00">Dokumentstruktur</UIString>

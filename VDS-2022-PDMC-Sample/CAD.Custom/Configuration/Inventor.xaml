@@ -217,8 +217,8 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <Button Content=" . . . " Command="{Binding DataContext.PsCmd[mInitializeISO61355], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                    ToolTip="{Binding DataContext.UIString[Adsk.ISO61355.TT01], FallbackValue='Select from ISO 61355 classification scheme.', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Grid.Column="1" 
+                                <Button Content=" . . . " Command="{Binding DataContext.PsCmd[mInitializeIEC61355], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                    ToolTip="{Binding DataContext.UIString[Adsk.IEC61355.TT01], FallbackValue='Select from ISO 61355 classification scheme.', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Grid.Column="1" 
                                     IsTabStop="False" MinWidth="20" Background="White" BorderThickness="1" BorderBrush="#FFB4B4B4" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                                 </Button>
                             </ControlTemplate>
@@ -976,8 +976,8 @@
                 </Grid>
             </Grid>
         </Expander>
-        <Expander x:Name="expISO61355" Grid.Column="4" Header="" ExpandDirection="Right" IsExpanded="False" Visibility="Collapsed" Grid.RowSpan="4" MinHeight="350" MaxHeight="{Binding ActualHeight, ElementName=grdMain, Mode=OneWay}" Margin="0">
-            <Grid x:Name="grdISO61355" Background="#FFF0F0F0" Margin="10,0,0,0">
+        <Expander x:Name="expIEC61355" Grid.Column="4" Header="" ExpandDirection="Right" IsExpanded="False" Visibility="Collapsed" Grid.RowSpan="4" MinHeight="350" MaxHeight="{Binding ActualHeight, ElementName=grdMain, Mode=OneWay}" Margin="0">
+            <Grid x:Name="grdIEC61355" Background="#FFF0F0F0" Margin="10,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -986,10 +986,10 @@
                     <RowDefinition MaxHeight="350"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TabControl x:Name="tabISO61355" >
-                    <TabItem x:Name="tabISO61355Search" Header="Search Classes/Examples">
-                        <GroupBox x:Name="grpSearchISO61355" Grid.Row="1" Header="{Binding UIString[], FallbackValue='Search bookmarked tags or any keyword for subclass or document samples'}" BorderBrush="#FFABADB3" Margin="0,5,0,0">
-                            <Grid x:Name="grdISO61355Search" Width="562">
+                <TabControl x:Name="tabIEC61355" >
+                    <TabItem x:Name="tabIEC61355Search" Header="Search Classes/Examples">
+                        <GroupBox x:Name="grpSearchIEC61355" Grid.Row="1" Header="{Binding UIString[], FallbackValue='Search bookmarked tags or any keyword for subclass or document samples'}" BorderBrush="#FFABADB3" Margin="0,5,0,0">
+                            <Grid x:Name="grdIEC61355Search" Width="562">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
@@ -1002,16 +1002,16 @@
                                 </Grid.ColumnDefinitions>
                                 <RadioButton x:Name="radioSearchBkmk" Content="Search bookmarks only" Grid.Column="0" IsChecked="True" Margin="0,5" Grid.ColumnSpan="2"/>
                                 <RadioButton Content="Search all" Grid.Column="2" Margin="5,5,0,5"/>
-                                <TextBox x:Name="txtSearchISO61355" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" ToolTip="{Binding UIString[], FallbackValue=Remind the Token based search behavior - use * to combine the letters with incomplete numbers or vice versa.}" BorderThickness="1" />
-                                <Button x:Name="btnSearchISO61355" Grid.Column="3" Grid.Row="1" Content="{Binding UIString[], FallbackValue=Search}" Command="{Binding PsCmd[mSearchISO61355]}" Width="80" Margin="3,0,0,0" BorderBrush="#FFABADB3" Height="24"/>
+                                <TextBox x:Name="txtSearchIEC61355" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" ToolTip="{Binding UIString[], FallbackValue=Remind the Token based search behavior - use * to combine the letters with incomplete numbers or vice versa.}" BorderThickness="1" />
+                                <Button x:Name="btnSearchIEC61355" Grid.Column="3" Grid.Row="1" Content="{Binding UIString[], FallbackValue=Search}" Command="{Binding PsCmd[mSearchIEC61355]}" Width="80" Margin="3,0,0,0" BorderBrush="#FFABADB3" Height="24"/>
                             </Grid>
                         </GroupBox>
                     </TabItem>
-                    <TabItem x:Name="tabISO61355Navigate" Header="Navigate Classes" >
-                        <GroupBox x:Name="grpISO61355" Header="{Binding UIString[], FallbackValue=Classification Hierarchy}" Grid.Row="0" BorderBrush="#FFABADB3" MinWidth="574" Margin="0,5,0,0">
-                            <Grid x:Name="grdISO61355Filter">
-                                <WrapPanel x:Name="wrpISO61355" Grid.Row="2">
-                                    <Button x:Name="btnISO61355Reset" Command="{Binding PsCmd[mResetISO61355BrdCrmb]}" Content="X" FontWeight="Bold" ToolTip="{Binding UIString[ClassTerms_TT07], FallbackValue=Reset Selection}" Foreground="Red" Width="24" Height="24">
+                    <TabItem x:Name="tabIEC61355Navigate" Header="Navigate Classes" >
+                        <GroupBox x:Name="grpIEC61355" Header="{Binding UIString[], FallbackValue=Classification Hierarchy}" Grid.Row="0" BorderBrush="#FFABADB3" MinWidth="574" Margin="0,5,0,0">
+                            <Grid x:Name="grdIEC61355Filter">
+                                <WrapPanel x:Name="wrpIEC61355" Grid.Row="2">
+                                    <Button x:Name="btnIEC61355Reset" Command="{Binding PsCmd[mResetIEC61355BrdCrmb]}" Content="X" FontWeight="Bold" ToolTip="{Binding UIString[ClassTerms_TT07], FallbackValue=Reset Selection}" Foreground="Red" Width="24" Height="24">
                                         <Button.Template>
                                             <ControlTemplate>
                                                 <Border BorderBrush="#FFABADB3" BorderThickness="1">
@@ -1025,12 +1025,12 @@
                         </GroupBox>
                     </TabItem>
                 </TabControl>
-                <TextBox x:Name="txtISO61355StatusMsg" Grid.Row="3" TextWrapping="Wrap" HorizontalContentAlignment="Center" BorderBrush="#FFE5E5E5" VerticalAlignment="Top" 
+                <TextBox x:Name="txtIEC61355StatusMsg" Grid.Row="3" TextWrapping="Wrap" HorizontalContentAlignment="Center" BorderBrush="#FFE5E5E5" VerticalAlignment="Top" 
                                 BorderThickness="0" Visibility="Collapsed" Background="#FFF6FB82"/>
-                <DataGrid x:Name="dataGrdISO61355Found" AutoGenerateColumns="False" IsTabStop="False" IsReadOnly="True" ColumnWidth="*" 
+                <DataGrid x:Name="dataGrdIEC61355Found" AutoGenerateColumns="False" IsTabStop="False" IsReadOnly="True" ColumnWidth="*" 
                                 HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke" ColumnHeaderHeight="26" 
                                 AlternatingRowBackground="LightCyan" Background="White" Cursor="Hand" ClipboardCopyMode="IncludeHeader" 
-                                Focusable="False" VerticalScrollBarVisibility="Auto" Grid.Row="4" RowHeight="24" Margin="0,5,0,0" MaxWidth="{Binding ActualWidth, ElementName=tabISO61355, Mode=OneWay}">
+                                Focusable="False" VerticalScrollBarVisibility="Auto" Grid.Row="4" RowHeight="24" Margin="0,5,0,0" MaxWidth="{Binding ActualWidth, ElementName=tabIEC61355, Mode=OneWay}">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="dtgrdColPath" Binding="{Binding PathCode}" Width="Auto" CanUserResize="False">
                             <DataGridTextColumn.HeaderTemplate>
@@ -1079,12 +1079,12 @@
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Command="{Binding PsCmd[mApplyISO61355]}" Header="{Binding UIString[], FallbackValue=Apply Classification}" ToolTip="{Binding UIString[ClassTerms_TT00]}" CommandParameter="{Binding SelectedIndex, ElementName=dataGrdTermsFound}"/>
+                            <MenuItem Command="{Binding PsCmd[mApplyIEC61355]}" Header="{Binding UIString[], FallbackValue=Apply Classification}" ToolTip="{Binding UIString[ClassTerms_TT00]}" CommandParameter="{Binding SelectedIndex, ElementName=dataGrdTermsFound}"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>
-                <Grid x:Name="grdISO61355Buttons" Grid.Row="5" Margin="0,15,0,5">
-                    <Button x:Name="btnISO61355Adopt" Command="{Binding PsCmd[mApplyISO61355]}" 
+                <Grid x:Name="grdIEC61355Buttons" Grid.Row="5" Margin="0,15,0,5">
+                    <Button x:Name="btnIEC61355Adopt" Command="{Binding PsCmd[mApplyIEC61355]}" 
                                     Content="{Binding UIString[], FallbackValue=Apply Classification}"                             
                                     HorizontalAlignment="Right" Width="140" IsEnabled="False" Height="24" 
                                     ToolTip="{Binding UIString[]}"/>

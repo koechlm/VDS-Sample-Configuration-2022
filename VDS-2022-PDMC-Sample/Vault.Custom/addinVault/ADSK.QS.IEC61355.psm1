@@ -11,7 +11,7 @@
 #endregion
 
 Add-Type @"
-public class ISO61355Data
+public class IEC61355Data
 {
 	public string Id {get;set;}
 	public string SubClass {get;set;}
@@ -25,20 +25,20 @@ public class ISO61355Data
 }
 "@
 
-function mInitializeISO61355
+function mInitializeIEC61355
 {            
-	If ($dsWindow.FindName("expISO61355"))
+	If ($dsWindow.FindName("expIEC61355"))
 	{      							
 		#Try 
 		#{	
-			If($mISO61355Initialized -ne $true)
+			If($mIEC61355Initialized -ne $true)
 			{
 				$Global:NavigatedOrSearched = ""
 				#get the property definitions for custom objects
 				if(-not $Global:CustentPropDefs) {	$Global:CustentPropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT")}
 
-				If(-not $UIString["Adsk.ISO61355.00"]) { $UIString = mGetUIStrings } #the psm library might not get the VDS default variable
-				mAddISO61355Combo -_CoName "Segment" #enables classification level 1
+				If(-not $UIString["Adsk.IEC61355.00"]) { $UIString = mGetUIStrings } #the psm library might not get the VDS default variable
+				mAddIEC61355Combo -_CoName "Segment" #enables classification level 1
 
 				#Search tab
 				$mWindowName = $dsWindow.Name
@@ -54,80 +54,80 @@ function mInitializeISO61355
 				if($Prop[$mTagPropName].Value -ne "")
 				{
 					#activate the search tab if it isn't
-					$dsWindow.FindName("tabISO61355Search").IsSelected = $true
-					$dsWindow.FindName("txtSearchISO61355").Text = $Prop[$mTagPropName].Value
-					mSearchISO61355
+					$dsWindow.FindName("tabIEC61355Search").IsSelected = $true
+					$dsWindow.FindName("txtSearchIEC61355").Text = $Prop[$mTagPropName].Value
+					mSearchIEC61355
 
-					if($dsWindow.FindName("dataGrdISO61355Found").Items.Count -eq 1)
+					if($dsWindow.FindName("dataGrdIEC61355Found").Items.Count -eq 1)
 					{
-						$dsWindow.FindName("dataGrdISO61355Found").SelectedItem = $dsWindow.FindName("dataGrdISO61355Found").Items[0]
-						mApplyISO61355
+						$dsWindow.FindName("dataGrdIEC61355Found").SelectedItem = $dsWindow.FindName("dataGrdIEC61355Found").Items[0]
+						mApplyIEC61355
 					}
 				}
 
-				$dsWindow.FindName("dataGrdISO61355Found").add_SelectionChanged({
+				$dsWindow.FindName("dataGrdIEC61355Found").add_SelectionChanged({
 					param($sender, $SelectionChangedEventArgs)
 					#$dsDiag.Trace(".. TermsFoundSelection")
-					IF($dsWindow.FindName("dataGrdISO61355Found").SelectedItem){
-						$dsWindow.FindName("btnISO61355Adopt").IsEnabled = $true
-						$dsWindow.FindName("btnISO61355Adopt").IsDefault = $true
+					IF($dsWindow.FindName("dataGrdIEC61355Found").SelectedItem){
+						$dsWindow.FindName("btnIEC61355Adopt").IsEnabled = $true
+						$dsWindow.FindName("btnIEC61355Adopt").IsDefault = $true
 					}
 					Else {
-						$dsWindow.FindName("btnISO61355Adopt").IsEnabled = $false
-						if($dsWindow.FindName("btnSearchISO61355")) { $dsWindow.FindName("btnSearchISO61355").IsDefault = $true}
+						$dsWindow.FindName("btnIEC61355Adopt").IsEnabled = $false
+						if($dsWindow.FindName("btnSearchIEC61355")) { $dsWindow.FindName("btnSearchIEC61355").IsDefault = $true}
 					}
 				})
 
 				#close the expander as another property is selected 
 				$dsWindow.FindName("DSDynCatPropGrid").add_GotFocus({
-					$dsWindow.FindName("expISO61355").Visibility = "Collapsed"
-					$dsWindow.FindName("expISO61355").IsExpanded = $false
-					if($dsWindow.FindName("btnSearchISO61355")) { $dsWindow.FindName("btnSearchISO61355").IsDefault = $false}
+					$dsWindow.FindName("expIEC61355").Visibility = "Collapsed"
+					$dsWindow.FindName("expIEC61355").IsExpanded = $false
+					if($dsWindow.FindName("btnSearchIEC61355")) { $dsWindow.FindName("btnSearchIEC61355").IsDefault = $false}
 				})
 
-				$Global:mISO61355Initialized = $true
+				$Global:mIEC61355Initialized = $true
 			}
 			
-			$dsWindow.FindName("expISO61355").Visibility = "Visible"
-			$dsWindow.FindName("expISO61355").IsExpanded = $true
-			if($dsWindow.FindName("btnSearchISO61355")) { $dsWindow.FindName("btnSearchISO61355").IsDefault = $true}
+			$dsWindow.FindName("expIEC61355").Visibility = "Visible"
+			$dsWindow.FindName("expIEC61355").IsExpanded = $true
+			if($dsWindow.FindName("btnSearchIEC61355")) { $dsWindow.FindName("btnSearchIEC61355").IsDefault = $true}
 
 		#}	
-		#catch { $dsDiag.Trace("WARNING expander ISO61355 is not present")}
-	}#if ISO61355 Expander exists
+		#catch { $dsDiag.Trace("WARNING expander IEC61355 is not present")}
+	}#if IEC61355 Expander exists
 }
 
 
-function mSearchISO61355
+function mSearchIEC61355
 {
 	#don't mix the result with a previously navigated one
-	mResetISO61355BrdCrmb
+	mResetIEC61355BrdCrmb
 
 	Try {
 		#$dsDiag.Trace(">> search COs terms")
-		$dsWindow.FindName("dataGrdISO61355Found").ItemsSource = $null
+		$dsWindow.FindName("dataGrdIEC61355Found").ItemsSource = $null
 
-		$mSearchText1 = $dsWindow.FindName("txtSearchISO61355").Text
+		$mSearchText1 = $dsWindow.FindName("txtSearchIEC61355").Text
 
 		#search bookmark or all fields
 		if($dsWindow.FindName("radioSearchBkmk").IsChecked)
 		{
 			$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 3
-			$srchConds[0]= mCreateISO61355SearchCond "Category Name" "Sub Group" "AND"
-			$srchConds[1]= mCreateISO61355SearchCond "Standard" "ISO61355" "AND"
-			$srchConds[2]= mCreateISO61355SearchCond "Bookmark" $mSearchText1 "AND"
+			$srchConds[0]= mCreateIEC61355SearchCond "Category Name" "Sub Group" "AND"
+			$srchConds[1]= mCreateIEC61355SearchCond "Standard" "IEC61355" "AND"
+			$srchConds[2]= mCreateIEC61355SearchCond "Bookmark" $mSearchText1 "AND"
 		}
 		else
 		{
 			$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 8
-			$srchConds[0]= mCreateISO61355SearchCond "Category Name" "Sub Group" "AND"
-			$srchConds[1]= mCreateISO61355SearchCond "Standard" "ISO61355" "AND"
-			$srchConds[2]= mCreateISO61355SearchCond "Name" $mSearchText1 "OR"
-			$srchConds[3]= mCreateISO61355SearchCond "Term DE" $mSearchText1 "OR"
-			$srchConds[4]= mCreateISO61355SearchCond "Comments" $mSearchText1 "OR"
-			$srchConds[5]= mCreateISO61355SearchCond "Comments DE" $mSearchText1 "OR"
-			$srchConds[6]= mCreateISO61355SearchCond "Bookmark" $mSearchText1 "OR"
-			$srchConds[7]= mCreateISO61355SearchCond "Code" $mSearchText1 "OR"
+			$srchConds[0]= mCreateIEC61355SearchCond "Category Name" "Sub Group" "AND"
+			$srchConds[1]= mCreateIEC61355SearchCond "Standard" "IEC61355" "AND"
+			$srchConds[2]= mCreateIEC61355SearchCond "Name" $mSearchText1 "OR"
+			$srchConds[3]= mCreateIEC61355SearchCond "Term DE" $mSearchText1 "OR"
+			$srchConds[4]= mCreateIEC61355SearchCond "Comments" $mSearchText1 "OR"
+			$srchConds[5]= mCreateIEC61355SearchCond "Comments DE" $mSearchText1 "OR"
+			$srchConds[6]= mCreateIEC61355SearchCond "Bookmark" $mSearchText1 "OR"
+			$srchConds[7]= mCreateIEC61355SearchCond "Code" $mSearchText1 "OR"
 		}
 
 		#the default search condition object type is custom object "Group"
@@ -142,8 +142,8 @@ function mSearchISO61355
 			If ($searchStatus.IndxStatus -ne "IndexingComplete" -or $searchStatus -eq "IndexingContent")
 			{
 				#check the indexing status; you might return a warning that the result bases on an incomplete index, or even return with a stop/error message, that we need to have a complete index first
-				$dsWindow.FindName("txtISO61355StatusMsg").Text = $UIString["Adsk.QS.Classification_12"]
-				$dsWindow.FindName("txtISO61355StatusMsg").Visibility = "Visible"
+				$dsWindow.FindName("txtIEC61355StatusMsg").Text = $UIString["Adsk.QS.Classification_12"]
+				$dsWindow.FindName("txtIEC61355StatusMsg").Visibility = "Visible"
 			}
 			If($mResultPage.Count -ne 0)
 			{
@@ -151,14 +151,14 @@ function mSearchISO61355
 			}
 			else 
 			{ 
-				$dsWindow.FindName("txtISO61355StatusMsg").Text = $UIString["ClassTerms_MSG03"]
-				$dsWindow.FindName("txtISO61355StatusMsg").Visibility = "Visible"
+				$dsWindow.FindName("txtIEC61355StatusMsg").Text = $UIString["ClassTerms_MSG03"]
+				$dsWindow.FindName("txtIEC61355StatusMsg").Visibility = "Visible"
 				break;
 			}
 
 			#limit the search result to the first result page;
-			$dsWindow.FindName("txtISO61355StatusMsg").Text = $UIString["ClassTerms_MSG02"]
-			$dsWindow.FindName("txtISO61355StatusMsg").Visibility = "Visible"
+			$dsWindow.FindName("txtIEC61355StatusMsg").Text = $UIString["ClassTerms_MSG02"]
+			$dsWindow.FindName("txtIEC61355StatusMsg").Visibility = "Visible"
 			break; #limit the search result to the first result page; page scrolling not implemented in this snippet release
 		}
 
@@ -166,7 +166,7 @@ function mSearchISO61355
 			Return
 		}
 		Else{
-			$dsWindow.FindName("txtISO61355StatusMsg").Visibility = "Collapsed"
+			$dsWindow.FindName("txtIEC61355StatusMsg").Visibility = "Collapsed"
 		}
 		
 		# 	retrieve all properties of the COs found
@@ -211,7 +211,7 @@ function mSearchISO61355
 				if($mLinkedCustObjects_3)
 				{
 					$mIsoObjects_3 = @()
-					$mLinkedCustObjects_3 | ForEach-Object { $mIsoObjects_3 += mConvertCustentsToISO61355Objects $_ }
+					$mLinkedCustObjects_3 | ForEach-Object { $mIsoObjects_3 += mConvertCustentsToIEC61355Objects $_ }
 				}
 			}
 			$links_2 = $vault.DocumentService.GetLinksByTargetEntityIds($linkIds_3)
@@ -223,7 +223,7 @@ function mSearchISO61355
 				if($mLinkedCustObjects_2)
 				{
 					$mIsoObjects_2 = @()
-					$mLinkedCustObjects_2 | ForEach-Object { $mIsoObjects_2 += mConvertCustentsToISO61355Objects $_ }
+					$mLinkedCustObjects_2 | ForEach-Object { $mIsoObjects_2 += mConvertCustentsToIEC61355Objects $_ }
 				}
 			}
 			$links_1 = $vault.DocumentService.GetLinksByTargetEntityIds($linkIds_2)
@@ -235,7 +235,7 @@ function mSearchISO61355
 				if($mLinkedCustObjects_1)
 				{
 					$mIsoObjects_1 = @()
-					$mLinkedCustObjects_1 | ForEach-Object { $mIsoObjects_1 += mConvertCustentsToISO61355Objects $_ }
+					$mLinkedCustObjects_1 | ForEach-Object { $mIsoObjects_1 += mConvertCustentsToIEC61355Objects $_ }
 				}
 			}
 
@@ -250,7 +250,7 @@ function mSearchISO61355
 			}
 
 			foreach ($mIso in $sorted_1) { 
-				$row = New-Object ISO61355Data
+				$row = New-Object IEC61355Data
 				$row.Id = $item.Id
 				$row.SubClass = $item.Name
 				$row.Code = ($mPropInst | Where-Object { $_.EntityId -eq $item.Id -and $_.PropDefId -eq $mPropDict["Code"]}).Val
@@ -272,21 +272,21 @@ function mSearchISO61355
 
 		If($_data)
 		{
-			$dsWindow.FindName("dataGrdISO61355Found").ItemsSource = $_data
+			$dsWindow.FindName("dataGrdIEC61355Found").ItemsSource = $_data
 			$Global:NavigatedOrSearched = "Searched"
 		}
 		else
 		{
-			$dsWindow.FindName("dataGrdISO61355Found").ItemsSource = $null
+			$dsWindow.FindName("dataGrdIEC61355Found").ItemsSource = $null
 		}
 	}
 	catch {
-		$dsDiag.Trace("ERROR --- in m_SearchISO61355s function") 
+		$dsDiag.Trace("ERROR --- in m_SearchIEC61355s function") 
 	}
 
 }
 
-function mCreateISO61355SearchCond ([String] $PropName, [String] $mSearchTxt, [String] $AndOr) {
+function mCreateIEC61355SearchCond ([String] $PropName, [String] $mSearchTxt, [String] $AndOr) {
 	$dsDiag.Trace("--SearchCond creation starts... for $PropName and $mSearchTxt ---")
 	$srchCond = New-Object autodesk.Connectivity.WebServices.SrchCond
 	$propDefs = $Global:CustentPropDefs
@@ -312,14 +312,14 @@ function mCreateISO61355SearchCond ([String] $PropName, [String] $mSearchTxt, [S
 	return $srchCond
 } 
 
-function mApplyISO61355
+function mApplyIEC61355
 {
 	#$dsDiag.Trace("Subclass selected to copy property values")
-	$mSelectedCls = $dsWindow.FindName("dataGrdISO61355Found").SelectedItem
+	$mSelectedCls = $dsWindow.FindName("dataGrdIEC61355Found").SelectedItem
 	
 	#save to keep user's last used selection
-	$value = $dsWindow.FindName("dataGrdISO61355Found").SelectedItem.SubClass
-	$value | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\mISO61355Id_4.txt"
+	$value = $dsWindow.FindName("dataGrdIEC61355Found").SelectedItem.SubClass
+	$value | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\mIEC61355Id_4.txt"
 
 	#derive the parents tree from the selected object
 	$SelectedClsTree = New-Object Autodesk.Connectivity.WebServices.CustEnt[] 3
@@ -335,13 +335,13 @@ function mApplyISO61355
 	}
 	elseif($Global:NavigatedOrSearched -eq "Navigated")
 	{
-		$mBreadCrumb = $dsWindow.FindName("wrpISO61355")	
+		$mBreadCrumb = $dsWindow.FindName("wrpIEC61355")	
 		$SelectedClsTree[0] = $mBreadCrumb.Children[1].SelectedItem
 		$SelectedClsTree[1] = $mBreadCrumb.Children[2].SelectedItem
 		$SelectedClsTree[2] = $mBreadCrumb.Children[3].SelectedItem
 	}
 
-	$mTreeIsoData =  mConvertCustentsToISO61355Objects $SelectedClsTree
+	$mTreeIsoData =  mConvertCustentsToIEC61355Objects $SelectedClsTree
 	$mDCC = $mTreeIsoData[0].Code + $mTreeIsoData[1].Code + $mTreeIsoData[2].Code + $mSelectedCls.Code
 
 	If ($dsWindow.Name -eq "AutoCADWindow" -or $dsWindow.Name -eq "InventorWindow")
@@ -362,7 +362,7 @@ function mApplyISO61355
 		$Prop["Document Subtype DE"].Value = $mSelectedCls.SubClassDE		
 	}
 
-	if($dsWindow.FindName("btnSearchISO61355")) { $dsWindow.FindName("btnSearchISO61355").IsDefault = $false}
+	if($dsWindow.FindName("btnSearchIEC61355")) { $dsWindow.FindName("btnSearchIEC61355").IsDefault = $false}
 	$dsWindow.FindName("btnOK").IsDefault = $true
 	
 	#$dsWindow.FindName("tabProperties").IsSelected = $true
@@ -370,14 +370,14 @@ function mApplyISO61355
 
 
 
-function mAddISO61355Combo ([String] $_CoName, $_classes) 
+function mAddIEC61355Combo ([String] $_CoName, $_classes) 
 {	
-	$children = mGetISO61355List -_CoName $_CoName
+	$children = mGetIEC61355List -_CoName $_CoName
 	If($children -eq $null) { return }
 	
-	$mBreadCrumb = $dsWindow.FindName("wrpISO61355")
+	$mBreadCrumb = $dsWindow.FindName("wrpIEC61355")
 	$cmb = New-Object System.Windows.Controls.ComboBox
-	$cmb.Name = "cmbISO61355BreadCrumb_" + $mBreadCrumb.Children.Count.ToString();
+	$cmb.Name = "cmbIEC61355BreadCrumb_" + $mBreadCrumb.Children.Count.ToString();
 	$cmb.DisplayMemberPath = "Name";
 	$cmb.Tooltip = "Select Technical Area"
 	$cmb.ItemsSource = @($children)
@@ -395,7 +395,7 @@ function mAddISO61355Combo ([String] $_CoName, $_classes)
 		}
 		"InventorWindow"
 		{
-			#if($dsWindow.FindName("tabISO61355Navigate").IsSelected -eq $true)
+			#if($dsWindow.FindName("tabIEC61355Navigate").IsSelected -eq $true)
 			#{
 				If (($Prop["_CreateMode"].Value -eq $true) -or ($_Return -eq "Yes")) {$cmb.IsDropDownOpen = $true}
 			#}
@@ -408,23 +408,23 @@ function mAddISO61355Combo ([String] $_CoName, $_classes)
 	$cmb.add_SelectionChanged({
 			param($sender,$e)
 			$dsDiag.Trace("1. SelectionChanged, Sender = $($sender), $($e)")
-			mISO61355ComboSelectionChanged -sender $sender
+			mIEC61355ComboSelectionChanged -sender $sender
 		});
 	$mBreadCrumb.RegisterName($cmb.Name, $cmb) #register the name to activate later via indexed name
 	$mBreadCrumb.Children.Add($cmb);
 
 } # addCoCombo
 
-function mAddISO61355ComboChild ($data) 
+function mAddIEC61355ComboChild ($data) 
 {
 	$children = @()
-	$children = mGetISO61355UsesList -sender $data
+	$children = mGetIEC61355UsesList -sender $data
 	
 	If($children.count -eq 0) { return }
 
-	$mBreadCrumb = $dsWindow.FindName("wrpISO61355")
+	$mBreadCrumb = $dsWindow.FindName("wrpIEC61355")
 	$cmb = New-Object System.Windows.Controls.ComboBox
-	$cmb.Name = "cmbISO61355BreadCrumb_" + $mBreadCrumb.Children.Count.ToString();
+	$cmb.Name = "cmbIEC61355BreadCrumb_" + $mBreadCrumb.Children.Count.ToString();
 	$cmb.DisplayMemberPath = "Name";
 	$cmb.ToolTip = "Select Next Class Level"
 	$cmb.ItemsSource = @($children)	
@@ -442,14 +442,14 @@ function mAddISO61355ComboChild ($data)
 	$cmb.add_SelectionChanged({
 			param($sender,$e)
 			$dsDiag.Trace("next. SelectionChanged, Sender = $sender")
-			mISO61355ComboSelectionChanged -sender $sender
+			mIEC61355ComboSelectionChanged -sender $sender
 		});
 
 	
-} #addISO61355ComboChild
+} #addIEC61355ComboChild
 
-function mISO61355ComboSelectionChanged ($sender) {
-	$mBreadCrumb = $dsWindow.FindName("wrpISO61355")
+function mIEC61355ComboSelectionChanged ($sender) {
+	$mBreadCrumb = $dsWindow.FindName("wrpIEC61355")
 	$position = [int]::Parse($sender.Name.Split('_')[1]);
 	$children = $mBreadCrumb.Children.Count - 1
 	#$dsDiag.Trace("Position = $($position), Children = $($children)")
@@ -463,38 +463,38 @@ function mISO61355ComboSelectionChanged ($sender) {
 
 	#write the highest level Custent Id to a text file for post-close event
 		$value = $mBreadCrumb.Children[$children].SelectedItem.Name
-		$value | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\mISO61355Id_$($children).txt"
+		$value | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\mIEC61355Id_$($children).txt"
 
 	#don't continue adding children according the classification group level
 	if($position -lt 3)
 	{
-		mAddISO61355ComboChild -sender $sender.SelectedItem
+		mAddIEC61355ComboChild -sender $sender.SelectedItem
 	}
 	else
 	{
 		$_data = @()
 			
-		$mResultAll = mGetISO61355UsesList($sender)
-		$_data += mConvertCustentsToISO61355Objects $mResultAll
+		$mResultAll = mGetIEC61355UsesList($sender)
+		$_data += mConvertCustentsToIEC61355Objects $mResultAll
 		If($_data)
 		{
-			$dsWindow.FindName("dataGrdISO61355Found").ItemsSource = $_data
+			$dsWindow.FindName("dataGrdIEC61355Found").ItemsSource = $_data
 			$Global:NavigatedOrSearched = "Navigated"
 		}
 		else
 		{
-			$dsWindow.FindName("dataGrdISO61355Found").ItemsSource = $null
+			$dsWindow.FindName("dataGrdIEC61355Found").ItemsSource = $null
 		}
 	}
 }
 
-function mResetISO61355BrdCrmb
+function mResetIEC61355BrdCrmb
 {
     $dsDiag.Trace(">> Reset Filter started...")
 	
-	$mBreadCrumb = $dsWindow.FindName("wrpISO61355")
+	$mBreadCrumb = $dsWindow.FindName("wrpIEC61355")
 	$mBreadCrumb.Children[1].SelectedIndex = -1
-	$dsWindow.FindName("dataGrdISO61355Found").ItemsSource = $null
+	$dsWindow.FindName("dataGrdIEC61355Found").ItemsSource = $null
 	
 	#$mWindowName = $dsWindow.Name
  #       switch($mWindowName)
@@ -515,14 +515,14 @@ function mResetISO61355BrdCrmb
 	#			}
 	#			If (($Prop["_CreateMode"].Value -eq $true) -or ($_Return -eq "Yes"))
 	#			{
-	#				$mBreadCrumb = $dsWindow.FindName("wrpISO61355")
+	#				$mBreadCrumb = $dsWindow.FindName("wrpIEC61355")
 	#				$mBreadCrumb.Children[1].SelectedIndex = -1
-	#				$dsWindow.FindName("dataGrdISO61355Found").ItemsSource = $null
+	#				$dsWindow.FindName("dataGrdIEC61355Found").ItemsSource = $null
 	#			}
 	#		}
 	#		default
 	#		{
-	#			$mBreadCrumb = $dsWindow.FindName("wrpISO61355")
+	#			$mBreadCrumb = $dsWindow.FindName("wrpIEC61355")
 	#			$mBreadCrumb.Children[1].SelectedIndex = -1
 	#		}
 	#	}
@@ -531,9 +531,9 @@ function mResetISO61355BrdCrmb
 }
 
 
-function mGetISO61355List ([String] $_CoName) {
+function mGetIEC61355List ([String] $_CoName) {
 	try {
-		$dsDiag.Trace(">> mGetISO61355List started")
+		$dsDiag.Trace(">> mGetIEC61355List started")
 		$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 1
 		$srchCond = New-Object autodesk.Connectivity.WebServices.SrchCond
 
@@ -554,18 +554,18 @@ function mGetISO61355List ([String] $_CoName) {
 		$searchStatus = New-Object autodesk.Connectivity.WebServices.SrchStatus
 		$bookmark = ""
 		$_CustomEnts = $vault.CustomEntityService.FindCustomEntitiesBySearchConditions($srchConds,$null,[ref]$bookmark,[ref]$searchStatus)
-		$dsDiag.Trace(".. mGetISO61355List finished - returns $_CustomEnts <<")
+		$dsDiag.Trace(".. mGetIEC61355List finished - returns $_CustomEnts <<")
 		return $_CustomEnts
 	}
 	catch { 
-		$dsDiag.Trace("!! Error in mGetISO61355List")
+		$dsDiag.Trace("!! Error in mGetIEC61355List")
 	}
 }
 
-function mGetISO61355UsesList ($sender) {
+function mGetIEC61355UsesList ($sender) {
 	try {
-		$dsDiag.Trace(">> mGetISO61355UsesList started")
-		$mBreadCrumb = $dsWindow.FindName("wrpISO61355")
+		$dsDiag.Trace(">> mGetIEC61355UsesList started")
+		$mBreadCrumb = $dsWindow.FindName("wrpIEC61355")
 		$_i = $mBreadCrumb.Children.Count -1
 		$_CurrentCmbName = "cmbBreadCrumb_" + $mBreadCrumb.Children.Count.ToString()
 		$_CurrentClsLevel = $mBreadCrumb.Children[$_i].SelectedValue.Name
@@ -578,7 +578,7 @@ function mGetISO61355UsesList ($sender) {
 					3 { $mSearchFilter = "Sub Group"} #$UIString["Adsk.QS.ClassLevel_03"] 
 			        default { $mSearchFilter = "*"}
 		        }
-		$_customObjects = mGetISO61355List -_CoName $mSearchFilter
+		$_customObjects = mGetIEC61355List -_CoName $mSearchFilter
 		$_Parent = $_customObjects | Where-Object { $_.Name -eq $_CurrentClsLevel }
 		try {
 			$links = $vault.DocumentService.GetLinksByParentIds(@($_Parent.Id),@("CUSTENT"))
@@ -588,7 +588,7 @@ function mGetISO61355UsesList ($sender) {
 				$links | ForEach-Object { $linkIds += $_.ToEntId }
 				$mLinkedCustObjects = $vault.CustomEntityService.GetCustomEntitiesByIds($linkIds);
 				#todo: check that we need to filter the list returned
-				$dsDiag.Trace(".. mGetISO61355UsesList finished - returns $($mLinkedCustObjects.Count) objects<<")
+				$dsDiag.Trace(".. mGetIEC61355UsesList finished - returns $($mLinkedCustObjects.Count) objects<<")
 				return $mLinkedCustObjects #$global:_Groups
 			}
 			Else{ return}
@@ -602,12 +602,12 @@ function mGetISO61355UsesList ($sender) {
 }
 
 
-function mGetISO61355List2 ([String] $CustentCatName, [String] $Standard) 
+function mGetIEC61355List2 ([String] $CustentCatName, [String] $Standard) 
 {
 	#the default search condition object type is custom object "Group"
 	$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 2
-	$srchConds[0]= mCreateISO61355SearchCond "Category Name" $CustentCatName "AND"
-	$srchConds[1]= mCreateISO61355SearchCond "Standard" $Standard "AND"
+	$srchConds[0]= mCreateIEC61355SearchCond "Category Name" $CustentCatName "AND"
+	$srchConds[1]= mCreateIEC61355SearchCond "Standard" $Standard "AND"
 
 	$srchSort = New-Object autodesk.Connectivity.WebServices.SrchSort
 	$searchStatus = New-Object autodesk.Connectivity.WebServices.SrchStatus
@@ -620,8 +620,8 @@ function mGetISO61355List2 ([String] $CustentCatName, [String] $Standard)
 		If ($searchStatus.IndxStatus -ne "IndexingComplete" -or $searchStatus -eq "IndexingContent")
 		{
 			#check the indexing status; you might return a warning that the result bases on an incomplete index, or even return with a stop/error message, that we need to have a complete index first
-			$dsWindow.FindName("txtISO61355StatusMsg").Text = $UIString["Adsk.QS.Classification_12"]
-			$dsWindow.FindName("txtISO61355StatusMsg").Visibility = "Visible"
+			$dsWindow.FindName("txtIEC61355StatusMsg").Text = $UIString["Adsk.QS.Classification_12"]
+			$dsWindow.FindName("txtIEC61355StatusMsg").Visibility = "Visible"
 		}
 		If($mResultPage.Count -ne 0)
 		{
@@ -629,22 +629,22 @@ function mGetISO61355List2 ([String] $CustentCatName, [String] $Standard)
 		}
 		else 
 		{ 
-			$dsWindow.FindName("txtISO61355StatusMsg").Text = "Technical Area: No matching objects found"
-			$dsWindow.FindName("txtISO61355StatusMsg").Visibility = "Visible"
+			$dsWindow.FindName("txtIEC61355StatusMsg").Text = "Technical Area: No matching objects found"
+			$dsWindow.FindName("txtIEC61355StatusMsg").Visibility = "Visible"
 			break;
 		}
 
 		#limit the search result to the first result page;
-		$dsWindow.FindName("txtISO61355StatusMsg").Text = "$($CustentCatName) returns more objects than paging size allows."
-		$dsWindow.FindName("txtISO61355StatusMsg").Visibility = "Visible"
+		$dsWindow.FindName("txtIEC61355StatusMsg").Text = "$($CustentCatName) returns more objects than paging size allows."
+		$dsWindow.FindName("txtIEC61355StatusMsg").Visibility = "Visible"
 		break; #limit the search result to the first result page; page scrolling not implemented in this snippet release
 	}
 	
-	return mConvertCustentsToISO61355Objects $mResultAll
+	return mConvertCustentsToIEC61355Objects $mResultAll
 
 }
 
-function mGetISO61355UsesList2 ([String] $CustomObjectId)
+function mGetIEC61355UsesList2 ([String] $CustomObjectId)
 {
 		$_Parent = ($vault.CustomEntityService.GetCustomEntitiesByIds(@($CustomObjectId)))[0]
 
@@ -656,9 +656,9 @@ function mGetISO61355UsesList2 ([String] $CustomObjectId)
 				$links | ForEach-Object { $linkIds += $_.ToEntId }
 				$mLinkedCustObjects = $vault.CustomEntityService.GetCustomEntitiesByIds($linkIds);
 				#todo: check that we need to filter the list returned
-				$dsDiag.Trace(".. mGetISO61355UsesList finished - returns $($mLinkedCustObjects.Count) objects<<")
+				$dsDiag.Trace(".. mGetIEC61355UsesList finished - returns $($mLinkedCustObjects.Count) objects<<")
 				#return $mLinkedCustObjects
-				return mConvertCustentsToISO61355Objects $mLinkedCustObjects
+				return mConvertCustentsToIEC61355Objects $mLinkedCustObjects
 			}
 			Else{ return}
 		}
@@ -668,13 +668,13 @@ function mGetISO61355UsesList2 ([String] $CustomObjectId)
 		}
 }
 
-function mConvertCustentsToISO61355Objects($Custents)
+function mConvertCustentsToIEC61355Objects($Custents)
 {
 		If($Custents.Count -lt 1){
 			Return
 		}
 		Else{
-			$dsWindow.FindName("txtISO61355StatusMsg").Visibility = "Collapsed"
+			$dsWindow.FindName("txtIEC61355StatusMsg").Visibility = "Collapsed"
 			$mResultAll = $Custents
 		}
 		
@@ -707,7 +707,7 @@ function mConvertCustentsToISO61355Objects($Custents)
 
 		foreach($item in $mResultAll)
 		{
-			$row = New-Object ISO61355Data
+			$row = New-Object IEC61355Data
 			$row.Id = $item.Id
 			$row.SubClass = $item.Name
 			$row.Code = ($mPropInst | Where-Object { $_.EntityId -eq $item.Id -and $_.PropDefId -eq $mPropDict["Code"]}).Val

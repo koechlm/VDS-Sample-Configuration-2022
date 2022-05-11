@@ -354,14 +354,14 @@ function InitializeWindow {
 	}
 	#endregionCatalogTerm
 
-	#region ISO61355
-	If ($dsWindow.FindName("expISO61355")) {			
+	#region IEC61355
+	If ($dsWindow.FindName("expIEC61355")) {			
 		Try {
-			Import-Module -FullyQualifiedName "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\addinVault\ADSK.QS.ISO61355.psm1"
+			Import-Module -FullyQualifiedName "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\addinVault\ADSK.QS.IEC61355.psm1"
 		}
 		catch {}
 	}
-	#endregion ISO61355
+	#endregion IEC61355
 
 	InitializeFileNameValidation #do this at the end of all other event initializations
 	

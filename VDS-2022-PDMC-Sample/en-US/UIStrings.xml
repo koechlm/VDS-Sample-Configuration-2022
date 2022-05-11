@@ -475,13 +475,13 @@
   <UIString ID="Adsk.QS.Classification_01">Name</UIString>
   <UIString ID="Adsk.QS.Classification_02">Value</UIString>
   <UIString ID="Adsk.QS.Classification_03">Classification</UIString>
-  <UIString ID="Adsk.QS.Classification_04">Class-Hierarchy</UIString>
+  <UIString ID="Adsk.QS.Classification_04">Class Hierarchy</UIString>
   <UIString ID="Adsk.QS.Classification_05">Available Classes</UIString>
-  <UIString ID="Adsk.QS.Classification_06">Active Class</UIString>
+  <UIString ID="Adsk.QS.Classification_06">Assigned Class</UIString>
   <UIString ID="Adsk.QS.Classification_07">Properties</UIString>
-  <UIString ID="Adsk.QS.Classification_08">Activate Class</UIString>
+  <UIString ID="Adsk.QS.Classification_08">Assign Class...</UIString>
   <UIString ID="Adsk.QS.Classification_09">Remove Class</UIString>
-  <UIString ID="Adsk.QS.Classification_10">The class doesn't exist or multiple classes are equally named.Only unique class names are processes.</UIString>
+  <UIString ID="Adsk.QS.Classification_10">The class doesn't exist or multiple classes are equally named. Only unique class names are processes.</UIString>
   <UIString ID="Adsk.QS.Classification_11">Removal of class will delete all attributes and values of this assignment. {0}Do you really want to remove the classificatoin?</UIString>
   <UIString ID="Adsk.QS.Classification_12">Attention: The result is based on an incomplete index! Contact your Administrator, if you continue seeing this message.</UIString>
   <UIString ID="Adsk.QS.Classification_13">The custom workspace 'Classes' is not available. Contact your Administrator.</UIString>
@@ -528,8 +528,8 @@
   <!--CatalogTermsTranslations End-->
   
   <!--IEC61355 document classification start-->
-  <UIString ID="Adsk.ISO61355.00">ISO 61355</UIString>
-  <UIString ID="Adsk.ISO61355.TT01">Select from ISO/IEC 61355 classification scheme.</UIString>
+  <UIString ID="Adsk.IEC61355.00">IEC 61355</UIString>
+  <UIString ID="Adsk.IEC61355.TT01">Select from IEC 61355 classification scheme.</UIString>
   <!--IEC61355 document classification end-->
   
   <!--Document Structure Tab Extension-->
