@@ -85,13 +85,7 @@ function mGetParentProjectFldr
 
 #retrieve the definition ID for given property by displayname
 function mGetFolderPropertyDefId ([STRING] $mDispName) {
-	$PropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("FLDR")
-	$propDefIds = @()
-	$PropDefs | ForEach-Object {
-		$propDefIds += $_.Id
-	} 
-	$mPropDef = $propDefs | Where-Object { $_.DispName -eq $mDispName}
-	Return $mPropDef.Id
+	return mGetPropertyDefId $mDispName "FLDR"
 }
 
 #retrieve property value given by displayname from Custom Object (ID)
@@ -114,7 +108,16 @@ function mGetCustentPropValue ([Int64] $mCentID, [STRING] $mDispName)
 
 #retrieve the definition ID for given property by displayname
 function mGetCustentPropertyDefId ([STRING] $mDispName) {
-	$PropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT")
+	return mGetPropertyDefId $mDispName "CUSTENT"
+}
+
+function mGetCOPropertyDefId ([STRING] $mDispName) {
+	Return mGetPropertyDefId $mDispName "CO"
+}
+
+#retrieve the definition ID for given property by displayname
+function mGetPropertyDefId ([STRING] $mDispName,[STRING] $EntityClassId ) {
+	$PropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("$EntityClassId")
 	$propDefIds = @()
 	$PropDefs | ForEach-Object {
 		$propDefIds += $_.Id

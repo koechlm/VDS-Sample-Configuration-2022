@@ -12,6 +12,15 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
 -->
 <mymenu>
   <MenuItem>
+    <!--ADSK Create ECO linked to project-->
+    <NewProjectECO Label = "New Project Change Order" Description ="Create ECO linked to Project" Hint ="New ECO"
+                   PSFile ="ADSK.QS.CreateECO.ps1" Image="ECO.ico" ToolbarPaintStyle ="TextAndGlyph" MultiSelectEnabled="false"/>
+    <!--ADSK Create ECO linked to project end-->
+
+    <NewProjectECOwFiles Label = "Add File(s) to New Project-ECO" Description ="Create ECO linked to Project and add file records" Hint ="Add Files to new ECO"
+                   PSFile ="ADSK.QS.CreateECOandAddFiles.ps1" Image="ECO.ico" ToolbarPaintStyle ="TextAndGlyph" MultiSelectEnabled="true"/>
+    <!--ADSK Create ECO linked to project end-->
+    
     <!--ADSK-File Property Provider-->
     <ADSKFileProp Label = "$UIString[ADSKFile-MetaReader-00]" Description = "$UIString[ADSKFile-MetaReader-01]" Hint = "$UIString[ADSKFile-MetaReader-02]"
       PSFile = "ADSK.QS.AdskFilePropProvider.ps1" Image="ADSKMetaImport.ico" ToolbarPaintStyle = "TextAndGlyph"
@@ -170,6 +179,7 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
     <FileContext Label="myMenu" DeployAsPullDown="False" Location="FileContextMenu">
       <Item Name="NewFile"></Item>
       <Item Name="EditFile"></Item>
+      <Item Name="NewProjectECOwFiles"></Item>
       <Item Name="mInsertInvCompCopy"></Item>
       <Item Name="FileImport"></Item>
     </FileContext>
@@ -178,6 +188,7 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
       <Item Name="NewFolder"></Item>
       <Item Name="EditFolder"></Item>
       <Item Name="FileImport"></Item>
+      <Item Name="NewProjectECO"></Item>
     </FolderContex>
     <StandardToolbar Label="myMenu" DeployAsPullDown="False" Location="StandardToolbar">
       <Item Name="NewFile"></Item>

@@ -127,6 +127,7 @@
     <None Include="Vault.Custom\addinVault\ADSK.QS.CustomObjectsClassified.psm1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.Default.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.DerivationTree.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateECO.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.ECOTaskLink.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.FileBOM.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.FileDocStructure.ps1" />
@@ -145,6 +146,7 @@
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.AdskFilePropProvider.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateCustomObject.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateCustomObjectClassified.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateECOandAddFiles.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateFile.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateFolder.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditCustomObject.ps1" />
@@ -402,6 +404,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Vault.Custom\addinVault\VdsSampleUtilities.dll" />
+    <Resource Include="Vault.Custom\ECO.ico" />
     <Resource Include="Vault.Custom\CustomObject-Add.ico" />
     <Resource Include="Vault.Custom\CustomObject-Edit.ico" />
     <Resource Include="Vault.Custom\Folder2022.xml" />

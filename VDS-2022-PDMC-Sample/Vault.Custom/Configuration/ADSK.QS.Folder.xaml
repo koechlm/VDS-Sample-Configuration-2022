@@ -349,7 +349,7 @@
                         </Grid.ColumnDefinitions>
                         <Button x:Name="btnOK" Content="{Binding UIString[BTN1], FallbackValue=OK}"
                             Command="{Binding CloseWindowCommand, ElementName=FolderWindow}" 
-                            IsEnabled="{Binding Properties.IsValid}" Grid.Column="2" Width="80" Height="24" IsDefault="True" /> 
+                            IsEnabled="{Binding Properties.IsValid}" Grid.Column="2" Width="80" Height="24" IsDefault="True" />
                         <Button x:Name="btnEsc" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
                     Command="{Binding CancelWindowCommand, ElementName=FolderWindow}" Grid.Column="4" Width="80"
                     HorizontalAlignment="Right" Height="24" IsCancel="True" />
@@ -388,6 +388,85 @@
                             <TextBox Grid.ColumnSpan="2" Height="Auto" TextWrapping="Wrap" Text="{Binding UIString[Adsk.Org.Pers.Link_05], FallbackValue='Select Customer from Organisations'}" HorizontalContentAlignment="Center" IsUndoEnabled="False"/>
                         </Grid>
                     </Expander>
+                </Grid>
+            </AdornerDecorator>
+        </TabItem>
+        <TabItem x:Name="tabLinkedECOs" Header="Change Orders" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding EditMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <AdornerDecorator>
+                <Grid Background="#FFE5E5E5" MinWidth="{Binding ActualWidth, ElementName=grdMain, Mode=OneWay}" MinHeight="{Binding ActualHeight, ElementName=grdMain, Mode=OneWay}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="140"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="" MinWidth="25" MaxWidth="25" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Width="16" Source="{Binding icon}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{Binding DataContext.UIString[LBL19], FallbackValue=Name, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding name}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{Binding DataContext.UIString[LBL2], FallbackValue=Title, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding title}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{Binding DataContext.UIString[LBL2], FallbackValue=Description, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding description}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{Binding DataContext.UIString[LBL3], FallbackValue=State, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding state}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{Binding DataContext.UIString[], FallbackValue='Due Date', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding duedate}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{Binding DataContext.UIString[], FallbackValue='Submitted By', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding submittedby}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{Binding DataContext.UIString[], FallbackValue='Date Submitted', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding submitdate}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Button Content="New ECO" Command="{Binding PsCmd[mNewProjectCO]}" VerticalAlignment="Top" Margin="5,10,5,0"/>
+                    </Grid>
                 </Grid>
             </AdornerDecorator>
         </TabItem>
