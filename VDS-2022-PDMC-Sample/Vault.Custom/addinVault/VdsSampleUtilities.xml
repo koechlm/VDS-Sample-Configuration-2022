@@ -83,6 +83,38 @@
             <param name="CheckOut">Optional. File downloaded does NOT check-out as default.</param>
             <returns>Local path/filename or error statement "FileNotFound"</returns>
         </member>
+        <member name="M:VdsSampleUtilities.VltHelpers.GetFileProps(Autodesk.DataManagement.Client.Framework.Vault.Currency.Connections.Connection,System.Int64,System.Collections.Generic.Dictionary{System.String,System.String}@)">
+            <summary>
+            Get the file iteration's properties with Display Names and Values
+            </summary>
+            <param name="conn">Current Vault connection ($VaultConnection)</param>
+            <param name="FileId">File iteration Id</param>
+            <param name="FileProperties">Name-Value map of Display Name and Values. All Values return as text.</param>
+        </member>
+        <member name="M:VdsSampleUtilities.VltHelpers.GetFolderProps(Autodesk.DataManagement.Client.Framework.Vault.Currency.Connections.Connection,System.Int64,System.Collections.Generic.Dictionary{System.String,System.String}@)">
+            <summary>
+            Get Folder properties with Display Names and Values
+            </summary>
+            <param name="conn">Current Vault connection ($VaultConnection)</param>
+            <param name="FolderId">Folder Id</param>
+            <param name="FolderProperties">Name-Value map of Display Name and Values. All Values return as text.</param>
+        </member>
+        <member name="M:VdsSampleUtilities.VltHelpers.GetItemProps(Autodesk.DataManagement.Client.Framework.Vault.Currency.Connections.Connection,System.Int64,System.Collections.Generic.Dictionary{System.String,System.String}@)">
+            <summary>
+            Get Item properties with Display Names and Values
+            </summary>
+            <param name="conn">Current Vault connection ($VaultConnection)</param>
+            <param name="ItemId">Item Id</param>
+            <param name="ItemProperties">Name-Value map of Display Name and Values. All Values return as text.</param>
+        </member>
+        <member name="M:VdsSampleUtilities.VltHelpers.GetCustentProps(Autodesk.DataManagement.Client.Framework.Vault.Currency.Connections.Connection,System.Int64,System.Collections.Generic.Dictionary{System.String,System.String}@)">
+            <summary>
+            Get Custom Object properties with Display Names and Values
+            </summary>
+            <param name="conn">Current Vault connection ($VaultConnection)</param>
+            <param name="CustentId">Custom Object Id</param>
+            <param name="CustentProperties">Name-Value map of Display Name and Values. All Values return as text.</param>
+        </member>
         <member name="T:VdsSampleUtilities.InvHelpers">
             <summary>
             Class sharing options to interact with hosting Inventor session

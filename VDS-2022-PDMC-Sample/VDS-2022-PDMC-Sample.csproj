@@ -285,6 +285,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Vault.Custom\Configuration\Eco\ADSK.QS.EcoParentFolder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Vault.Custom\Configuration\Eco\ADSK.QS.TaskLinks.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -404,6 +408,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Vault.Custom\addinVault\VdsSampleUtilities.dll" />
+    <Resource Include="Vault.Custom\Configuration\Eco\Icons\GlobalFolderView_32.png" />
     <Resource Include="Vault.Custom\ECO.ico" />
     <Resource Include="Vault.Custom\CustomObject-Add.ico" />
     <Resource Include="Vault.Custom\CustomObject-Edit.ico" />

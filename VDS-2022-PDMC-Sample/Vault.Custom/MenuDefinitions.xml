@@ -187,8 +187,8 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
       <Item Name="NewFile"></Item>
       <Item Name="NewFolder"></Item>
       <Item Name="EditFolder"></Item>
-      <Item Name="FileImport"></Item>
       <Item Name="NewProjectECO"></Item>
+      <Item Name="FileImport"></Item>
     </FolderContex>
     <StandardToolbar Label="myMenu" DeployAsPullDown="False" Location="StandardToolbar">
       <Item Name="NewFile"></Item>

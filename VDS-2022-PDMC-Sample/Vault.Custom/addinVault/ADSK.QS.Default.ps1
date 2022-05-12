@@ -478,8 +478,32 @@ function OnTabContextChanged
 		$file = $vault.DocumentService.GetFileById($fileAssoc[0].CldFileId)
 		mInitializeClassificationTab -ParentType $null -file $file
 	}
+
+	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ChangeOrder" -and $xamlFile -eq "ADSK.QS.EcoParentFolder.xaml") {
+		#clear any data from previous selections:
+		$dsWindow.FindName("dtgrdParentFolder").ItemsSource = $null
+
+		#get the folder where the ECO has it's primary link to
+		[System.Collections.ArrayList]$mTargetLnks = @()
+		[long]$mEcoParentFld = $null
 		
-		#region ECO-Task-Links
+		$mTargetLnks = $vault.DocumentService.GetLinksByTargetEntityIds(@($VaultContext.SelectedObject.Id))
+		if ($null -ne $mTargetLnks) {
+			$mEcoParentFld = $vault.DocumentService.GetFolderById($mTargetLnks[0].ParentId).Id
+			$mFldrProps = New-Object 'system.collections.generic.dictionary[[string],[object]]'
+			[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard" + '\Vault.Custom\addinVault\VdsSampleUtilities.dll')
+			$_mVltHelpers = New-Object VdsSampleUtilities.VltHelpers
+			$_mVltHelpers.GetFolderProps($vaultConnection, $mEcoParentFld, [ref]$mFldrProps)
+			$dsWindow.FindName("dtgrdParentFolder").ItemsSource = $mFldrProps
+			$dsWindow.FindName("txtCategory").Text = $mFldrProps["Category Name"]
+			$dsWindow.FindName("txtName").Text = $mFldrProps["Name"]
+			$dsWindow.FindName("txtState").Text = $mFldrProps["State"]
+			$dsWindow.FindName("txtCreateDate").Text = $mFldrProps["Create Date"]
+			$dsWindow.FindName("txtCreatedBy").Text = $mFldrProps["Created By"]
+			$dsWindow.FindName("txtComments").Text = $mFldrProps["Comments"]
+		}
+	}
+		
 	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ChangeOrder" -and $xamlFile -eq "ADSK.QS.TaskLinks.xaml")
 	{
 		$mCoId = $VaultContext.SelectedObject.Id
@@ -513,7 +537,6 @@ function OnTabContextChanged
 			mTaskClick
 		})
 	}
-	#endregion
 
 	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "FileMaster" -and $xamlFile -eq "ADSK.QS.FileItemDataSheet.xaml")
 	{
