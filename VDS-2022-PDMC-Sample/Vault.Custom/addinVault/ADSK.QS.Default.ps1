@@ -482,18 +482,25 @@ function OnTabContextChanged
 	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ChangeOrder" -and $xamlFile -eq "ADSK.QS.EcoParentFolder.xaml") {
 		#clear any data from previous selections:
 		$dsWindow.FindName("dtgrdParentFolder").ItemsSource = $null
+		$dsWindow.FindName("txtCategory").Text = ""
+		$dsWindow.FindName("txtName").Text = ""
+		$dsWindow.FindName("txtState").Text = ""
+		$dsWindow.FindName("txtCreateDate").Text = ""
+		$dsWindow.FindName("txtCreatedBy").Text = ""
+		$dsWindow.FindName("txtComments").Text = ""
 
 		#get the folder where the ECO has it's primary link to
-		[System.Collections.ArrayList]$mTargetLnks = @()
-		[long]$mEcoParentFld = $null
-		
-		$mTargetLnks = $vault.DocumentService.GetLinksByTargetEntityIds(@($VaultContext.SelectedObject.Id))
-		if ($null -ne $mTargetLnks) {
-			$mEcoParentFld = $vault.DocumentService.GetFolderById($mTargetLnks[0].ParentId).Id
+		$mTargetLnks = @()
+		[long]$mEcoParentFldId = $null		
+		#filter target linked objects are folders and not custom objects
+		$mTargetLnks = $vault.DocumentService.GetLinksByTargetEntityIds(@($VaultContext.SelectedObject.Id)) | Where-Object { $_.ParEntClsId -eq "FLDR" }
+
+		if ($mTargetLnks.Count -gt 0) {
+			$mEcoParentFldId = $vault.DocumentService.GetFolderById($mTargetLnks[0].ParentId).Id
 			$mFldrProps = New-Object 'system.collections.generic.dictionary[[string],[object]]'
 			[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard" + '\Vault.Custom\addinVault\VdsSampleUtilities.dll')
 			$_mVltHelpers = New-Object VdsSampleUtilities.VltHelpers
-			$_mVltHelpers.GetFolderProps($vaultConnection, $mEcoParentFld, [ref]$mFldrProps)
+			$_mVltHelpers.GetFolderProps($vaultConnection, $mEcoParentFldId, [ref]$mFldrProps)
 			$dsWindow.FindName("dtgrdParentFolder").ItemsSource = $mFldrProps
 			$dsWindow.FindName("txtCategory").Text = $mFldrProps["Category Name"]
 			$dsWindow.FindName("txtName").Text = $mFldrProps["Name"]

@@ -153,12 +153,13 @@
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditCustomObjectClassified.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditFile.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditFolder.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToFolderFromEco.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToInvSibling.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToReplacedBy.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToSelectedFile.ps1" />
-    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToSelectedTask.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToTaskFromEco.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToSourceFile.ps1" />
-    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToTasksECO.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToEcoFromTask.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.ImportFiles.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.ReserveNumbers.ps1" />
     <None Include="Vault\addinVault\AssociatedFiles.ps1" />
@@ -408,6 +409,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Vault.Custom\addinVault\VdsSampleUtilities.dll" />
+    <Resource Include="Vault.Custom\GlobalFolderView_16.ico" />
+    <Resource Include="Vault.Custom\GlobalFolder_GoTo_16.ico" />
     <Resource Include="Vault.Custom\Configuration\Eco\Icons\GlobalFolderView_32.png" />
     <Resource Include="Vault.Custom\ECO.ico" />
     <Resource Include="Vault.Custom\CustomObject-Add.ico" />

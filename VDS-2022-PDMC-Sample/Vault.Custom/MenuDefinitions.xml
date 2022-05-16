@@ -12,11 +12,12 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
 -->
 <mymenu>
   <MenuItem>
-    <!--ADSK Create ECO linked to project-->
+    <!--ADSK Create ECO linked to project, Folder selection context-->
     <NewProjectECO Label = "New Project Change Order" Description ="Create ECO linked to Project" Hint ="New ECO"
                    PSFile ="ADSK.QS.CreateECO.ps1" Image="ECO.ico" ToolbarPaintStyle ="TextAndGlyph" MultiSelectEnabled="false"/>
     <!--ADSK Create ECO linked to project end-->
 
+    <!--ADSK Create ECO with linked files, File selection context-->
     <NewProjectECOwFiles Label = "Add File(s) to New Project-ECO" Description ="Create ECO linked to Project and add file records" Hint ="Add Files to new ECO"
                    PSFile ="ADSK.QS.CreateECOandAddFiles.ps1" Image="ECO.ico" ToolbarPaintStyle ="TextAndGlyph" MultiSelectEnabled="true"/>
     <!--ADSK Create ECO linked to project end-->
@@ -92,12 +93,15 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
     <GoToInvSibling Label = "$UIString[ADSK-GoToInvSibl_MNU00]" Description = "$UIString[ADSK-GoToInvSibl_MNU00]" Hint = "$UIString[ADSK-GoToInvSibl_MNU00]"
           PSFile = "ADSK.QS.GoToInvSibling.ps1" Image="Search.ico" ToolbarPaintStyle = "TextAndGlyph" NavigationTypes="File"
           MultiSelectEnabled = "false" />
-    <GoToSelectedTask Label = "Go to selected ECO's active Task" Description = "Select Task in its Workspace" Hint = "Go To Selected Task"
-      PSFile = "ADSK.QS.GoToSelectedTask.ps1" Image="Task-GoTo.ico" ToolbarPaintStyle = "TextAndGlyph"
+    <GoToSelectedTask Label = "Go to ECO's Selected Task" Description = "Navigate to selected Task of ECO" Hint = "Go To Selected Task"
+      PSFile = "ADSK.QS.GoToTaskFromEco.ps1" Image="Task-GoTo.ico" ToolbarPaintStyle = "TextAndGlyph"
       MultiSelectEnabled = "false" NavigationTypes="ChangeOrder" />
     <GoToLinkedEco Label = "Go to linked ECO" Description = "Select ECO in its Workspace" Hint = "Go To ECO"
-      PSFile = "ADSK.QS.GoToTasksECO.ps1" Image="ECO-GoTo.ico" ToolbarPaintStyle = "TextAndGlyph"
-      MultiSelectEnabled = "false"/>
+      PSFile = "ADSK.QS.GoToEcoFromTask.ps1" Image="ECO-GoTo.ico" ToolbarPaintStyle = "TextAndGlyph"
+      MultiSelectEnabled = "false" NavigationTypes="Task"/>
+    <GoToEcoParentFldr Label ="Go to ECO's Parent Folder" Description ="Navigate to this ECO's parent folder" Hint ="Go to ECO parent folder"
+      PSFile ="Adsk.QS.GoToFolderFromEco.ps1" Image ="GlobalFolder_GoTo_16.ico" ToolbarPaintStyle ="TextAndGlyph"
+      MultiSelectEnabeld =" false" NavigationTypes ="ChangeOrder"/>
     <!--GoToNavigation MenuItem End-->
 
     <!--Activate Scheduled Task-->
@@ -218,6 +222,7 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
     <CustomObject Label="$UIString[MSDCE_CO03]" DeployAsPullDown="False" Location="Task">
       <Item Name="NewTask"></Item>
       <Item Name="EditTask"></Item>
+      <Item Name="GoToLinkedEco"></Item>
     </CustomObject>
     <CustomObject Label="$UIString[ClassTerms_00]" DeployAsPullDown="False" Location="Term">
       <Item Name="newTermObject"></Item>
@@ -244,6 +249,7 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
       <Item Name="editSubGroupObject"></Item>
     </CustomObject>
     <ChangeOrder Label="Go To Linked Task" DeployAsPullDown="False" Location="ChangeOrderContextMenu">
+      <Item Name ="GoToEcoParentFldr"></Item>
       <Item Name ="GoToSelectedTask"></Item>
     </ChangeOrder>
   </CommandSite>

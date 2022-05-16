@@ -10,6 +10,7 @@
 #=============================================================================
 #endregion
 
+#an ECO likely links multiple tasks; the user needs to select one from the list; the selection writes the txt file
 $mTargetObject = Get-Content "$($env:appdata)\Autodesk\DataStandard 2022\mECOTabClick.txt"
 
 	$srchCondAll = @()		
@@ -65,7 +66,6 @@ $custentName = ($vault.CustomEntityService.GetAllCustomEntityDefinitions() | Whe
 #custom objects don't have a pre-defined selectiontypeID, so lets create one
 $selectionTypeId = New-Object Autodesk.Connectivity.Explorer.Extensibility.SelectionTypeId($custentName)
 $location = New-Object Autodesk.Connectivity.Explorer.Extensibility.LocationContext $selectionTypeId, $custentNumber
-
 $vaultContext.GoToLocation = $location
 
 #clean-up selection
