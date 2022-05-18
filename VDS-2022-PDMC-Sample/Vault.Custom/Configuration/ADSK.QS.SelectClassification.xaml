@@ -231,7 +231,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="5"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="26"/>
                 <RowDefinition Height="5"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -274,8 +274,8 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Button x:Name="btnHelp1" Content="{Binding UIString[MSDCE_BTN1], FallbackValue=Help}" 
-                    Command="{Binding PsCmd[mHelp(500)]}" ToolTip="F1" Margin="0" Width="80" Height="26" />
-                <Button x:Name="btnAssignClass" Content="{Binding UIString[], FallbackValue='Assign Classification'}"  Command="{Binding PsCmd[mAddClassification]}" Grid.Column="3" BorderThickness="1" Padding="5,1" IsEnabled="False" Height="26"/>
+                    Command="{Binding PsCmd[mHelp(500)]}" ToolTip="F1" Margin="0" Width="80" Height="24" />
+                <Button x:Name="btnAssignClass" Content="{Binding UIString[], FallbackValue='Assign Classification'}"  Command="{Binding PsCmd[mAddClassification]}" Grid.Column="3" BorderThickness="1" Padding="5,1" IsEnabled="False" Height="24"/>
             </Grid>
             <WrapPanel x:Name="wrpClassification2" Grid.ColumnSpan="3" Grid.Column="1" Margin="5,0,0,0"/>
             <Label x:Name="lblClassHierarchy" Content="{Binding UIString[Adsk.QS.Classification_04], FallbackValue='Class Hierarchy'}" BorderThickness="1" BorderBrush="#FFACACAC"/>
@@ -289,7 +289,7 @@
                 </Button.Template>
             </Button>
             <Label x:Name="lblAvailableClasses" Content="{Binding UIString[Adsk.QS.Classification_05], FallbackValue=Classes}" Grid.Row="2" BorderThickness="1" BorderBrush="#FFACACAC"/>
-            <ComboBox x:Name="cmbAvailableClasses" DisplayMemberPath="Name" SelectedValuePath="Name" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="5,0,0,0" BorderThickness="1" IsEnabled="False" Height="28"/>
+            <ComboBox x:Name="cmbAvailableClasses" DisplayMemberPath="Name" SelectedValuePath="Name" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="5,0,0,0" BorderThickness="1" IsEnabled="False" Height="26" HorizontalAlignment="Left" MinWidth="200"/>
         </Grid>
 
     </Grid>

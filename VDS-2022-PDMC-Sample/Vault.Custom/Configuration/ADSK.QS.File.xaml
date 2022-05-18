@@ -1262,7 +1262,7 @@
                     </Grid.ColumnDefinitions>
                     <Button x:Name="btnRemoveClass" Content="{Binding UIString[],FallbackValue=Remove Classification}" Command="{Binding PsCmd[mRemoveClassification]}" Grid.Row="3" Grid.Column="2" BorderThickness="1" Height="24" Margin="2" MinWidth="80"/>
                     <Label x:Name="lblActiveClass" Content="{Binding UIString[Adsk.QS.Classification_06], FallbackValue='Active Classification'}" Height="24" Grid.Row="3" BorderThickness="1"/>
-                    <TextBox x:Name="txtActiveClass" IsHitTestVisible="False" Height="24" Text="{Binding Prop[_XLTN_CLASS].Value}" Grid.Row="3" Grid.Column="1" BorderThickness="1" Margin="5,0,0,0"/>
+                    <TextBox x:Name="txtActiveClass" IsHitTestVisible="False" Height="24" Text="{Binding Prop[_XLTN_CLASS].Value}" Grid.Row="3" Grid.Column="1" BorderThickness="1" Margin="5,0,0,0" IsReadOnly="True"/>
                     <Label x:Name="lblClassProps" Content="{Binding UIString[Adsk.QS.Classification_07], FallbackValue='Class Properties'}" Grid.Row="5" Height="Auto" BorderThickness="1"/>
                     <DataGrid x:Name="dtgrdClassProps" Grid.Row="5" AutoGenerateColumns="False" Grid.Column="1" SelectionUnit="Cell" HorizontalGridLinesBrush="#FFEEEEF2" VerticalGridLinesBrush="#FFE7E8EC" BorderThickness="1" Grid.ColumnSpan="3" BorderBrush="#FFABADB3" Margin="5,0,0,0">
                         <DataGrid.Columns>
