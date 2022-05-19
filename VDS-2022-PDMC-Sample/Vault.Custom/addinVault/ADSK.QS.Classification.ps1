@@ -68,19 +68,23 @@ function mInitializeClassificationTab($ParentType, $file)
 
 			#update property values by leaving the tab
 			$dsWindow.FindName("dtgrdClassProps").add_LostFocus({
-				mUpdateClsPropValues
+				#mUpdateClsPropValues
 			}) #lostFocus
 
 			$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
-			$dsWindow.FindName("btnAssignClass").IsEnabled = $false
+			$dsWindow.FindName("btnSelectClass").IsEnabled = $false
 			if($Prop["_XLTN_CLASS"].Value.Length -lt 1 -and $Prop["_ReadOnly"].Value -eq $false) { 
 				$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
-				$dsWindow.FindName("btnAssignClass").IsEnabled = $true
+				$dsWindow.FindName("btnSelectClass").IsEnabled = $true
 			}
 			if($Prop["_XLTN_CLASS"].Value.Length -gt 0 -and $Prop["_ReadOnly"].Value -eq $false) 
 			{ 	
 				$dsWindow.FindName("btnRemoveClass").IsEnabled = $true
-				$dsWindow.FindName("btnAssignClass").IsEnabled = $false
+				$dsWindow.FindName("btnSelectClass").IsEnabled = $false
+			}
+
+			if($Prop["_XLTN_CLASS"]){
+				$dsWindow.FindName("txtActiveClass").Text = $Prop["_XLTN_CLASS"].Value
 			}
 
 			$Global:mClsTabInitialized = $true
@@ -105,6 +109,11 @@ function mGetFileClsValues ()
 	#$dsDiag.Trace(">>Function mGetFileClsValues starts...")
 
 	$dsWindow.FindName("dtgrdClassProps").ItemsSource = $null
+	# $dsWindow.FindName("txtSegment").Visibility = "Collapsed"
+	# $dsWindow.FindName("txtMainGroup").Visibility = "Collapsed"
+	# $dsWindow.FindName("txtGroup").Visibility = "Collapsed"
+	# $dsWindow.FindName("txtSubGroup").Visibility = "Collapsed"
+
 	$mActiveClass = @()
 	if ($AssignClsWindow) {
 		$mActiveClass += mGetCustentiesByName -Name $AssignClsWindow.FindName("cmbAvailableClasses").SelectedValue
@@ -118,17 +127,41 @@ function mGetFileClsValues ()
 		#$dsDiag.Trace("	...class object for file class property value found.")
 		$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass[0].Id
 		$mClsPropTable = @{}
+		
 		$mClsLevelProps = ("Segment", "Main Group", "Group", "Sub Group", "Class")
 
 		#get the file's class property values 
 		$mFileClassProps = $vault.PropertyService.GetProperties("FILE", @($mFile.Id), $mClsPrpNames.Keys)
+		$mClassProps = $vault.PropertyService.GetProperties("CUSTENT", @($mActiveClass[0].Id), $mClsPrpNames.Keys)
 		Foreach($mClsProp in $mClsPrpNames.GetEnumerator())
 		{
 			#filter the classification property, add all others
 			if($mClsPrpNames[$mClsProp.Key] -notin $mClsLevelProps)
-				{
-					$mClsPropTable.Add($mClsPrpNames[$mClsProp.Key], (($mFileClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val))
+			{
+				$mClsPropTable.Add($mClsPrpNames[$mClsProp.Key], (($mFileClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val))
+			}
+			else{
+				
+				if($mClsPrpNames[$mClsProp.Key] -eq "Segment") { 
+					$dsWindow.FindName("txtSegment").Text = ($mClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val
+					$dsWindow.FindName("txtSegment").Visibility = "Visible"
 				}
+				
+				if($mClsProp.Key -eq "Main Group") { 
+					$dsWindow.FindName("txtMainGroup").Text = ($mClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val
+					$dsWindow.FindName("txtMainGroup").Visibility = "Visible" 
+				}
+				
+				if($mClsProp.Key -eq "Group") { 
+					$dsWindow.FindName("txtGroup").Text = ($mClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val
+					$dsWindow.FindName("txtGroup").Visibility = "Visible" 
+				}
+				if($mClsProp.Key -eq "Sub Group") { 
+					$dsWindow.FindName("txtSubGroup").Text = $mClsProp.Value 
+					$dsWindow.FindName("txtSubGroup").Visibility = "Visible"
+				}
+			}
+
 		}
 		#fill the grid either for edits or as preview before the class assignment
 		if ($AssignClsWindow){
@@ -151,7 +184,6 @@ function mGetClsDfltValues
 	#$dsDiag.Trace(">>Function mGetClsDfltValues starts...")
 	$mActiveClass = @()
 	$mActiveClass += mGetCustentiesByName -Name $AssignClsWindow.FindName("cmbAvailableClasses").SelectedValue
-	#$dsDiag.Trace("	...active class: " + '$mActiveClass' + "read from class property")
 	$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass[0].Id
 	$mClsPrpValues = mGetClsPrpValues -ClassId $mActiveClass[0].Id
 	$mClsPropTable = @{}
@@ -167,15 +199,7 @@ function mGetClsDfltValues
 	}
 
 	$AssignClsWindow.FindName("dtgrdClassProps").ItemsSource = $mClsPropTable
-	try{
-		Foreach($row in $AssignClsWindow.FindName("dtgrdClassProps").Items)
-		{
-			$Prop[$row.Key].Value = $row.Value
-		}
-	}
-	catch{
-		#$dsDiag.Trace("	...Error writing class properties to file properties")
-	}
+
 	#$dsDiag.Trace("...Function mGetClsDfltValues finsihed.<<")
 }
 
@@ -271,15 +295,29 @@ function mGetFileObject()
 	return $null
 }
 
-function mAddClassification()
+function mSelectClassification()
 {
-	#$dsDiag.Trace("AddClassification starts...")
+	$dsWindow.FindName("txtActiveClass").Text = $AssignClsWindow.FindName("cmbAvailableClasses").SelectedValue
+	$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
+	$dsWindow.FindName("btnSelectClass").IsEnabled = $true
 
+	$value = $AssignClsWindow.FindName("cmbAvailableClasses").SelectedItem.Id
+	$value | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\mFileClassId.txt"
+
+	$dsWindow.FindName("dtgrdClassProps").ItemsSource = $AssignClsWindow.FindName("dtgrdClassProps").ItemsSource
+	
+	$AssignClsWindow.DialogResult = "OK"
+	$AssignClsWindow.Close()
+}
+
+function mApplyClassification()
+{
 	if ($Global:mFile)
 	{
 		#the function mFindCustent returns a generic list object
+		$Prop["_XLTN_CLASS"].Value = $dsWindow.FindName("txtActiveClass").Text
 		$mActiveClass = @()
-		$mActiveClass += mFindCustent -CustentName $AssignClsWindow.FindName("cmbAvailableClasses").SelectedValue -Category "Class" #custom object names should be unique per category
+		$mActiveClass += mFindCustent -CustentName $dsWindow.FindName("txtActiveClass").Text -Category "Class" #custom object names should be unique per category
 		If($mActiveClass.Count -eq 1)
 		{
 			$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass.Id
@@ -288,37 +326,22 @@ function mAddClassification()
 		}
 		else
 		{
-			[System.Windows.MessageBox]::Show($UIString["Adsk.QS.Classification_10"], "Vault Data Standard", "", "Exclamation")
+			return
+		}
+		If($mActiveClass.Count -gt 1){
+			[System.Windows.MessageBox]::Show($UIString["Adsk.QS.Classification_10"], "Vault Data Standard", 0 , "Exclamation")
 			return
 		}
 		$mPropsRemove = @()
 		$mAddRemoveComment = "Added classification"
-		$mFileUpdated = $vault.DocumentService.UpdateFilePropertyDefinitions(@($Global:mFile.MasterId), $mPropsAdd, $mPropsRemove, $mAddRemoveComment)
-		if ($null -eq $mFileUpdated) {
-			#$dsDiag.Trace("AddClassification Error on UpdateFilePropertyDefinitions")
+		try {
+			$mFileUpdated = $vault.DocumentService.UpdateFilePropertyDefinitions(@($Global:mFile.MasterId), $mPropsAdd, $mPropsRemove, $mAddRemoveComment)
+			mUpdateClsPropValues
+		}
+		catch {
+			$dsDiag.Trace("AddClassification Error on UpdateFilePropertyDefinitions")
 		}
 	}
-	$Prop["_XLTN_CLASS"].Value = $AssignClsWindow.FindName("cmbAvailableClasses").SelectedValue
-	$dsWindow.FindName("btnRemoveClass").IsEnabled = $true
-	$dsWindow.FindName("btnAssignClass").IsEnabled = $false
-
-				
-	$value = $AssignClsWindow.FindName("cmbAvailableClasses").SelectedItem.Id
-	$value | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\mFileClassId.txt"
-
-	$dsWindow.FindName("dtgrdClassProps").ItemsSource = $AssignClsWindow.FindName("dtgrdClassProps").ItemsSource
-	mGetClsDfltValues
-	
-	#mResetClassSelection
-	
-	#save at least the current values, even if the $dsWindow closes with cancel
-	mUpdateClsPropValues
-
-	$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
-
-	$AssignClsWindow.DialogResult = "OK"
-	$AssignClsWindow.Close()
-	#$dsDiag.Trace("...AddClassification finished.")
 }
 
 function mRemoveClassification() #applies to $dsWindow
@@ -345,18 +368,20 @@ function mRemoveClassification() #applies to $dsWindow
 			if($mMsgResult -eq "No") { return}
 
 			$mAddRemoveComment = "removed classification"
-			$mFileUpdated = $vault.DocumentService.UpdateFilePropertyDefinitions(@($Global:mFile.MasterId), $mPropsAdd, $mPropsRemove, $mAddRemoveComment)
-			if ($null -eq $mFileUpdated) {
-				#$dsDiag.Trace("Removelassification Error on UpdateFilePropertyDefinitions")
+			try {
+				$mFileUpdated = $vault.DocumentService.UpdateFilePropertyDefinitions(@($Global:mFile.MasterId), $mPropsAdd, $mPropsRemove, $mAddRemoveComment)
+			}
+			catch {
+				$dsDiag.Trace("Removelassification Error on UpdateFilePropertyDefinitions")
 			}
 		}
 	}
 	#reset the classification; no longer needed, if dialog close is enforced below
-	$dsWindow.FindName("dtgrdClassProps").ItemsSource = $null
-	$Prop["_XLTN_CLASS"] = $null #remove the property from the current window's collection, otherwise it will re-attached to the file
-	$dsWindow.FindName("txtActiveClass").Text = ""
+	#$dsWindow.FindName("dtgrdClassProps").ItemsSource = $null
+	#$Prop["_XLTN_CLASS"] = $null #remove the property from the current window's collection, otherwise it will re-attached to the file
+	#$dsWindow.FindName("txtActiveClass").Text = ""
 
-	$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
+	#$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
 	
 	#write the highest level Custent Id to a text file for post-close event
 	$value = -1
@@ -377,8 +402,9 @@ function mAddClsLevelCombo ([String] $ClassLevelName, $ClsLvls) {
 	$cmb.DisplayMemberPath = "Name";
 	$cmb.ItemsSource = @($children)
 	$cmb.MinWidth = 140
+	$cmb.Height = 26
 	$cmb.HorizontalContentAlignment = "Center"
-	$cmb.BorderThickness = "1,1,1,1"
+	$cmb.BorderThickness = "0,0,1,0"
 	
 	if($AssignClsWindow.FindName("cmbAvailableClasses").Items.Count -gt 1)
 	{
@@ -422,9 +448,10 @@ function mAddClsLevelCmbChild ($data) {
 	$cmb.Name = "cmbClsBrdCrmb_" + $mBreadCrumb.Children.Count.ToString();
 	$cmb.DisplayMemberPath = "Name";
 	$cmb.ItemsSource = @($children)
-	$cmb.BorderThickness = "1,1,1,1"
+	$cmb.BorderThickness = "0,0,1,0"
 	$cmb.HorizontalContentAlignment = "Center"
 	$cmb.MinWidth = 140
+	$cmb.Height = 26
 
 	if($AssignClsWindow.FindName("cmbAvailableClasses").Items.Count -gt 1)
 	{
@@ -549,15 +576,17 @@ function mResetClassSelection
 function mAvlblClsReset
 {
 	if ($null -ne $AssignClsWindow.FindName("cmbAvailableClasses")) {
+		$dsWindow.FindName("txtActiveClass").Text = ""
+		$dsWindow.FindName("dtgrdClassProps").ItemsSource = $null
 		$AssignClsWindow.FindName("cmbAvailableClasses").ItemsSource = $null
 		$AssignClsWindow.FindName("cmbAvailableClasses").SelectedIndex = -1
 		$AssignClsWindow.FindName("cmbAvailableClasses").IsEnabled = $false
 	}
-	$AssignClsWindow.FindName("btnAssignClass").IsEnabled = $false
+	$AssignClsWindow.FindName("btnSelectClass").IsEnabled = $false
 }
 #endregion classification breadcrumb
 
-function mAssignClassification
+function mInitializeClsSelection
 {
 	#region initialize SelectClassification.xaml
 	[xml]$AssignClsXaml = Get-Content "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.SelectClassification.xaml"
@@ -572,18 +601,17 @@ function mAssignClassification
 		mAssignClsGrdReset -ComboBox $AssignClsWindow.FindName("cmb_ClsStd")
 	})
 
-	if ($null -ne $AssignClsWindow.FindName("cmbAvailableClasses")) {
-		$AssignClsWindow.FindName("cmbAvailableClasses").add_SelectionChanged({
-			If ($Prop["_ReadOnly"].Value -eq $false -and $dsWindow.FindName("txtActiveClass").Text -eq "" -and $AssignClsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1) {
-				$AssignClsWindow.FindName("btnAssignClass").IsEnabled = $true
 
-				#preview the properties of the class
-				mGetFileClsValues
-				mGetClsDfltValues
-			}
-			Else { $AssignClsWindow.FindName("btnAssignClass").IsEnabled = $false }
-		})
-	}
+	$AssignClsWindow.FindName("cmbAvailableClasses").add_SelectionChanged({
+		#If ($Prop["_ReadOnly"].Value -eq $false -and $dsWindow.FindName("txtActiveClass").Text -eq "" -and $AssignClsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1) {
+		If ($Prop["_ReadOnly"].Value -eq $false -and $AssignClsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1) {
+			$AssignClsWindow.FindName("btnSelectClass").IsEnabled = $true
+			#preview the properties of the class
+			mGetFileClsValues
+			mGetClsDfltValues
+		}
+		Else { $AssignClsWindow.FindName("btnSelectClass").IsEnabled = $false }
+	})
 	
 	mAvlblClsReset #reset cmbAvailableClasses
 
@@ -627,12 +655,13 @@ function mUpdateClsPropValues(){
 		}
 	}	
 	catch{
-	$dsDiag.Trace("Error writing class properties to file properties")
+		$dsDiag.Trace("Error writing class properties to file properties")
 	}
 }
 
 function mApplyClsAndCloseFileWindow(){
 	if($dsWindow.FindName("txtActiveClass").Text -ne ""){
-		mAddClassification
+		mApplyClassification
 	}
+	$dsWindow.CloseWindowCommand.Execute($this)
 }

@@ -86,6 +86,9 @@
         </Style>
     </Window.Resources>
     <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
@@ -106,7 +109,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Label x:Name="lbl_ClsStd" VerticalAlignment="Center" Content="Classification Standard"/>
-                <ComboBox x:Name="cmb_ClsStd" SelectedIndex="0" VerticalAlignment="Center" Grid.Column="1" Margin="5,0,0,0" Height="26">
+                <ComboBox x:Name="cmb_ClsStd" SelectedIndex="2" VerticalAlignment="Center" Grid.Column="1" Margin="0" Height="26">
                     <ComboBoxItem x:Name="IEC61355" Content="Document Classification IEC 61355"/>
                     <ComboBoxItem x:Name="eClass" Content="Component Classification eCl@ass"/>
                     <ComboBoxItem x:Name="Company" Content="Company Standard Classification"/>
@@ -243,8 +246,8 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="lblClassProps" Content="{Binding UIString[Adsk.QS.Classification_07], FallbackValue=Class Properties}" Grid.Row="4" BorderThickness="1" BorderBrush="#FFACACAC"/>
-            <DataGrid x:Name="dtgrdClassProps" Grid.Row="4" AutoGenerateColumns="False" Grid.Column="1" SelectionUnit="Cell" HorizontalGridLinesBrush="#FFEEEEF2" VerticalGridLinesBrush="#FFE7E8EC" Grid.ColumnSpan="2" BorderBrush="#FFABADB3" Margin="5,0,0,0" MinWidth="637" MinHeight="282" HorizontalAlignment="Left">
+            <Label x:Name="lblClassProps" Content="{Binding UIString[Adsk.QS.Classification_07], FallbackValue=Class Properties}" Grid.Row="4" BorderThickness="1,1,0,1" BorderBrush="#FFACACAC"/>
+            <DataGrid x:Name="dtgrdClassProps" Grid.Row="4" AutoGenerateColumns="False" Grid.Column="1" SelectionUnit="Cell" HorizontalGridLinesBrush="#FFEEEEF2" VerticalGridLinesBrush="#FFE7E8EC" Grid.ColumnSpan="2" BorderBrush="#FFACACAC" Margin="0" MinWidth="637" MinHeight="282" HorizontalAlignment="Left">
                 <DataGrid.Columns>
                     <DataGridTextColumn x:Name="ClassPropName" Binding="{Binding Key, Mode=OneWay}" CellStyle="{StaticResource DynamicDataGridLabelStyle}" Width="Auto">
                         <DataGridTextColumn.HeaderTemplate>
@@ -275,21 +278,23 @@
                 </Grid.ColumnDefinitions>
                 <Button x:Name="btnHelp1" Content="{Binding UIString[MSDCE_BTN1], FallbackValue=Help}" 
                     Command="{Binding PsCmd[mHelp(500)]}" ToolTip="F1" Margin="0" Width="80" Height="24" />
-                <Button x:Name="btnAssignClass" Content="{Binding UIString[], FallbackValue='Assign Classification'}"  Command="{Binding PsCmd[mAddClassification]}" Grid.Column="3" BorderThickness="1" Padding="5,1" IsEnabled="False" Height="24"/>
+                <Button x:Name="btnSelectClass" Content="{Binding UIString[], FallbackValue='Select Classification'}"  Command="{Binding PsCmd[mSelectClassification]}" Grid.Column="3" BorderThickness="1" Padding="5,1" IsEnabled="False" Height="24"/>
             </Grid>
-            <WrapPanel x:Name="wrpClassification2" Grid.ColumnSpan="3" Grid.Column="1" Margin="5,0,0,0"/>
-            <Label x:Name="lblClassHierarchy" Content="{Binding UIString[Adsk.QS.Classification_04], FallbackValue='Class Hierarchy'}" BorderThickness="1" BorderBrush="#FFACACAC"/>
-            <Button x:Name="btnClsReset2" Command="{Binding PsCmd[mResetClassSelection]}" Content="X" FontWeight="Bold" ToolTip="{Binding UIString[ClassTerms_TT07], FallbackValue=Reset Selection}" Foreground="Red" Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" VerticalAlignment="Stretch" IsEnabled="False">
+            <Border x:Name="brdwrpclassification" Grid.ColumnSpan="3" Grid.Column="1" Margin="0" BorderThickness="1" BorderBrush="#FFACACAC">
+                <WrapPanel x:Name="wrpClassification2"/>
+            </Border>
+            <Label x:Name="lblClassHierarchy" Content="{Binding UIString[Adsk.QS.Classification_04], FallbackValue='Class Hierarchy'}" BorderThickness="1,1,0,1" BorderBrush="#FFACACAC"/>
+            <Button x:Name="btnClsReset2" Command="{Binding PsCmd[mResetClassSelection]}" Content="X" FontWeight="Bold" ToolTip="{Binding UIString[ClassTerms_TT07], FallbackValue=Reset Selection}" Foreground="Red" HorizontalAlignment="Right" VerticalAlignment="Stretch" IsEnabled="False" Width="24" Height="24" Margin="0,0,2,0">
                 <Button.Template>
                     <ControlTemplate>
                         <Border BorderBrush="#FFABADB3" BorderThickness="1">
-                            <Image x:Name="imgTemplateReset" Source="C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\filter-delete.ico" Margin="2" />
+                            <Image x:Name="imgTemplateReset" Source="C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\filter-delete.ico" Margin="2" Width="24" Height="24" Stretch="Fill" />
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Label x:Name="lblAvailableClasses" Content="{Binding UIString[Adsk.QS.Classification_05], FallbackValue=Classes}" Grid.Row="2" BorderThickness="1" BorderBrush="#FFACACAC"/>
-            <ComboBox x:Name="cmbAvailableClasses" DisplayMemberPath="Name" SelectedValuePath="Name" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="5,0,0,0" BorderThickness="1" IsEnabled="False" Height="26" HorizontalAlignment="Left" MinWidth="200"/>
+            <Label x:Name="lblAvailableClasses" Content="{Binding UIString[Adsk.QS.Classification_05], FallbackValue=Classes}" Grid.Row="2" BorderThickness="1,1,0,1" BorderBrush="#FFACACAC"/>
+            <ComboBox x:Name="cmbAvailableClasses" DisplayMemberPath="Name" SelectedValuePath="Name" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="0" BorderThickness="1" IsEnabled="False" Height="26" HorizontalAlignment="Left" MinWidth="200"/>
         </Grid>
 
     </Grid>
