@@ -663,7 +663,7 @@ function mCoComboSelectionChanged ($sender) {
 
 		#write the highest level Custent Id to a text file for post-close event
 		$value = $mBreadCrumb.Children[$children].SelectedItem.Id
-		$value | Out-File $env:TEMP"\mParentId.txt"
+		$value | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\mParentId.txt"
 
 	}
 	catch{}
