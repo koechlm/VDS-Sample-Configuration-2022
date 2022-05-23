@@ -109,10 +109,13 @@ function mGetFileClsValues ()
 	#$dsDiag.Trace(">>Function mGetFileClsValues starts...")
 
 	$dsWindow.FindName("dtgrdClassProps").ItemsSource = $null
-	# $dsWindow.FindName("txtSegment").Visibility = "Collapsed"
-	# $dsWindow.FindName("txtMainGroup").Visibility = "Collapsed"
-	# $dsWindow.FindName("txtGroup").Visibility = "Collapsed"
-	# $dsWindow.FindName("txtSubGroup").Visibility = "Collapsed"
+	if ($dsWindow.Name -eq "FileWindow") {
+		$dsWindow.FindName("txtSegment").Visibility = "Collapsed"
+		$dsWindow.FindName("txtMainGroup").Visibility = "Collapsed"
+		$dsWindow.FindName("txtGroup").Visibility = "Collapsed"
+		$dsWindow.FindName("txtSubGroup").Visibility = "Collapsed"
+	}
+
 
 	$mActiveClass = @()
 	if ($AssignClsWindow) {
@@ -140,25 +143,24 @@ function mGetFileClsValues ()
 			{
 				$mClsPropTable.Add($mClsPrpNames[$mClsProp.Key], (($mFileClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val))
 			}
-			else{
-				
+			if ($dsWindow.Name -eq "FileWindow"){
 				if($mClsPrpNames[$mClsProp.Key] -eq "Segment") { 
 					$dsWindow.FindName("txtSegment").Text = ($mClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val
-					$dsWindow.FindName("txtSegment").Visibility = "Visible"
+					if($dsWindow.FindName("txtSegment").Text -ne "") {$dsWindow.FindName("txtSegment").Visibility = "Visible"}
 				}
 				
-				if($mClsProp.Key -eq "Main Group") { 
+				if($mClsPrpNames[$mClsProp.Key] -eq "Main Group") { 
 					$dsWindow.FindName("txtMainGroup").Text = ($mClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val
-					$dsWindow.FindName("txtMainGroup").Visibility = "Visible" 
+					if($dsWindow.FindName("txtMainGroup").Text -ne "") {$dsWindow.FindName("txtMainGroup").Visibility = "Visible"}
 				}
 				
-				if($mClsProp.Key -eq "Group") { 
+				if($mClsPrpNames[$mClsProp.Key] -eq "Group") { 
 					$dsWindow.FindName("txtGroup").Text = ($mClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val
-					$dsWindow.FindName("txtGroup").Visibility = "Visible" 
+					if($dsWindow.FindName("txtGroup").Text -ne "") {$dsWindow.FindName("txtGroup").Visibility = "Visible"}
 				}
-				if($mClsProp.Key -eq "Sub Group") { 
-					$dsWindow.FindName("txtSubGroup").Text = $mClsProp.Value 
-					$dsWindow.FindName("txtSubGroup").Visibility = "Visible"
+				if($mClsPrpNames[$mClsProp.Key] -eq "Sub Group") { 
+					$dsWindow.FindName("txtSubGroup").Text = ($mClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val
+					if($dsWindow.FindName("txtSubGroup").Text -ne "") {$dsWindow.FindName("txtSubGroup").Visibility = "Visible"}
 				}
 			}
 
@@ -233,8 +235,6 @@ function mGetClsPrpValues($ClassId) #get Properties added to this class
 	}
 	return $mClsPropValues
 }
-
-
 
 function mGetCustentiesByName([String]$Name)
 {
