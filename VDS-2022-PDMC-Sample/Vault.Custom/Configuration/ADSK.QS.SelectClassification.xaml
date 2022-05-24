@@ -109,14 +109,14 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Label x:Name="lbl_ClsStd" VerticalAlignment="Center" Content="Classification Standard"/>
-                <ComboBox x:Name="cmb_ClsStd" SelectedIndex="2" VerticalAlignment="Center" Grid.Column="1" Margin="0" Height="26" SelectedValuePath="Content">
+                <ComboBox x:Name="cmb_ClsStd" SelectedIndex="2" VerticalAlignment="Center" Grid.Column="1" Margin="0" Height="26">
                     <ComboBoxItem x:Name="IEC61355" Content="IEC 61355"/>
                     <ComboBoxItem x:Name="eClass" Content="eCl@ss"/>
                     <ComboBoxItem x:Name="Company" Content="PDMC-Sample"/>
                 </ComboBox>
             </Grid>
         </Border>
-        <Grid x:Name="grdIEC61355" Grid.Row="1" Visibility="Collapsed" Grid.ColumnSpan="3" Margin="5,10,5,5">
+        <Grid x:Name="grdIEC61355" Grid.Row="1" Grid.ColumnSpan="3" Margin="5,10,5,5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -224,13 +224,13 @@
             </DataGrid>
             <Grid x:Name="grdIEC61355Btns" Grid.Row="5" Margin="0,5">
                 <Button x:Name="btnIEC61355Adopt" Command="{Binding PsCmd[mApplyIEC61355]}" 
-                    Content="{Binding UIString[], FallbackValue=Assign Classification}"                             
+                    Content="{Binding UIString[], FallbackValue='Select Classification'}"                             
                     HorizontalAlignment="Right" Width="140" IsEnabled="False" Height="24" 
                     ToolTip="{Binding UIString[]}"/>
             </Grid>
         </Grid>
 
-        <Grid x:Name="grdClassification" Grid.ColumnSpan="3" Grid.RowSpan="2" Grid.Row="1" Margin="5,10,5,5" >
+        <Grid x:Name="grdClassification" Visibility="Collapsed" Grid.ColumnSpan="3" Grid.RowSpan="2" Grid.Row="1" Margin="5,10,5,5" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="5"/>

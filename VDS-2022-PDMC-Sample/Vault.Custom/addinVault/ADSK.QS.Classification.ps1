@@ -54,7 +54,7 @@ function mInitializeClassificationTab($ParentType, $file)
 			$dsWindow.FindName("txtClassificationStatus").Visibility = "Visible"
 		}
 		#configuration info - the custom object names used for the classification structure may vary. Align Custent names of your Vault in UIStrings ADSK.WS.ClassLEver_*
-		$mClsLevelNames = ("Segment", "Main Group", "Group","Sub Group")
+		$mClsLevelNames = ("Segment", "Main Group", "Group", "Sub Group")
 		$Global:mClassLevelCustentDefIds = ($Global:mCustentDefs | Where-Object { $_.DispName -in $mClsLevelNames}).Id		
 	}
 
@@ -65,11 +65,6 @@ function mInitializeClassificationTab($ParentType, $file)
 			#$dsDiag.Trace("Initialize UI Controls for Dialog starts...")
 
 			$Global:mFile = mGetFileObject
-
-			#update property values by leaving the tab
-			$dsWindow.FindName("dtgrdClassProps").add_LostFocus({
-				#mUpdateClsPropValues
-			}) #lostFocus
 
 			$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
 			$dsWindow.FindName("btnSelectClass").IsEnabled = $false
@@ -101,13 +96,10 @@ function mInitializeClassificationTab($ParentType, $file)
 
 	mGetFileClsValues
 
-	#$dsDiag.Trace("...Initialize Classification Tab ended.")
 }
 
-function mGetFileClsValues ()
+function mGetFileClsValues
 {
-	#$dsDiag.Trace(">>Function mGetFileClsValues starts...")
-
 	$dsWindow.FindName("dtgrdClassProps").ItemsSource = $null
 	if ($dsWindow.Name -eq "FileWindow") {
 		$dsWindow.FindName("txtSegment").Visibility = "Collapsed"
@@ -115,7 +107,6 @@ function mGetFileClsValues ()
 		$dsWindow.FindName("txtGroup").Visibility = "Collapsed"
 		$dsWindow.FindName("txtSubGroup").Visibility = "Collapsed"
 	}
-
 
 	$mActiveClass = @()
 	if ($AssignClsWindow) {
@@ -181,7 +172,6 @@ function mGetFileClsValues ()
 	{
 		#$dsDiag.Trace("	...multiple class objects for given name found.")
 	}
-	#$dsDiag.Trace("...Function mGetFileClsValues finished.<<")
 }
 
 function mGetClsDfltValues
@@ -393,12 +383,7 @@ function mRemoveClassification() #applies to $dsWindow
 			}
 		}
 	}
-	#reset the classification; no longer needed, if dialog close is enforced below
-	#$dsWindow.FindName("dtgrdClassProps").ItemsSource = $null
-	#$Prop["_XLTN_CLASS"] = $null #remove the property from the current window's collection, otherwise it will re-attached to the file
-	#$dsWindow.FindName("txtActiveClass").Text = ""
 
-	#$dsWindow.FindName("btnRemoveClass").IsEnabled = $false
 	
 	#write the highest level Custent Id to a text file for post-close event
 	$value = -1
@@ -412,7 +397,7 @@ function mRemoveClassification() #applies to $dsWindow
 #region classification breadcrumb
 function mAddClsLevelCombo ([String] $ClassLevelName, $ClsLvls) {
 	$children = mGetCustentClsLevelList -ClassLevelName $ClassLevelName
-	if($children -eq $null) { return }
+	if($null -eq $children) { return }
 	$mBreadCrumb = $AssignClsWindow.FindName("wrpClassification2")
 	$cmb = New-Object System.Windows.Controls.ComboBox
 	$cmb.Name = "cmbClsBrdCrmb_" + $mBreadCrumb.Children.Count.ToString();
@@ -430,18 +415,18 @@ function mAddClsLevelCombo ([String] $ClassLevelName, $ClsLvls) {
 	if($AssignClsWindow.FindName("cmbAvailableClasses").Items.Count -eq 0 -and $Prop["_XLTN_CLASS"].Value -eq ""){ $cmb.IsDropDownOpen = $true}
 
 	$cmb.add_SelectionChanged({
-			param($sender,$e)
-			#$dsDiag.Trace("1. SelectionChanged, Sender = $sender, $e")
-			mClsLevelCmbSelectionChanged -sender $sender
+			param($mSender,$e)
+			#$dsDiag.Trace("1. SelectionChanged, mSender = $mSender, $e")
+			mClsLevelCmbSelectionChanged -mSender $mSender
 		});
 	$mBreadCrumb.RegisterName($cmb.Name, $cmb) #register the name to activate later via indexed name
 	$mBreadCrumb.Children.Add($cmb);
 } # addCoCombo
 
 function mAddClsLevelCmbChild ($data) {
-	$children = mGetCustentClsLevelUsesList -sender $data
+	$children = mGetCustentClsLevelUsesList -mSender $data
 	#$dsDiag.Trace("check data object: $children")
-	if($children -eq $null) { return }
+	if($null -eq $children) { return }
 	#Filter classification levels and classes
 	#mAvlblClsReset
 	$mClassLevelObjects = @() #filtered list for the 4 levels
@@ -474,13 +459,12 @@ function mAddClsLevelCmbChild ($data) {
 	{
 		$AssignClsWindow.FindName("cmbAvailableClasses").IsDropDownOpen = $true
 	}
-	if($AssignClsWindow.FindName("cmbAvailableClasses").Items.Count -eq 0){ $cmb.IsDropDownOpen = $true}
-
+	if($AssignClsWindow.FindName("cmbAvailableClasses").Items.Count -eq 0){ $cmb.IsDropDownOpen = $true }
 
 	$cmb.add_SelectionChanged({
-			param($sender,$e)
-			#$dsDiag.Trace("next. SelectionChanged, Sender = $sender")
-			mClsLevelCmbSelectionChanged -sender $sender
+			param($mSender,$e)
+			#$dsDiag.Trace("next. SelectionChanged, mSender = $mSender")
+			mClsLevelCmbSelectionChanged -mSender $mSender
 		});
 	$mBreadCrumb.RegisterName($cmb.Name, $cmb) #register the name to activate later via indexed name
 	$mBreadCrumb.Children.Add($cmb)
@@ -493,16 +477,14 @@ function mGetCustentClsLevelList ([String] $ClassLevelName) {
 		#$dsDiag.Trace(">> mGetCustentClsLevelList started")
 		$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 2
 		$srchCond = New-Object autodesk.Connectivity.WebServices.SrchCond
-				
-		$propDefs = $Global:mAllCustentPropDefs
 		$propNames = @("CustomEntityName")
 		$propDefIds = @{}
 		foreach($name in $propNames) {
-			$propDef = $propDefs | Where-Object { $_.SysName -eq $name }
+			$propDef = $Global:mAllCustentPropDefs | Where-Object { $_.SysName -eq $name }
 			$propDefIds[$propDef.Id] = $propDef.DispName
 		}
 		$srchCond.PropDefId = $propDef.Id
-		$srchCond.SrchOper = 3 #Is exactly (or equals)
+		$srchCond.SrchOper = 3 #equals
 		$srchCond.SrchTxt = $ClassLevelName
 		$srchCond.PropTyp = [Autodesk.Connectivity.WebServices.PropertySearchType]::SingleProperty
 		$srchCond.SrchRule = [Autodesk.Connectivity.WebServices.SearchRuleType]::Must
@@ -510,7 +492,7 @@ function mGetCustentClsLevelList ([String] $ClassLevelName) {
 
 		$srchCond2 = New-Object autodesk.Connectivity.WebServices.SrchCond
 		$srchCond2.PropDefId = ($Global:mAllCustentPropDefs | Where-Object { $_.DispName -eq "Standard" }).Id
-		$srchCond2.SrchOper = 3 #Is exactly (or equals)
+		$srchCond2.SrchOper = 3 #equals
 		$srchCond2.SrchTxt = $global:mActiveStandard
 		$srchCond2.PropTyp = [Autodesk.Connectivity.WebServices.PropertySearchType]::SingleProperty
 		$srchCond2.SrchRule = [Autodesk.Connectivity.WebServices.SearchRuleType]::Must
@@ -529,7 +511,7 @@ function mGetCustentClsLevelList ([String] $ClassLevelName) {
 	}
 }
 
-function mGetCustentClsLevelUsesList ($sender) {
+function mGetCustentClsLevelUsesList ($mSender) {
 	try {
 		#$dsDiag.Trace(">> mGetCustentClsLevelUsesList started")
 		$mBreadCrumb = $AssignClsWindow.FindName("wrpClassification2")
@@ -564,9 +546,9 @@ function mGetCustentClsLevelUsesList ($sender) {
 	catch { $dsDiag.Trace("!! Error in mAddCoComboChild !!") }
 }
 
-function mClsLevelCmbSelectionChanged ($sender) {
+function mClsLevelCmbSelectionChanged ($mSender) {
 	$mBreadCrumb = $AssignClsWindow.FindName("wrpClassification2")
-	$position = [int]::Parse($sender.Name.Split('_')[1]);
+	$position = [int]::Parse($mSender.Name.Split('_')[1]);
 	$children = $mBreadCrumb.Children.Count - 1
 	while($children -gt $position )
 	{
@@ -576,28 +558,24 @@ function mClsLevelCmbSelectionChanged ($sender) {
 		$children--;
 	}
 	Try{
-		$Prop["_XLTN_SEGMENT"].Value = $mBreadCrumb.Children[1].SelectedItem.Name
-		$Prop["_XLTN_MAINGROUP"].Value = $mBreadCrumb.Children[2].SelectedItem.Name
-		$Prop["_XLTN_GROUP"].Value = $mBreadCrumb.Children[3].SelectedItem.Name
-		$Prop["_XLTN_SUBGROUP"].Value = $mBreadCrumb.Children[4].SelectedItem.Name
+		# $Prop["_XLTN_SEGMENT"].Value = $mBreadCrumb.Children[1].SelectedItem.Name
+		# $Prop["_XLTN_MAINGROUP"].Value = $mBreadCrumb.Children[2].SelectedItem.Name
+		# $Prop["_XLTN_GROUP"].Value = $mBreadCrumb.Children[3].SelectedItem.Name
+		# $Prop["_XLTN_SUBGROUP"].Value = $mBreadCrumb.Children[4].SelectedItem.Name
 	}
 	catch{}
-	#$dsDiag.Trace("---combo selection = $_selected, Position $position")
 
 	mAvlblClsReset
 
-	mAddClsLevelCmbChild -sender $sender.SelectedItem
+	mAddClsLevelCmbChild -mSender $mSender.SelectedItem
 }
 
 function mResetClassSelection
 {
-    #$dsDiag.Trace(">> Reset Filter started...")
-
 	$mBreadCrumb = $AssignClsWindow.FindName("wrpClassification2")
 	$mBreadCrumb.Children[0].SelectedIndex = -1
 	$AssignClsWindow.FindName("btnClsReset2").IsEnabled = $false
 	$AssignClsWindow.FindName("dtgrdClassProps").ItemsSource = $null
-	#$dsDiag.Trace("...Reset Filter finished <<")
 }
 
 function mAvlblClsReset
@@ -615,56 +593,80 @@ function mAvlblClsReset
 
 function mInitializeClsSelection
 {
-	#region initialize SelectClassification.xaml
 	[xml]$AssignClsXaml = Get-Content "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.SelectClassification.xaml"
-    $reader = New-Object System.Xml.XmlNodeReader $AssignClsXaml
-    $AssignClsWindow = [Windows.Markup.XamlReader]::Load($reader) 
-    $AssignClsWindow.DataContext = $dsWindow.DataContext
-
+	$reader = New-Object System.Xml.XmlNodeReader $AssignClsXaml
+	$global:AssignClsWindow = [Windows.Markup.XamlReader]::Load($reader)
+	$AssignClsWindow.DataContext = $dsWindow.DataContext
+	
+	#activate the UI tab according to the classification standard
 	mAssignClsGrdReset -ComboBox $AssignClsWindow.FindName("cmb_ClsStd")
 
 	if (-not $global:mActiveStandard) {
-		$global:mActiveStandard = $AssignClsWindow.FindName("cmb_ClsStd").SelectedValue
+		$global:mActiveStandard = $AssignClsWindow.FindName("cmb_ClsStd").SelectedItem.Content
+	}
+
+	if ($global:mActiveStandard -eq "IEC 61355") {
+		mInitializeIEC61355
+	}
+	else {
+		mInitializeCompClassification
 	}
 
 	$AssignClsWindow.FindName("cmb_ClsStd").add_SelectionChanged({
-		param ($sender, $e)
+		param ($mSender, $e)
+		#update environment according to the classification standard
 		mAssignClsGrdReset -ComboBox $AssignClsWindow.FindName("cmb_ClsStd")
-		$global:mActiveStandard = $AssignClsWindow.FindName("cmb_ClsStd").Text
-	})
+		$global:mActiveStandard = $AssignClsWindow.FindName("cmb_ClsStd").SelectedItem.Content
 
-
-	$AssignClsWindow.FindName("cmbAvailableClasses").add_SelectionChanged({
-		If ($Prop["_ReadOnly"].Value -eq $false -and $AssignClsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1) {
-			$AssignClsWindow.FindName("btnSelectClass").IsEnabled = $true
-			#preview the properties of the class
-			mGetFileClsValues
-			mGetClsDfltValues
+		if ($global:mActiveStandard -ne "IEC 61355") {
+			mInitializeCompClassification
 		}
-		Else { $AssignClsWindow.FindName("btnSelectClass").IsEnabled = $false }
-	})
-	
-	mAvlblClsReset #reset cmbAvailableClasses
 
-	if($AssignClsWindow.FindName("wrpClassification2")){
-		if($AssignClsWindow.FindName("wrpClassification2").Children.Count -lt 1)
-			{
+		if ($global:mActiveStandard -eq "IEC 61355") {
+			mInitializeIEC61355
+		}
+
+	})
+
+
+	if ($AssignClsWindow.ShowDialog() -eq "OK") {
+        #grab all the values to return
+		$global:AssignClsWindow = $null
+        return
+    } 
+	else {
+        return $null
+    }
+
+}
+
+function mInitializeCompClassification {
+
+	if ($mCompClsInitialized -ne $true) {
+		
+		$AssignClsWindow.FindName("cmbAvailableClasses").add_SelectionChanged({
+			If ($Prop["_ReadOnly"].Value -eq $false -and $AssignClsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1) {
+				$AssignClsWindow.FindName("btnSelectClass").IsEnabled = $true
+				#preview the properties of the class
+				mGetFileClsValues
+				mGetClsDfltValues
+			}
+			Else { $AssignClsWindow.FindName("btnSelectClass").IsEnabled = $false }
+		})
+		
+		mAvlblClsReset #reset cmbAvailableClasses
+
+		if($AssignClsWindow.FindName("wrpClassification2")){
+			
+			if($AssignClsWindow.FindName("wrpClassification2").Children.Count -lt 1){
 				#activate command should not add another combo row, if already classe(s) are selected
 				mAddClsLevelCombo -ClassLevelName "Segment"
 			}
 		}
-			
+	}
 
-	#endregion SelectClassification.xaml
+	$mCompClsInitialized = $true
 
-	#region dialog runtime
-	if ($AssignClsWindow.ShowDialog() -eq "OK") {
-        #grab all the values to return
-        return
-    } else {
-        return $null
-    }
-	#endregion dialog runtime
 }
 
 function mAssignClsGrdReset ($ComboBox){
