@@ -109,10 +109,10 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Label x:Name="lbl_ClsStd" VerticalAlignment="Center" Content="Classification Standard"/>
-                <ComboBox x:Name="cmb_ClsStd" SelectedIndex="2" VerticalAlignment="Center" Grid.Column="1" Margin="0" Height="26">
-                    <ComboBoxItem x:Name="IEC61355" Content="Document Classification IEC 61355"/>
-                    <ComboBoxItem x:Name="eClass" Content="Component Classification eCl@ass"/>
-                    <ComboBoxItem x:Name="Company" Content="Company Standard Classification"/>
+                <ComboBox x:Name="cmb_ClsStd" SelectedIndex="2" VerticalAlignment="Center" Grid.Column="1" Margin="0" Height="26" SelectedValuePath="Content">
+                    <ComboBoxItem x:Name="IEC61355" Content="IEC 61355"/>
+                    <ComboBoxItem x:Name="eClass" Content="eCl@ss"/>
+                    <ComboBoxItem x:Name="Company" Content="PDMC-Sample"/>
                 </ComboBox>
             </Grid>
         </Border>

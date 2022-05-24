@@ -131,7 +131,7 @@ function mGetFileClsValues ()
 		$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass[0].Id
 		$mClsPropTable = @{}
 		
-		$mClsLevelProps = ("Segment", "Main Group", "Group", "Sub Group", "Class")
+		$mClsLevelProps = ("Segment", "Main Group", "Group", "Sub Group", "Class", "Standard")
 
 		#get the file's class property values 
 		$mFileClassProps = $vault.PropertyService.GetProperties("FILE", @($mFile.Id), $mClsPrpNames.Keys)
@@ -162,6 +162,9 @@ function mGetFileClsValues ()
 					$dsWindow.FindName("txtSubGroup").Text = ($mClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val
 					if($dsWindow.FindName("txtSubGroup").Text -ne "") {$dsWindow.FindName("txtSubGroup").Visibility = "Visible"}
 				}
+				if($mClsPrpNames[$mClsProp.Key] -eq "Standard") { 
+					$global:mActiveStandard = ($mClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val
+				}
 			}
 
 		}
@@ -189,7 +192,7 @@ function mGetClsDfltValues
 	$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass[0].Id
 	$mClsPrpValues = mGetClsPrpValues -ClassId $mActiveClass[0].Id
 	$mClsPropTable = @{}
-	$mClsLevelProps = ("Segment", "Main Group", "Group","Sub Group" ,"Class")
+	$mClsLevelProps = ("Segment", "Main Group", "Group","Sub Group" ,"Class", "Standard")
 
 	if($mActiveClass.Count -eq 1)
 	{
@@ -238,16 +241,30 @@ function mGetClsPrpValues($ClassId) #get Properties added to this class
 
 function mGetCustentiesByName([String]$Name)
 {
-	$mSearchString = $Name
+	$srchConds = New-Object Autodesk.Connectivity.WebServices.SrchCond[] 2 #we search for name and standard
+	
 	$srchCond = New-Object autodesk.Connectivity.WebServices.SrchCond
-	#$propDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT")
-	#$propDef = $propDefs | Where-Object { $_.SysName -eq "Name" }
 	$propDef = $Global:mAllCustentPropDefs | Where-Object { $_.SysName -eq "Name" }
 	$srchCond.PropDefId = $propDef.Id
-	$srchCond.SrchOper = 1 #equals
-	$srchCond.SrchTxt = $mSearchString
+	$srchCond.SrchOper = 3 #Is exactly (or equals)
+	$srchCond.SrchTxt = $Name
 	$srchCond.PropTyp = [Autodesk.Connectivity.WebServices.PropertySearchType]::SingleProperty
 	$srchCond.SrchRule = [Autodesk.Connectivity.WebServices.SearchRuleType]::Must
+	$srchConds[0] = $srchCond
+	
+	$srchCond2 = New-Object autodesk.Connectivity.WebServices.SrchCond
+	$srchCond2.PropDefId = ($Global:mAllCustentPropDefs | Where-Object { $_.DispName -eq "Standard" }).Id
+	$srchCond2.SrchOper = 3 #Is exactly (or equals)
+	if (-not $global:mActiveStandard) {
+		$srchCond2.SrchTxt = "*"
+	}
+	else {
+		$srchCond2.SrchTxt = $global:mActiveStandard		
+	}
+	$srchCond2.PropTyp = [Autodesk.Connectivity.WebServices.PropertySearchType]::SingleProperty
+	$srchCond2.SrchRule = [Autodesk.Connectivity.WebServices.SearchRuleType]::Must
+	$srchConds[1] = $srchCond2
+
 	$srchSort = New-Object autodesk.Connectivity.WebServices.SrchSort
 	$searchStatus = New-Object autodesk.Connectivity.WebServices.SrchStatus
 	$bookmark = ""
@@ -257,7 +274,7 @@ function mGetCustentiesByName([String]$Name)
 	{
 		try
 		{
-			$mResultPage = $vault.CustomEntityService.FindCustomEntitiesBySearchConditions(@($srchCond),@($srchSort),[ref]$bookmark,[ref]$searchStatus)
+			$mResultPage = $vault.CustomEntityService.FindCustomEntitiesBySearchConditions($srchConds,@($srchSort),[ref]$bookmark,[ref]$searchStatus)
 		}
 		catch
 		{
@@ -474,9 +491,9 @@ function mAddClsLevelCmbChild ($data) {
 function mGetCustentClsLevelList ([String] $ClassLevelName) {
 	try {
 		#$dsDiag.Trace(">> mGetCustentClsLevelList started")
-		$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 1
+		$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 2
 		$srchCond = New-Object autodesk.Connectivity.WebServices.SrchCond
-		#$propDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT") global var in ADSK.QS.Classification
+				
 		$propDefs = $Global:mAllCustentPropDefs
 		$propNames = @("CustomEntityName")
 		$propDefIds = @{}
@@ -485,16 +502,26 @@ function mGetCustentClsLevelList ([String] $ClassLevelName) {
 			$propDefIds[$propDef.Id] = $propDef.DispName
 		}
 		$srchCond.PropDefId = $propDef.Id
-		$srchCond.SrchOper = 3
+		$srchCond.SrchOper = 3 #Is exactly (or equals)
 		$srchCond.SrchTxt = $ClassLevelName
 		$srchCond.PropTyp = [Autodesk.Connectivity.WebServices.PropertySearchType]::SingleProperty
 		$srchCond.SrchRule = [Autodesk.Connectivity.WebServices.SearchRuleType]::Must
 		$srchConds[0] = $srchCond
+
+		$srchCond2 = New-Object autodesk.Connectivity.WebServices.SrchCond
+		$srchCond2.PropDefId = ($Global:mAllCustentPropDefs | Where-Object { $_.DispName -eq "Standard" }).Id
+		$srchCond2.SrchOper = 3 #Is exactly (or equals)
+		$srchCond2.SrchTxt = $global:mActiveStandard
+		$srchCond2.PropTyp = [Autodesk.Connectivity.WebServices.PropertySearchType]::SingleProperty
+		$srchCond2.SrchRule = [Autodesk.Connectivity.WebServices.SearchRuleType]::Must
+
+		$srchConds[1] = $srchCond2
 		$srchSort = New-Object autodesk.Connectivity.WebServices.SrchSort
 		$searchStatus = New-Object autodesk.Connectivity.WebServices.SrchStatus
 		$bookmark = ""
 		$_CustomEnts = $vault.CustomEntityService.FindCustomEntitiesBySearchConditions($srchConds,$null,[ref]$bookmark,[ref]$searchStatus)
 		#$dsDiag.Trace(".. mGetCustentClsLevelList finished - returns $_CustomEnts <<")
+
 		return $_CustomEnts
 	}
 	catch {
@@ -596,14 +623,18 @@ function mInitializeClsSelection
 
 	mAssignClsGrdReset -ComboBox $AssignClsWindow.FindName("cmb_ClsStd")
 
+	if (-not $global:mActiveStandard) {
+		$global:mActiveStandard = $AssignClsWindow.FindName("cmb_ClsStd").SelectedValue
+	}
+
 	$AssignClsWindow.FindName("cmb_ClsStd").add_SelectionChanged({
 		param ($sender, $e)
 		mAssignClsGrdReset -ComboBox $AssignClsWindow.FindName("cmb_ClsStd")
+		$global:mActiveStandard = $AssignClsWindow.FindName("cmb_ClsStd").Text
 	})
 
 
 	$AssignClsWindow.FindName("cmbAvailableClasses").add_SelectionChanged({
-		#If ($Prop["_ReadOnly"].Value -eq $false -and $dsWindow.FindName("txtActiveClass").Text -eq "" -and $AssignClsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1) {
 		If ($Prop["_ReadOnly"].Value -eq $false -and $AssignClsWindow.FindName("cmbAvailableClasses").SelectedIndex -gt -1) {
 			$AssignClsWindow.FindName("btnSelectClass").IsEnabled = $true
 			#preview the properties of the class
