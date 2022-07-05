@@ -11,6 +11,22 @@
     <Window.Resources>
         <WPF:IsMoreThanZeroConverter x:Key="MoreThanZeroConverter"/>
         <WPF:InverseBoolConverter x:Key="BoolConvert"/>
+        <Style x:Key="cmbDynGrid"  TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Margin" Value="0,0,0,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" />
+            <Setter Property="BorderBrush" Value="#FFABADB3" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style x:Key="DynamicDataGridCellStyle" TargetType="{x:Type DataGridCell}">
             <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
             <Style.Triggers>
@@ -55,7 +71,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <ComboBox Text="{WPF:ValidatedBinding Value}" IsEditable="True">
+                                <ComboBox Text="{WPF:ValidatedBinding Value}" IsEditable="True" BorderThickness="0">
                                     <ComboBoxItem Content="True" />
                                     <ComboBoxItem Content="False" />
                                 </ComboBox>
@@ -68,7 +84,7 @@
                         <Setter.Value>
                             <ControlTemplate>
                                 <ComboBox ItemsSource="{Binding ListValues}" Text="{WPF:ValidatedBinding Value}"
-                                          IsEditable="{Binding EnforceListValues, Converter={StaticResource BoolConvert}}" BorderThickness="0"/>
+                                          IsEditable="{Binding EnforceListValues, Converter={StaticResource BoolConvert}}" BorderThickness="0" />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -85,7 +101,7 @@
         <Style x:Key="DynamicDataGridBtnCellStyle" TargetType="{x:Type DataGridCell}">
             <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
             <Setter Property="IsHitTestVisible" Value="False" />
-            <Setter Property="Width" Value="0"/>
+            <Setter Property="Width" Value="Auto"/>
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
@@ -98,9 +114,9 @@
                         <Setter.Value>
                             <ControlTemplate>
                                 <Button Content="{Binding DataContext.UIString[], FallbackValue=. . ., RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                    Command="{Binding DataContext.PsCmd[mExpOrgPersLnk], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" HorizontalAlignment="Right"
+                                    Command="{Binding DataContext.PsCmd[mExpOrgPersLnk], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" HorizontalAlignment="Center"
                                     ToolTip="{Binding DataContext.UIString[Adsk.Org.Pers.Link_06], FallbackValue='Select Organisation', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                    Grid.Column="1" Padding="5,1" Background="White" BorderThickness="0" MinWidth="25"/>
+                                    Grid.Column="1" Padding="5,1" Background="White" BorderThickness="0" MinWidth="25" VerticalAlignment="Center"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -116,9 +132,9 @@
                         <Setter.Value>
                             <ControlTemplate>
                                 <Button Content="{Binding DataContext.UIString[], FallbackValue=. . ., RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                    Command="{Binding DataContext.PsCmd[mExpOrgPersLnk], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" HorizontalAlignment="Right"
+                                    Command="{Binding DataContext.PsCmd[mExpOrgPersLnk], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" HorizontalAlignment="Center"
                                     ToolTip="{Binding DataContext.UIString[Adsk.Org.Pers.Link_06], FallbackValue='Select Organisation', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                    Grid.Column="1" Padding="5,1" Background="White" BorderThickness="0" MinWidth="20"/>
+                                    Grid.Column="1" Padding="5,1" Background="White" BorderThickness="0" MinWidth="20" VerticalAlignment="Center"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -243,21 +259,19 @@
                         </Grid.ColumnDefinitions>
                         <Label Content="{Binding UIString[LBL8], FallbackValue=Categories}" Grid.Row="0" Grid.Column="0" />
                         <ComboBox x:Name="Categories" Grid.Row="0" Grid.Column="1"
-                    DisplayMemberPath="Name" SelectedItem="{Binding DynamicPropertiesCategory}"
-                    SelectedValuePath="Name" SelectedValue="{Binding Prop[_Category].Value}"
-                    ItemsSource="{Binding PsList[GetCategories], Mode=OneTime}"
-                    IsEnabled="{Binding CreateMode}" />
+                            DisplayMemberPath="Name" SelectedItem="{Binding DynamicPropertiesCategory}"
+                            SelectedValuePath="Name" SelectedValue="{Binding Prop[_Category].Value}"
+                            ItemsSource="{Binding PsList[GetCategories], Mode=OneTime}"
+                            IsEnabled="{Binding CreateMode}" />
                         <Label x:Name="lblNumSchm" Content="{Binding UIString[LBL10], FallbackValue=Numberingscheme}"
-                    Visibility="{Binding Visibility, ElementName=NumSchms}" Grid.Row="1" />
-                        <ComboBox x:Name="NumSchms" Grid.Row="1" Grid.Column="1"
-                    DisplayMemberPath="Name"
-                    SelectedValuePath="Name"
-                    SelectedValue="{Binding Prop[_NumSchm].Value}"
-                    ItemsSource="{Binding PsList[GetNumSchms], Mode=OneTime}"
-                    IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}"
-                    Visibility="{Binding NotEditMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                        <Label x:Name="lblProjectNumber" Grid.Column="0" Content="{Binding UIString[LBL31], FallbackValue=Number}"
-                    Grid.Row="2" Visibility="{Binding Visibility, ElementName=DSNumSchmsCtrl}" Height="Auto" />
+                            Visibility="{Binding Visibility, ElementName=NumSchms}" Grid.Row="1" />
+                        <ComboBox x:Name="NumSchms" Grid.Row="1" Grid.Column="1" 
+                                  DisplayMemberPath="Name" SelectedValuePath="Name"
+                                  SelectedValue="{Binding Prop[_NumSchm].Value}" 
+                                  ItemsSource="{Binding PsList[GetNumSchms], Mode=OneTime}"
+                                  IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}"
+                                  Visibility="{Binding NotEditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <Label x:Name="lblProjectNumber" Grid.Column="0" Content="{Binding UIString[LBL31], FallbackValue=Number}" Grid.Row="2" Visibility="{Binding Visibility, ElementName=DSNumSchmsCtrl}" Height="Auto" />
                         <WPF:DSNumSchemeCtrl x:Name="DSNumSchmsCtrl" Style="{StaticResource NumSchmCtrlStyle}"
                     IsEnabled="{Binding IsEnabled, ElementName=NumSchms}"
                     Scheme="{Binding SelectedItem, ElementName=NumSchms}"
@@ -297,20 +311,24 @@
                                 <DataGridTextColumn.HeaderTemplate>
                                     <DataTemplate>
                                         <TextBlock
-                                    Text="{Binding DataContext.UIString[LBL64], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                    Text="{Binding DataContext.UIString[LBL64], FallbackValue=Property, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                                     </DataTemplate>
                                 </DataGridTextColumn.HeaderTemplate>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding Value}" MaxWidth="400" Width="2*"
-                        CellStyle="{StaticResource DynamicDataGridCellStyle}" IsReadOnly="True">
+                            <DataGridTextColumn Binding="{Binding Value}" MaxWidth="400" Width="2*" CellStyle="{StaticResource DynamicDataGridCellStyle}" IsReadOnly="True">
                                 <DataGridTextColumn.HeaderTemplate>
                                     <DataTemplate>
-                                        <TextBlock
-                                    Text="{Binding DataContext.UIString[LBL65], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                        <TextBlock Text="{Binding DataContext.UIString[LBL65], FallbackValue=Value, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                                     </DataTemplate>
                                 </DataGridTextColumn.HeaderTemplate>
                             </DataGridTextColumn>
-                            <DataGridTextColumn CellStyle="{StaticResource DynamicDataGridBtnCellStyle}" MinWidth="25" />
+                            <DataGridTextColumn CellStyle="{StaticResource DynamicDataGridBtnCellStyle}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.UIString[], FallbackValue=Options, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid x:Name="grdComments" Grid.ColumnSpan="3" Grid.Row="1" Margin="0,10,0,0">
@@ -330,8 +348,8 @@
                             <ColumnDefinition Width="80" />
                         </Grid.ColumnDefinitions>
                         <Button x:Name="btnOK" Content="{Binding UIString[BTN1], FallbackValue=OK}"
-                    Command="{Binding CloseWindowCommand, ElementName=FolderWindow}" 
-                    IsEnabled="{Binding Properties.IsValid}" Grid.Column="2" Width="80" Height="24" IsDefault="True" />
+                            Command="{Binding CloseWindowCommand, ElementName=FolderWindow}" 
+                            IsEnabled="{Binding Properties.IsValid}" Grid.Column="2" Width="80" Height="24" IsDefault="True" />
                         <Button x:Name="btnEsc" Content="{Binding UIString[BTN2], FallbackValue=Esc}"
                     Command="{Binding CancelWindowCommand, ElementName=FolderWindow}" Grid.Column="4" Width="80"
                     HorizontalAlignment="Right" Height="24" IsCancel="True" />
@@ -374,5 +392,4 @@
             </AdornerDecorator>
         </TabItem>
     </TabControl>
-
 </WPF:MainWindow>

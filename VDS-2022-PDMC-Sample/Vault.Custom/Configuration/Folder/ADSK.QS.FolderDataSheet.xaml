@@ -51,7 +51,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <ComboBox Text="{WPF:ValidatedBinding Value}" IsEditable="True">
+                                <ComboBox Text="{WPF:ValidatedBinding Value}" IsEditable="True" BorderThickness="0">
                                     <ComboBoxItem Content="True"/>
                                     <ComboBoxItem Content="False"/>
                                 </ComboBox>
@@ -151,14 +151,14 @@
 				HorizontalGridLinesBrush="WhiteSmoke" 
 				VerticalGridLinesBrush="WhiteSmoke" BorderBrush="Gray" VerticalAlignment="Top">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}" Width="140" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}" Width="1*" IsReadOnly="True">
                         <DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding DataContext.UIString[LBL64], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                             </DataTemplate>
                         </DataGridTextColumn.HeaderTemplate>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Binding="{Binding Value}"  Width="*" CellStyle="{StaticResource DynamicDataGridCellStyle}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding Value}"  Width="2*" CellStyle="{StaticResource DynamicDataGridCellStyle}" IsReadOnly="True">
                         <DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding DataContext.UIString[LBL65], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />

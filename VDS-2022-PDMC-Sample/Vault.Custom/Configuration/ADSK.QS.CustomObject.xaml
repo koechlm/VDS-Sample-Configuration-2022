@@ -56,7 +56,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <ComboBox Text="{WPF:ValidatedBinding Value}" IsEditable="True">
+                                <ComboBox Text="{WPF:ValidatedBinding Value}" IsEditable="True" BorderThickness="0">
                                     <ComboBoxItem Content="True" />
                                     <ComboBoxItem Content="False" />
                                 </ComboBox>
@@ -364,7 +364,7 @@
                             </Grid>
                             <Label x:Name="lblCreateLnks" Content="{Binding UIString[Adsk.Org.Pers.Link_03], FallbackValue=Create Link(s)}" Height="Auto" Grid.Row="3" BorderThickness="1"/>
                             <Border Grid.Column="1" Grid.Row="3" BorderThickness="0,1,1,1" BorderBrush="#FFABADB3">
-                                <CheckBox x:Name="chkBoxCreateLnks" Height="15" Width="16"/>
+                                <CheckBox x:Name="chkBoxCreateLnks" Height="15" Width="16" />
                             </Border>
                             <TextBox Grid.ColumnSpan="2" Height="Auto" TextWrapping="Wrap" Text="{Binding UIString[Adsk.Org.Pers.Link_07], FallbackValue='Assign Person to Organisation'}" HorizontalContentAlignment="Center" IsUndoEnabled="False"/>
                         </Grid>

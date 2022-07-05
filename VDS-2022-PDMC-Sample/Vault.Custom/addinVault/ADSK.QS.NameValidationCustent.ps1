@@ -14,10 +14,11 @@ function ValidateCustentName
     #to check hand-typed custent names, a Vault search is required to check for existing names as the user types
     if($Prop["_CustomObjectName"].Value)
 	{
-        #separate the search into a distinct function "mFindCustent"
-		$mCustentExist = mFindCustent $Prop["_CustomObjectName"].Value $Prop["_Category"].Value
+        #the function mFindCustent returns a generic list object
+		$mActiveClass = @()
+		$mActiveClass += mFindCustent $Prop["_CustomObjectName"].Value $Prop["_Category"].Value
 
-        if($mCustentExist)
+        if($mActiveClass.Count -eq 1)
 		{
 			$dsWindow.FindName("CUSTOMOBJECTNAME").ToolTip = "A custom object with this name exists."
 			$dsWindow.FindName("CUSTOMOBJECTNAME").BackGround = "#7FFF0000"
@@ -83,9 +84,9 @@ function mFindCustent($CustentName, $Category)
 		if($mResultPage.Count -ne 0)
 		{
 			$mResultAll.AddRange($mResultPage)
-			return $true
 		}
-		else { return $false }
+
+		return $mResultAll
 				
 		break; #limit the search result to the first result page;
 	}

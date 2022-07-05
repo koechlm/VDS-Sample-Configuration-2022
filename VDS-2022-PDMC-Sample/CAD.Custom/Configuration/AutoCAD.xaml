@@ -45,7 +45,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <ComboBox Text="{WPF:ValidatedBinding Value}" IsEditable="True">
+                                <ComboBox Text="{WPF:ValidatedBinding Value}" IsEditable="True" BorderThickness="0">
                                     <ComboBoxItem Content="True" />
                                     <ComboBoxItem Content="False" />
                                 </ComboBox>
@@ -91,14 +91,24 @@
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Name}" Value="GEN-TITLE-NR">
+                <DataTrigger Binding="{Binding Name}" Value="Document Code">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" 
-                                    Background="WhiteSmoke" 
-                                    ToolTip="{Binding DataContext.UIString[LBL27], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue='Filled by Inventor'}" 
-                                    IsReadOnly="False" IsTabStop="False"/>
+                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" Background="White" 
+                                    ToolTip="{Binding DataContext.UIString[], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue='Select the document tag for automatic naming'}" 
+                                    IsReadOnly="False" IsTabStop="True"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Name}" Value="Document Class">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBox Text="{WPF:ValidatedBinding Value}" BorderThickness="0" Height="20.75" Background="WhiteSmoke" 
+                                    ToolTip="{Binding DataContext.UIString[], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, FallbackValue='Select the document tag for automatic naming'}" 
+                                    IsReadOnly="True" IsTabStop="False"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -115,7 +125,7 @@
         <Style x:Key="DynamicDataGridBtnCellStyle" TargetType="{x:Type DataGridCell}">
             <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
             <Setter Property="IsHitTestVisible" Value="False" />
-            <Setter Property="Width" Value="0"/>
+            <Setter Property="Width" Value="Auto"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Name}" Value="GEN-TITLE-NR">
                     <Setter Property="IsHitTestVisible" Value="True" />
@@ -123,11 +133,11 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <Button Content="{Binding DataContext.UIString[], FallbackValue=. . ., RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
+                                <Button Content="{Binding DataContext.UIString[], FallbackValue=' . . . ', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
                                     Command="{Binding DataContext.PsCmd[mInitializeItemSearch -Context Part_Number], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                       CommandParameter="Part Number" HorizontalAlignment="Right"
+                                       CommandParameter="Part Number" 
                                     ToolTip="{Binding DataContext.UIString[Adsk.QS.ItemSearch_10], FallbackValue='Expand Item Query Builder', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                    Grid.Column="1" Padding="5,1" Background="White" BorderThickness="0" MinWidth="20"/>
+                                    Grid.Column="1" Padding="5,1" Background="White" BorderThickness="1" BorderBrush="#FFB4B4B4" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -138,11 +148,11 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <Button Content="{Binding DataContext.UIString[], FallbackValue=. . ., RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
+                                <Button Content="{Binding DataContext.UIString[], FallbackValue=' . . . ', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
                                     Command="{Binding DataContext.PsCmd[mInitializeItemSearch -Context Part_Number], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                       CommandParameter="Part Number" HorizontalAlignment="Right"
+                                       CommandParameter="Part Number"
                                     ToolTip="{Binding DataContext.UIString[Adsk.QS.ItemSearch_10], FallbackValue='Expand Item Query Builder', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" 
-                                    Grid.Column="1" Padding="5,1" Background="White" BorderThickness="0" MinWidth="20"/>
+                                    Grid.Column="1" Padding="5,1" Background="White" BorderThickness="1" BorderBrush="#FFB4B4B4" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -153,10 +163,24 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <Button Content=". . ." 
-                                    Command="{Binding DataContext.PsCmd[mInitializeTermCatalog], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                    ToolTip="{Binding DataContext.UIString[ClassTerms_TT05], FallbackValue='No hand typed values, select from Catalog...', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Grid.Column="1" 
-                                    Padding="5,1" IsTabStop="False" MinWidth="20" Background="White" BorderThickness="0" BorderBrush="White"/>
+                                <Button Content=" . . . " Command="{Binding DataContext.PsCmd[mInitializeTermCatalog], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                    ToolTip="{Binding DataContext.UIString[ClassTerms_TT05], FallbackValue='Select from Catalog...', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Grid.Column="1" 
+                                    IsTabStop="False" MinWidth="20" Background="White" BorderThickness="1" BorderBrush="#FFB4B4B4" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                </Button>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Name}" Value="Document Code">
+                    <Setter Property="IsHitTestVisible" Value="True" />
+                    <Setter Property="Width" Value="Auto"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Button Content=" . . . " Command="{Binding DataContext.PsCmd[mInitializeIEC61355], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                    ToolTip="{Binding DataContext.UIString[Adsk.IEC61355.TT01], FallbackValue='Apply ISO 61355 classification scheme.', RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Grid.Column="1" 
+                                    IsTabStop="False" MinWidth="20" Background="White" BorderThickness="1" BorderBrush="#FFB4B4B4" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                </Button>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -426,19 +450,19 @@
             </TabItem>
             <TabItem x:Name="tabRevision" Header="{Binding UIString[LBL12], FallbackValue=Revision}">
                 <AdornerDecorator>
-                    <Grid x:Name="grdRevision" Height="{Binding ActualHeight, ElementName=DSDynCatPropGrid, Mode=OneWay}" MinWidth="694" Background="#FFF0F0F0">
+                    <Grid x:Name="grdRevision" Height="Auto" MinHeight="{Binding ActualHeight, ElementName=DSDynCatPropGrid, Mode=OneWay}" MinWidth="694" Background="#FFF0F0F0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="5"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="5"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="1*"/>
-                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Grid x:Name="grdRevSysProps">
+                        <Grid x:Name="grdRevSysProps" Grid.ColumnSpan="2">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="26"/>
                                 <RowDefinition Height="26"/>
@@ -465,7 +489,6 @@
                             <TextBox x:Name="txtCreatedBy" Text="" IsEnabled="False" Grid.Column="1" Grid.Row="2" IsReadOnly="True" Height="Auto" BorderThickness="0,1,1,1" />
                             <Label Content="{Binding UIString[LBL33], FallbackValue=Create Date}" Grid.Row="2" Grid.Column="3" Height="Auto" BorderThickness="1"/>
                             <TextBox x:Name="txtCreateDate" Text="" IsEnabled="False" Grid.Column="4" Grid.Row="2" IsReadOnly="True" Height="Auto" BorderThickness="0,1,1,1"/>
-                            <!--Editable Revision Properties-->
                         </Grid>
                         <Grid x:Name="grdApproval" Grid.Row="2">
                             <Grid.ColumnDefinitions>
@@ -502,7 +525,7 @@
                               IsEditable="True" IsEnabled="{Binding PsVal[InvertReadOnly]}"
                               Height="Auto" BorderThickness="0,1,1,1" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" />
                         </Grid>
-                        <Grid x:Name="grdCustomerApproval" Grid.Row="4" Visibility="{Binding Prop[Customer Approval Required].Value, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid x:Name="grdCustomerApproval" Grid.Row="6" Visibility="{Binding Prop[Customer Approval Required].Value, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="140"/>
                                 <ColumnDefinition Width="1*"/>
@@ -662,7 +685,7 @@
                         <Image x:Name="btnNewScImg" Style="{StaticResource btnNewScStyle}"/>
                     </Button>
                     <ListBox x:Name="lstBoxShortCuts" Grid.Row="1" MinWidth="180" Margin="0" ItemsSource="{Binding PsVal[mReadShortCuts]}" ToolTip="{Binding UIString[MSDCE_TT23]}"  
-                        MaxWidth="300" MaxHeight="500" Grid.ColumnSpan="2" DisplayMemberPath="Key" SelectedValuePath="Key">
+                        MaxWidth="300" Grid.ColumnSpan="2" DisplayMemberPath="Key" SelectedValuePath="Key">
                         <ListBox.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="{Binding UIString[MSDCE_BTN3], FallbackValue=Activate}" Command="{Binding PsCmd[mRemoveSc]}">
@@ -828,16 +851,16 @@
                     </Grid>
                 </GroupBox>
                 <GroupBox x:Name="grpSearchText" Grid.Row="1" Header="{Binding UIString[ClassTerms_16], FallbackValue=Search Text \= term definition; add Language(s) below to widen scope}" BorderBrush="#FFABADB3">
-                    <Grid x:Name="grdTermSearch" Width="562">
+                    <Grid x:Name="grdTermSearch" Width="562" HorizontalAlignment="Left">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox x:Name="mSearchTermText" Grid.Column="0" ToolTip="{Binding UIString[ClassTerms_TT06], FallbackValue=Apply * for partial terms}" BorderThickness="1"/>
-                        <Button x:Name="btnSearchTerm" Grid.Column="1" Content="{Binding UIString[ClassTerms_BTN8], FallbackValue=Search}" Command="{Binding PsCmd[mSearchTerms]}" Width="80" Margin="3,0,0,0" BorderBrush="#FFABADB3" Height="24"/>
+                        <TextBox x:Name="mSearchTermText" Grid.Column="0" ToolTip="{Binding UIString[ClassTerms_TT06], FallbackValue=Apply * for partial terms}" BorderThickness="1" HorizontalAlignment="Left" Width="250"/>
+                        <Button x:Name="btnSearchTerm" Grid.Column="1" Content="{Binding UIString[ClassTerms_BTN8], FallbackValue=Search}" Command="{Binding PsCmd[mSearchTerms]}" Width="80" Margin="3,0,0,0" BorderBrush="#FFABADB3" Height="24" HorizontalAlignment="Left"/>
                     </Grid>
                 </GroupBox>
                 <GroupBox x:Name="grpLanguages" Header="{Binding UIString[ClassTerms_15], FallbackValue=Languages}" Grid.Row="2" BorderBrush="#FFABADB3">
@@ -901,6 +924,121 @@
                                     Content="{Binding UIString[ClassTerms_BTN10], FallbackValue=Adopt}"                             
                                     HorizontalAlignment="Right" Width="140" IsEnabled="False" Height="24" 
                                     ToolTip="{Binding UIString[ClassTerms_TT00]}"/>
+                </Grid>
+            </Grid>
+        </Expander>
+        <Expander x:Name="expIEC61355" Grid.Column="4" Header="" ExpandDirection="Right" IsExpanded="False" Visibility="Collapsed" Grid.RowSpan="4" MinHeight="350" MaxHeight="{Binding ActualHeight, ElementName=grdMain, Mode=OneWay}" Margin="0">
+            <Grid x:Name="grdIEC61355" Background="#FFF0F0F0" Margin="10,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition MaxHeight="350"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TabControl x:Name="tabIEC61355" >
+                    <TabItem x:Name="tabIEC61355Search" Header="Search Classes/Examples">
+                        <GroupBox x:Name="grpSearchIEC61355" Grid.Row="1" Header="{Binding UIString[], FallbackValue='Search bookmarked tags or any keyword for subclass or document samples'}" BorderBrush="#FFABADB3" Margin="0,5,0,0">
+                            <Grid x:Name="grdIEC61355Search" Width="562">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="35"/>
+                                    <ColumnDefinition Width="141"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton x:Name="radioSearchBkmk" Content="Search bookmarks only" Grid.Column="0" IsChecked="True" Margin="0,5" Grid.ColumnSpan="2"/>
+                                <RadioButton Content="Search all" Grid.Column="2" Margin="5,5,0,5"/>
+                                <TextBox x:Name="txtSearchIEC61355" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" ToolTip="{Binding UIString[], FallbackValue=Remind the Token based search behavior - use * to combine the letters with incomplete numbers or vice versa.}" BorderThickness="1" />
+                                <Button x:Name="btnSearchIEC61355" Grid.Column="3" Grid.Row="1" Content="{Binding UIString[], FallbackValue=Search}" Command="{Binding PsCmd[mSearchIEC61355]}" Width="80" Margin="3,0,0,0" BorderBrush="#FFABADB3" Height="24"/>
+                            </Grid>
+                        </GroupBox>
+                    </TabItem>
+                    <TabItem x:Name="tabIEC61355Navigate" Header="Navigate Classes" >
+                        <GroupBox x:Name="grpIEC61355" Header="{Binding UIString[], FallbackValue=Classification Hierarchy}" Grid.Row="0" BorderBrush="#FFABADB3" MinWidth="574" Margin="0,5,0,0">
+                            <Grid x:Name="grdIEC61355Filter">
+                                <WrapPanel x:Name="wrpIEC61355" Grid.Row="2">
+                                    <Button x:Name="btnIEC61355Reset" Command="{Binding PsCmd[mResetIEC61355BrdCrmb]}" Content="X" FontWeight="Bold" ToolTip="{Binding UIString[ClassTerms_TT07], FallbackValue=Reset Selection}" Foreground="Red" Width="24" Height="24">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <Border BorderBrush="#FFABADB3" BorderThickness="1">
+                                                    <Image x:Name="imgTemplateReset" Source="C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\filter-delete.ico" Margin="2" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </WrapPanel>
+                            </Grid>
+                        </GroupBox>
+                    </TabItem>
+                </TabControl>
+                <TextBox x:Name="txtIEC61355StatusMsg" Grid.Row="3" TextWrapping="Wrap" HorizontalContentAlignment="Center" BorderBrush="#FFE5E5E5" VerticalAlignment="Top" 
+                                BorderThickness="0" Visibility="Collapsed" Background="#FFF6FB82"/>
+                <DataGrid x:Name="dataGrdIEC61355Found" AutoGenerateColumns="False" IsTabStop="False" IsReadOnly="True" ColumnWidth="*" 
+                                HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke" ColumnHeaderHeight="26" 
+                                AlternatingRowBackground="LightCyan" Background="White" Cursor="Hand" ClipboardCopyMode="IncludeHeader" 
+                                Focusable="False" VerticalScrollBarVisibility="Auto" Grid.Row="4" RowHeight="24" Margin="0,5,0,0" MaxWidth="{Binding ActualWidth, ElementName=tabIEC61355, Mode=OneWay}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="dtgrdColPath" Binding="{Binding PathCode}" Width="Auto" CanUserResize="False">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DataContext.UIString[], FallbackValue=Path, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn x:Name="dtgrdColCode" Binding="{Binding Code}" Width="Auto" CanUserResize="False">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DataContext.UIString[], FallbackValue=Code, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn x:Name="dtgrdColSubCls" Binding="{Binding SubClass}" Width="Auto" MinWidth="140">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DataContext.UIString[], FallbackValue=Subclass, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Height="Auto" TextWrapping="WrapWithOverflow"/>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn x:Name="dtgrdColSubClsDE" Binding="{Binding SubClassDE}" Width="Auto" MinWidth="140">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DataContext.UIString[], FallbackValue=Subclass DE, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Height="Auto" TextWrapping="WrapWithOverflow"/>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn x:Name="dtgrdColCmmts" Binding="{Binding Example}" MinWidth="200" Width="Auto">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DataContext.UIString[], FallbackValue=Examples, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                               TextWrapping="Wrap" Height="Auto"/>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn x:Name="dtgrdColCmmtsDE" Binding="{Binding ExampleDE}" MinWidth="200" Width="Auto">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DataContext.UIString[], FallbackValue=Examples DE, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                               TextWrapping="Wrap" Height="Auto"/>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding PsCmd[mApplyIEC61355]}" Header="{Binding UIString[], FallbackValue=Apply Classification}" ToolTip="{Binding UIString[ClassTerms_TT00]}" CommandParameter="{Binding SelectedIndex, ElementName=dataGrdTermsFound}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+                <Grid x:Name="grdIEC61355Buttons" Grid.Row="5" Margin="0,15,0,5">
+                    <Button x:Name="btnIEC61355Adopt" Command="{Binding PsCmd[mApplyIEC61355]}" 
+                                    Content="{Binding UIString[], FallbackValue=Apply Classification}"                             
+                                    HorizontalAlignment="Right" Width="140" IsEnabled="False" Height="24" 
+                                    ToolTip="{Binding UIString[]}"/>
                 </Grid>
             </Grid>
         </Expander>

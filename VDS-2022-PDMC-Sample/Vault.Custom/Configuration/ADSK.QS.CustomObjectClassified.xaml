@@ -54,7 +54,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                <ComboBox Text="{WPF:ValidatedBinding Value}" IsEditable="True">
+                                <ComboBox Text="{WPF:ValidatedBinding Value}" IsEditable="True" BorderThickness="0">
                                     <ComboBoxItem Content="True" />
                                     <ComboBoxItem Content="False" />
                                 </ComboBox>
@@ -346,11 +346,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition MinWidth="200" MaxWidth="800"/>
+            <ColumnDefinition/>
+            <ColumnDefinition MinWidth="200" />
         </Grid.ColumnDefinitions>
         <GroupBox Header="{Binding UIString[ClassTerms_07],FallbackValue=Classification}" Grid.ColumnSpan="2" BorderThickness="1">
             <Grid x:Name="grdContentFilter">
@@ -383,8 +384,8 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="120" />
-                    <ColumnDefinition MinWidth="180" MaxWidth="180" />
+                    <ColumnDefinition Width="1*" MinWidth="140" />
+                    <ColumnDefinition Width ="2*" MinWidth="180" />
                 </Grid.ColumnDefinitions>
                 <Label Content="{Binding UIString[LBL8], FallbackValue=Category}" Grid.Column="0" />
                 <ComboBox x:Name="Categories" 
@@ -442,14 +443,14 @@
 				HorizontalGridLinesBrush="WhiteSmoke" 
 				VerticalGridLinesBrush="WhiteSmoke" BorderBrush="Gray" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}" Width="140" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}" MinWidth="140" Width="1*" IsReadOnly="True">
                         <DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding DataContext.UIString[LBL64], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                             </DataTemplate>
                         </DataGridTextColumn.HeaderTemplate>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Binding="{Binding Value}" MinWidth="200" CellStyle="{StaticResource DynamicDataGridCellStyle}" IsReadOnly="True">
+                    <DataGridTextColumn Binding="{Binding Value}" MinWidth="200" Width="2*" CellStyle="{StaticResource DynamicDataGridCellStyle}" IsReadOnly="True">
                         <DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding DataContext.UIString[LBL65], RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
@@ -460,7 +461,15 @@
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
-        <Grid x:Name="ButtonGrid" Grid.ColumnSpan="2" Grid.Row="2" Margin="5,15,5,5">
+        <Grid x:Name="grdComments" Grid.ColumnSpan="2" Grid.Row="2" Margin="5,10,3,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="lblComments" Content="{Binding UIString[LBL7], FallbackValue=Comments}" Height="Auto" BorderThickness="1,1,0,1" VerticalAlignment="Top"/>
+            <TextBox x:Name="txtComments" Text="{Binding Prop[_XLTN_COMMENTS].Value}" Height="Auto" TextWrapping="Wrap" MinHeight="62" BorderThickness="1" Grid.Column="1" AcceptsReturn="True" AcceptsTab="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" MaxHeight="102" VerticalContentAlignment="Top"/>
+        </Grid>
+        <Grid x:Name="ButtonGrid" Grid.ColumnSpan="2" Grid.Row="3" Margin="5,15,5,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80" />
                 <ColumnDefinition/>

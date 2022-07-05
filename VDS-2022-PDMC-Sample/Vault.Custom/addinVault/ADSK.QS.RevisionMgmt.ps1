@@ -30,13 +30,28 @@ function InvertReadOnly
 
 function InitializeRevisionValidation
 {
+	if (-not $dsWindow.FindName("tabRevision"))
+	{
+		return
+	}
+
+	#copy number if ECO drives the revision
+	$mFile = mGetFileObject
+	$mEcoFile = $vault.ChangeOrderService.GetChangeOrderFilesByFileMasterId($mFile.MasterId)
+	if($mEcoFile -ne $null)
+	{
+		$mEcoNum = $mEcoFile[0].ChangeOrder.Num
+		$Prop["_XLTN_CHANGEDESCR"].Value = $mEcoNum
+	}
+
 	#set the display state of XAML controls
 	$dsWindow.FindName("grdCustomerApproval").Visibility = "Collapsed"
 
 	#Inventor and AutoCAD Drawings initialize custom property validation only
 	if(@($UIString["MSDCE_CAT00"], $UIString["MSDCE_CAT01"]) -contains $Prop["_Category"].Value)
 	{
-		#set the display state of XAML controls		
+		#set the display state of XAML controls
+		
 		if($Prop["_XLTN_CUSTAPPRVLREQ"].Value -eq $true)
 		{
 			$dsWindow.FindName("grdCustomerApproval").Visibility = "Visible"
@@ -46,132 +61,132 @@ function InitializeRevisionValidation
 			$dsWindow.FindName("grdCustomerApproval").Visibility = "Collapsed"
 		}
 
-		#don't enforce anything for new files
-		if($Prop["_CreateMode"].Value -eq $true)
-		{
-			if($Prop["_XLTN_CHECKEDBY"]) 
-			{
-				$Prop["_XLTN_CHECKEDBY"].CustomValidation = { $true }
-			}
-			if($Prop["_XLTN_CHECKEDDATE"])
-			{
-				$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { $true }
-			}
-			if($Prop["_XLTN_ENGAPPRVDBY"])
-			{
-				$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { $true }
-			}
-			if($Prop["_XLTN_ENGAPPRVDDATE"])
-			{
-				$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { $true }
-			}
-			if($Prop["_XLTN_CHANGEDESCR"])
-			{
-				$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { $true }
-			}
+		##don't enforce anything for new or WiP files
+		#if($Prop["Initial Approver"].Value -eq $null)
+		#{
+		#	if($Prop["_XLTN_CHECKEDBY"]) 
+		#	{
+		#		$Prop["_XLTN_CHECKEDBY"].CustomValidation = { $true }
+		#	}
+		#	if($Prop["_XLTN_CHECKEDDATE"])
+		#	{
+		#		$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { $true }
+		#	}
+		#	if($Prop["_XLTN_ENGAPPRVDBY"])
+		#	{
+		#		$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { $true }
+		#	}
+		#	if($Prop["_XLTN_ENGAPPRVDDATE"])
+		#	{
+		#		$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { $true }
+		#	}
+		#	if($Prop["_XLTN_CHANGEDESCR"])
+		#	{
+		#		$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { $true }
+		#	}
 
-			#there is an option to enforce external approval
-			if($Prop["Customer Approval Required"].Value -eq $true)
-			{
-				$Prop["Customer Approved By"].CustomValidation = { $true}
-				$Prop["Customer Approved Date"].CustomValidation = { $true}
-			}
+		#	#there is an option to enforce external approval
+		#	if($Prop["Customer Approval Required"].Value -eq $true)
+		#	{
+		#		$Prop["Customer Approved By"].CustomValidation = { $true}
+		#		$Prop["Customer Approved Date"].CustomValidation = { $true}
+		#	}
 
-		}
+		#}
 
-		#enforce revision properties dependent on current state
-		if($Prop["_EditMode"].Value -eq $true)
-		{
-			#Work in Progress or Quick-Change
-			if(@($UIString["Adsk.QS.RevTab_05"], $UIString["Adsk.QS.RevTab_04"]) -contains $Prop["_XLTN_STATE"].Value)
-			{
-				if($Prop["_XLTN_DOCCHCKREQ"])
-				{
-					if($Prop["_XLTN_DOCCHCKREQ"].Value -eq "True")
-					{
-						if($Prop["_XLTN_CHECKEDBY"]) 
-						{
-							$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDBY"]) }
-						}
-					}
-				}
+		##enforce revision properties dependent on current state
+		##if($Prop["_EditMode"].Value -eq $true)
+		##{
+		#	#Work in Progress or Quick-Change
+		#	if(@($UIString["Adsk.QS.RevTab_05"], $UIString["Adsk.QS.RevTab_04"]) -contains $Prop["_XLTN_STATE"].Value -and $dsWindow.FindName("txtRevision").Text -ne "-")
+		#	{
+		#		if($Prop["_XLTN_DOCCHCKREQ"])
+		#		{
+		#			if($Prop["_XLTN_DOCCHCKREQ"].Value -eq "True")
+		#			{
+		#				if($Prop["_XLTN_CHECKEDBY"]) 
+		#				{
+		#					$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDBY"]) }
+		#				}
+		#			}
+		#		}
 				
-				if($Prop["_XLTN_CHECKEDDATE"])
-				{
-					$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { $true }
-				}
-				if($Prop["_XLTN_ENGAPPRVDBY"])
-				{
-					$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { $true }
-				}
-				if($Prop["_XLTN_ENGAPPRVDDATE"])
-				{
-					$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { $true }
-				}
-				if($Prop["_XLTN_CHANGEDESCR"])
-				{
-					$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { $true }
-				}
+		#		if($Prop["_XLTN_CHECKEDDATE"])
+		#		{
+		#			$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { $true }
+		#		}
+		#		if($Prop["_XLTN_ENGAPPRVDBY"])
+		#		{
+		#			$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { $true }
+		#		}
+		#		if($Prop["_XLTN_ENGAPPRVDDATE"])
+		#		{
+		#			$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { $true }
+		#		}
+		#		if($Prop["_XLTN_CHANGEDESCR"])
+		#		{
+		#			$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { $true }
+		#		}
 
-				#there is an option to enforce external approval
-				if($Prop["Customer Approval Required"].Value -eq $true)
-				{
-					$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField($Prop["Customer Approved By"]) }
-					$Prop["Customer Approved Date"].CustomValidation = { $true}
-				}
-				else
-				{
-					$Prop["Customer Approved By"].CustomValidation = { $true }
-					$Prop["Customer Approved Date"].CustomValidation = { $true }
-				}
+		#		#there is an option to enforce external approval
+		#		if($Prop["Customer Approval Required"].Value -eq $true)
+		#		{
+		#			$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField($Prop["Customer Approved By"]) }
+		#			$Prop["Customer Approved Date"].CustomValidation = { $true}
+		#		}
+		#		else
+		#		{
+		#			$Prop["Customer Approved By"].CustomValidation = { $true }
+		#			$Prop["Customer Approved Date"].CustomValidation = { $true }
+		#		}
 
-			} #Work in Progress or Quick-Change
+		#	} #Work in Progress or Quick-Change
 
-			#For Review
-			if(@($UIString["Adsk.QS.RevTab_03"]) -contains $Prop["_XLTN_STATE"].Value)
-			{
-				if($Prop["_XLTN_DOCCHCKREQ"])
-				{
-					if($Prop["_XLTN_DOCCHCKREQ"].Value -eq "True")
-					{
-						if($Prop["_XLTN_CHECKEDBY"]) 
-						{
-							$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDBY"]) }
-						}
-						if($Prop["_XLTN_CHECKEDDATE"])
-						{
-							$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDDATE"]) }
-						}
-					}
-				}
-				if($Prop["_XLTN_ENGAPPRVDBY"])
-				{
-					$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDBY"]) }
-				}
-				if($Prop["_XLTN_ENGAPPRVDDATE"])
-				{
-					$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDDATE"]) }
-				}
-				if($Prop["_XLTN_CHANGEDESCR"])
-				{
-					$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHANGEDESCR"]) }
-				}
+		#	#For Review
+		#	if(@($UIString["Adsk.QS.RevTab_03"]) -contains $Prop["_XLTN_STATE"].Value)
+		#	{
+		#		if($Prop["_XLTN_DOCCHCKREQ"])
+		#		{
+		#			if($Prop["_XLTN_DOCCHCKREQ"].Value -eq "True")
+		#			{
+		#				if($Prop["_XLTN_CHECKEDBY"]) 
+		#				{
+		#					$Prop["_XLTN_CHECKEDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDBY"]) }
+		#				}
+		#				if($Prop["_XLTN_CHECKEDDATE"])
+		#				{
+		#					$Prop["_XLTN_CHECKEDDATE"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHECKEDDATE"]) }
+		#				}
+		#			}
+		#		}
+		#		if($Prop["_XLTN_ENGAPPRVDBY"])
+		#		{
+		#			$Prop["_XLTN_ENGAPPRVDBY"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDBY"]) }
+		#		}
+		#		if($Prop["_XLTN_ENGAPPRVDDATE"])
+		#		{
+		#			$Prop["_XLTN_ENGAPPRVDDATE"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_ENGAPPRVDDATE"]) }
+		#		}
+		#		if($Prop["_XLTN_CHANGEDESCR"])
+		#		{
+		#			$Prop["_XLTN_CHANGEDESCR"].CustomValidation = { ValidateRevisionField($Prop["_XLTN_CHANGEDESCR"]) }
+		#		}
 
-				#there is an option to enforce external approval
-				if($Prop["Customer Approval Required"].Value -eq $true)
-				{
-					$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField($Prop["Customer Approved By"]) }
-					$Prop["Customer Approved Date"].CustomValidation = { $true}
-				}
-				else
-				{
-					$Prop["Customer Approved By"].CustomValidation = { $true }
-					$Prop["Customer Approved Date"].CustomValidation = { $true }
-				}
+		#		#there is an option to enforce external approval
+		#		if($Prop["Customer Approval Required"].Value -eq $true)
+		#		{
+		#			$Prop["Customer Approved By"].CustomValidation = { ValidateRevisionField($Prop["Customer Approved By"]) }
+		#			$Prop["Customer Approved Date"].CustomValidation = { $true}
+		#		}
+		#		else
+		#		{
+		#			$Prop["Customer Approved By"].CustomValidation = { $true }
+		#			$Prop["Customer Approved Date"].CustomValidation = { $true }
+		#		}
 
-			}# For Review
+		#	}# For Review
 
-		} #edit mode
+		##} #edit mode
 
 	}#drawing categories
 
@@ -186,24 +201,16 @@ function ValidateRevisionField($mProp)
 
 	If ($Prop["_EditMode"].Value -eq $true)
 	{		
-		$dsDiag.Trace("...EditMode...")
+		#$dsDiag.Trace("...EditMode...")
 		
 		if ($mProp.Value -eq "" -OR $mProp.Value -eq $null)
 		{
-			$dsDiag.Trace(" '$($mProp)'...no Value: returning false<<")
+			#$dsDiag.Trace(" '$($mProp)'...no Value: returning false<<")
 			return $false
 		}
 		else
 		{
-			#workaround VDS AutoCAD Date Issue (2022.1, 2022 RTM)
-			#$tempDateTime = Get-Date -Year "2021" -Month "01" -Day "01" -Hour "00" -Minute "00" -Second "00"
-			#if($mProp.Value -eq $tempDateTime.ToString()) 
-			#{ 
-			#	$mProp.CustomValidationErrorMessage = "Date 2021-01-01 00:00:00 provided by VDS for AutoCAD is not allowed (VDS Acad date issue workaround)"
-			#	return $false
-			#}
-
-			$dsDiag.Trace(" '$($mProp)'...has Value: returning true<<")
+			#$dsDiag.Trace(" '$($mProp)'...has Value: returning true<<")
 			return $true
 		}
 	}#edit mode

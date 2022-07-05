@@ -170,7 +170,7 @@
   <UIString ID="Engineer">Engineer</UIString>
   <UIString ID="GeoRss">GeoRss</UIString>
   <UIString ID="Material">Material</UIString>
-  <UIString ID="Designer">Designer</UIString>
+  <!--<UIString ID="Designer">Designer</UIString>-->
   <UIString ID="StockNumber">Stock Number</UIString>
   <UIString ID="Title">Title</UIString>
   <UIString ID="SharePath">Share Path</UIString>
@@ -190,15 +190,16 @@
   <UIString ID="DwgType">DWG Type</UIString>
 
   <!--Inventor custom iProperties Displaynames for dynamic properties-->
-  <UIString ID="G_L">Cut Length</UIString>
-  <UIString ID="PL">Cut Length</UIString>
+  <UIString ID="G_L">Length (Cut)</UIString>
+  <UIString ID="PL">Length (Cut)</UIString>
   <UIString ID="Title_EN">Title EN</UIString>
   <!--<UIString ID="Mass">Mass</UIString>-->
   <UIString ID="Original">Source File</UIString>
   <UIString ID="Replacement">Replaced by</UIString>
-  <UIString ID="Dimensions">Dimensions</UIString>
-  <UIString ID="Thickness">Sheet Thickness</UIString>
+  <!--<UIString ID="Dimensions">Dimensions</UIString>-->
+  <!--<UIString ID="Thickness">Sheet Thickness</UIString>-->
   <UIString ID="Part Type name">Sub-Type</UIString>
+  <UIString ID="G_D">Diameter</UIString>
 
   <!--Vault Categories for de-DE database-->
   <!--<UIString ID="CAT1">Konstruktion</UIString>
@@ -257,6 +258,7 @@
   <UIString ID="MSDCE_BOMType_04">Framegenerator-Skeleton-Reference</UIString>
   <UIString ID="MSDCE_FrameMember_01">Profile Bar</UIString>
   <UIString ID="MSDCE_TubePipe_01">Tube and Pipe</UIString>
+  <UIString ID="BOMType">BOM Type</UIString>
   <!--VDS-PDMC-Sample Functional Dialogs (FG, DA, TP, CH) end-->
 
   <!--VDS-PDMC-Sample Custom Object Names-->
@@ -303,6 +305,7 @@
 
   <!--VDS-PDMC-Sample Multitab Dialogs-->
   <UIString ID="MSDCE_MultiTab_01">Properties</UIString>
+  <UIString ID="ADSK.QS.DynGrid.01">Options</UIString>
   <!--VDS-PDMC-Sample Multitab Dialogs end-->
 
   <!--VDS-PDMC-Sample Multilang Strings End-->
@@ -472,13 +475,13 @@
   <UIString ID="Adsk.QS.Classification_01">Name</UIString>
   <UIString ID="Adsk.QS.Classification_02">Value</UIString>
   <UIString ID="Adsk.QS.Classification_03">Classification</UIString>
-  <UIString ID="Adsk.QS.Classification_04">Class-Hierarchy</UIString>
+  <UIString ID="Adsk.QS.Classification_04">Class Hierarchy</UIString>
   <UIString ID="Adsk.QS.Classification_05">Available Classes</UIString>
-  <UIString ID="Adsk.QS.Classification_06">Active Class</UIString>
+  <UIString ID="Adsk.QS.Classification_06">Assigned Class</UIString>
   <UIString ID="Adsk.QS.Classification_07">Properties</UIString>
-  <UIString ID="Adsk.QS.Classification_08">Activate Class</UIString>
+  <UIString ID="Adsk.QS.Classification_08">Assign Class...</UIString>
   <UIString ID="Adsk.QS.Classification_09">Remove Class</UIString>
-  <UIString ID="Adsk.QS.Classification_10">The class doesn't exist or multiple classes are equally named.Only unique class names are processes.</UIString>
+  <UIString ID="Adsk.QS.Classification_10">The class doesn't exist or multiple classes are equally named. Only unique class names are processes.</UIString>
   <UIString ID="Adsk.QS.Classification_11">Removal of class will delete all attributes and values of this assignment. {0}Do you really want to remove the classificatoin?</UIString>
   <UIString ID="Adsk.QS.Classification_12">Attention: The result is based on an incomplete index! Contact your Administrator, if you continue seeing this message.</UIString>
   <UIString ID="Adsk.QS.Classification_13">The custom workspace 'Classes' is not available. Contact your Administrator.</UIString>
@@ -509,9 +512,9 @@
   <UIString ID="ClassTerms_15">Additional Languages</UIString>
   <UIString ID="ClassTerms_16">Search text to match term definition, use "*" and/or add Languages to widen the scope</UIString>
   <UIString ID="ClassTerms_BTN8">Search</UIString>
-  <UIString ID="ClassTerms_BTN9">Inherit Term to Title</UIString>
-  <UIString ID="ClassTerms_BTN10">Inherit</UIString>
-  <UIString ID="ClassTerms_TT00">Inherit Term(s) to Title DE (EN, FR, IT)</UIString>
+  <UIString ID="ClassTerms_BTN9">Apply Term as Title</UIString>
+  <UIString ID="ClassTerms_BTN10">Apply</UIString>
+  <UIString ID="ClassTerms_TT00">Apply Term(s) as Title DE (EN, FR, IT)</UIString>
   <UIString ID="ClassTerms_TT01">Limit search to hierarchy level</UIString>
   <UIString ID="ClassTerms_TT02">Name = 'TERM EN' if not typed manually</UIString>
   <UIString ID="ClassTerms_TT03">Assigned by classification</UIString>
@@ -523,6 +526,11 @@
   <UIString ID="ClassTerms_MSG02">Search result displays {0} out of {1}; refine your search.</UIString>
   <UIString ID="ClassTerms_MSG03">No matching terms found</UIString>
   <!--CatalogTermsTranslations End-->
+  
+  <!--IEC61355 document classification start-->
+  <UIString ID="Adsk.IEC61355.00">IEC 61355</UIString>
+  <UIString ID="Adsk.IEC61355.TT01">Select from IEC 61355 classification scheme.</UIString>
+  <!--IEC61355 document classification end-->
   
   <!--Document Structure Tab Extension-->
   <UIString ID="ADSK-DocStructure_00">File Structure</UIString>
@@ -576,6 +584,7 @@
   <UIString ID="Adsk.QS.RevTab_10">Customer Approval Required</UIString>
   <UIString ID="Adsk.QS.RevTab_11">Customer Approved By</UIString>
   <UIString ID="Adsk.QS.RevTab_12">Customer Appr. Date</UIString>
+  <UIString ID="Engr Date Approved">Engr Approved Date</UIString>
   
   <!--UIStrings for PDMC-Sample Dynamic Grids - Note these mappings are only valid for the original PDMC-Sample Vault!-->
   <UIString ID="1907cfc4-134b-4151-b04b-263627b8d37e">Checked Date</UIString>
@@ -587,5 +596,7 @@
   <UIString ID="4289da0f-984f-47b2-b6ed-ff2cafbe7a9b">Customer Approved By</UIString>
   <UIString ID="bb92906f-75ca-415b-b0c6-242e4e02d58b">Customer Approved Date</UIString>
   <!--Revision Property Tab end-->
-  
+
+  <!--<UIString ID=""></UIString>-->
+
 </UIStrings>

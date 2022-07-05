@@ -31,19 +31,32 @@
     <DynamicProperty>Title</DynamicProperty>
     <DynamicProperty>Part Number</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
-    <DynamicProperty>BOMType</DynamicProperty>
+    <DynamicProperty>BOM Type</DynamicProperty>
     <DynamicProperty>Designer</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Weldment Assembly">
     <DynamicProperty>Title</DynamicProperty>
+    <DynamicProperty>Title DE</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
     <DynamicProperty>Part Number</DynamicProperty>
-    <DynamicProperty>Material</DynamicProperty>
-    <DynamicProperty>Mass</DynamicProperty>
+    <DynamicProperty>Part Family</DynamicProperty>
     <DynamicProperty>Dimensions</DynamicProperty>
-    <DynamicProperty>Source File</DynamicProperty>
+    <DynamicProperty>Stock Number</DynamicProperty>
     <DynamicProperty>Spare-Wear Part</DynamicProperty>
+    <DynamicProperty Hidden="False">Material</DynamicProperty>
+    <DynamicProperty>Mass</DynamicProperty>
+    <DynamicProperty>Project</DynamicProperty>
+    <DynamicProperty>Designer</DynamicProperty>
+    <DynamicProperty>Engr Approved by</DynamicProperty>
+    <DynamicProperty>Date Eng Approved</DynamicProperty>
+    <DynamicProperty>Source File</DynamicProperty>
+    <DynamicProperty Hidden="True">Part Type name</DynamicProperty>
+    <DynamicProperty Hidden="True">Has MBD</DynamicProperty>
+    <DynamicProperty Hidden="True">BOM Type</DynamicProperty>
+    <DynamicProperty Hidden="True">Key Parameters</DynamicProperty>
     <DynamicProperty Hidden="True">LastUpdatedWith</DynamicProperty>
+    <DynamicProperty Hidden="True">InternalName</DynamicProperty>
+    <DynamicProperty Hidden="True">Diameter</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Reference">
     <DynamicProperty>Dimensions</DynamicProperty>
@@ -57,11 +70,13 @@
     <DynamicProperty>Title DE</DynamicProperty>
     <DynamicProperty>Description</DynamicProperty>
     <DynamicProperty>Part Number</DynamicProperty>
-    <DynamicProperty Hidden="False">Material</DynamicProperty>
+    <DynamicProperty>Part Family</DynamicProperty>
+    <DynamicProperty>Material</DynamicProperty>
     <DynamicProperty Hidden="True">VLT_Material</DynamicProperty>
     <DynamicProperty>Dimensions</DynamicProperty>
     <DynamicProperty>Thickness</DynamicProperty>
-    <DynamicProperty>Cut Length</DynamicProperty>
+    <DynamicProperty Hidden="True">Diameter</DynamicProperty>
+    <DynamicProperty>Length (Cut)</DynamicProperty>
     <DynamicProperty>Semi finished</DynamicProperty>
     <DynamicProperty>Stock Number</DynamicProperty>
     <DynamicProperty>Spare-Wear Part</DynamicProperty>
@@ -70,7 +85,12 @@
     <DynamicProperty>Engr Approved by</DynamicProperty>
     <DynamicProperty>Date Eng Approved</DynamicProperty>
     <DynamicProperty>Source File</DynamicProperty>
+    <DynamicProperty Hidden="True">Part Type name</DynamicProperty>
+    <DynamicProperty Hidden="True">Has MBD</DynamicProperty>
+    <DynamicProperty Hidden="True">BOM Type</DynamicProperty>
+    <DynamicProperty Hidden="True">Key Parameters</DynamicProperty>
     <DynamicProperty Hidden="True">LastUpdatedWith</DynamicProperty>
+    <DynamicProperty Hidden="True">InternalName</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Assembly">
     <DynamicProperty>Title</DynamicProperty>
@@ -89,10 +109,11 @@
     <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty Hidden="True">Part Type name</DynamicProperty>
     <DynamicProperty Hidden="True">Has MBD</DynamicProperty>
-    <DynamicProperty Hidden="True">BOMType</DynamicProperty>
+    <DynamicProperty Hidden="True">BOM Type</DynamicProperty>
     <DynamicProperty Hidden="True">Key Parameters</DynamicProperty>
     <DynamicProperty Hidden="True">LastUpdatedWith</DynamicProperty>
     <DynamicProperty Hidden="True">InternalName</DynamicProperty>
+    <DynamicProperty Hidden="True">Diameter</DynamicProperty>
   </DynamicPropertiesCategory>
   <DynamicPropertiesCategory Category="Frame Member">
     <DynamicProperty>Title</DynamicProperty>
@@ -119,7 +140,8 @@
     <DynamicProperty>Part Family</DynamicProperty>
     <DynamicProperty>Material</DynamicProperty>
     <DynamicProperty>Dimensions</DynamicProperty>
-    <DynamicProperty>Cut Length</DynamicProperty>
+    <DynamicProperty>Diameter</DynamicProperty>
+    <DynamicProperty>Length (Cut)</DynamicProperty>
     <DynamicProperty>Semi finished</DynamicProperty>
     <DynamicProperty>Stock Number</DynamicProperty>
     <DynamicProperty>Spare-Wear Part</DynamicProperty>
@@ -130,7 +152,7 @@
     <DynamicProperty>Source File</DynamicProperty>
     <DynamicProperty Hidden="True">Part Type name</DynamicProperty>
     <DynamicProperty Hidden="True">Has MBD</DynamicProperty>
-    <DynamicProperty Hidden="True">BOMType</DynamicProperty>
+    <DynamicProperty Hidden="True">BOM Type</DynamicProperty>
     <DynamicProperty Hidden="True">Key Parameters</DynamicProperty>
     <DynamicProperty Hidden="True">LastUpdatedWith</DynamicProperty>
     <DynamicProperty Hidden="True">InternalName</DynamicProperty>

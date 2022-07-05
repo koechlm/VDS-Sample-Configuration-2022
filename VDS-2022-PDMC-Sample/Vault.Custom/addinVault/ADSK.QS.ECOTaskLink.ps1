@@ -28,7 +28,7 @@ public class mAssocCustent
 
 function mGetAssocCustents($mIds)
 {
-	$dsDiag.Trace(">> Starting mGetAssocCustents($mIds)")
+	#$dsDiag.Trace(">> Starting mGetAssocCustents($mIds)")
 	$mCustEntities = $vault.CustomEntityService.GetCustomEntitiesByIds($mIds)
 	$PropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT")
 	$propDefIds = @()
@@ -92,6 +92,6 @@ function mTaskClick()
     $mOutFile = "mECOTabClick.txt"
 	foreach($mItem in $mSelItem)
 	{
-		$mItem.Name | Out-File $env:TEMP"\$mOutFile"
+		$mItem.Name | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\$($mOutFile)"
 	}
 }

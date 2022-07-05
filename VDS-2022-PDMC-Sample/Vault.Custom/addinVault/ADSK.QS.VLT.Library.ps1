@@ -10,6 +10,10 @@
 #endregion
 
 #region - version history
+
+#Version Info - VDS-MFG-Sample CAD Library 2022.2
+	# added function mGetParentProjectFldr
+
 #Version Info - VDS-PDMC-Sample CAD Library 2022.1
 	# added methods mGetCustentPropValue and mGetCustentPropDefId
 
@@ -56,15 +60,32 @@ function mGetFolderPropValue ([Int64] $mFldID, [STRING] $mDispName)
 	Return $mPropVal
 }
 
+#Get parent project folder object
+function mGetParentProjectFldr
+{
+	$mPath = $Prop["_FilePath"].Value
+	$mFld = $vault.DocumentService.GetFolderByPath($mPath)
+
+	IF ($mFld.Cat.CatName -eq $UIString["CAT6"]) { $Global:mProjectFound = $true}
+	ElseIf ($mPath -ne "$"){
+		Do {
+			$mParID = $mFld.ParID
+			$mFld = $vault.DocumentService.GetFolderByID($mParID)
+			IF ($mFld.Cat.CatName -eq $UIString["CAT6"]) { $Global:mProjectFound = $true}
+		} Until (($mFld.Cat.CatName -eq $UIString["CAT6"]) -or ($mFld.FullName -eq "$"))
+	}
+	
+	If ($mProjectFound -eq $true) {
+		return $mFld
+	}
+	Else{
+		return $null
+	}
+}
+
 #retrieve the definition ID for given property by displayname
 function mGetFolderPropertyDefId ([STRING] $mDispName) {
-	$PropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("FLDR")
-	$propDefIds = @()
-	$PropDefs | ForEach-Object {
-		$propDefIds += $_.Id
-	} 
-	$mPropDef = $propDefs | Where-Object { $_.DispName -eq $mDispName}
-	Return $mPropDef.Id
+	return mGetPropertyDefId $mDispName "FLDR"
 }
 
 #retrieve property value given by displayname from Custom Object (ID)
@@ -87,7 +108,16 @@ function mGetCustentPropValue ([Int64] $mCentID, [STRING] $mDispName)
 
 #retrieve the definition ID for given property by displayname
 function mGetCustentPropertyDefId ([STRING] $mDispName) {
-	$PropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("CUSTENT")
+	return mGetPropertyDefId $mDispName "CUSTENT"
+}
+
+function mGetCOPropertyDefId ([STRING] $mDispName) {
+	Return mGetPropertyDefId $mDispName "CO"
+}
+
+#retrieve the definition ID for given property by displayname
+function mGetPropertyDefId ([STRING] $mDispName,[STRING] $EntityClassId ) {
+	$PropDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("$EntityClassId")
 	$propDefIds = @()
 	$PropDefs | ForEach-Object {
 		$propDefIds += $_.Id

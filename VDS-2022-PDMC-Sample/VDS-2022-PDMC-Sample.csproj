@@ -127,10 +127,12 @@
     <None Include="Vault.Custom\addinVault\ADSK.QS.CustomObjectsClassified.psm1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.Default.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.DerivationTree.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateECO.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.ECOTaskLink.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.FileBOM.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.FileDocStructure.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.FileImport.ps1" />
+    <None Include="Vault.Custom\addinVault\ADSK.QS.IEC61355.psm1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.ItemLookup.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.NameValidation.ps1" />
     <None Include="Vault.Custom\addinVault\ADSK.QS.NameValidationCustent.ps1" />
@@ -144,20 +146,20 @@
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.AdskFilePropProvider.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateCustomObject.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateCustomObjectClassified.ps1" />
-    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateCustomObjectTerm.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateECOandAddFiles.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateFile.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.CreateFolder.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditCustomObject.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditCustomObjectClassified.ps1" />
-    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditCustomObjectTerm.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditFile.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.EditFolder.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToFolderFromEco.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToInvSibling.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToReplacedBy.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToSelectedFile.ps1" />
-    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToSelectedTask.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToTaskFromEco.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToSourceFile.ps1" />
-    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToTasksECO.ps1" />
+    <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.GoToEcoFromTask.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.ImportFiles.ps1" />
     <None Include="Vault.Custom\addinVault\Menus\ADSK.QS.ReserveNumbers.ps1" />
     <None Include="Vault\addinVault\AssociatedFiles.ps1" />
@@ -264,10 +266,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Vault.Custom\Configuration\ADSK.QS.FileOffice.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Vault.Custom\Configuration\ADSK.QS.Folder.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -280,7 +278,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Vault.Custom\Configuration\ADSK.QS.SelectClassification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vault.Custom\Configuration\Class\Adsk.QS.ClassifiedObject.DataSheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vault.Custom\Configuration\Eco\ADSK.QS.EcoParentFolder.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -403,6 +409,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Vault.Custom\addinVault\VdsSampleUtilities.dll" />
+    <Resource Include="Vault.Custom\GlobalFolderView_16.ico" />
+    <Resource Include="Vault.Custom\GlobalFolder_GoTo_16.ico" />
+    <Resource Include="Vault.Custom\Configuration\Eco\Icons\GlobalFolderView_32.png" />
+    <Resource Include="Vault.Custom\ECO.ico" />
     <Resource Include="Vault.Custom\CustomObject-Add.ico" />
     <Resource Include="Vault.Custom\CustomObject-Edit.ico" />
     <Resource Include="Vault.Custom\Folder2022.xml" />

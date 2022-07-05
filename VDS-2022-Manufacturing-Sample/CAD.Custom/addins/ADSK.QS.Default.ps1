@@ -25,15 +25,16 @@ function InitializeWindow
 	{
 		"InventorWindow"
 		{
+			#support given file name and path for Inventor ShrinkWrap file (_SuggestedVaultPath is empty for these)
+			$global:mShrnkWrp = $false
+
 			InitializeBreadCrumb
 			#	there are some custom functions to enhance functionality:
 			[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard" + '\Vault.Custom\addinVault\VdsSampleUtilities.dll')
 			$_mInvHelpers = New-Object VdsSampleUtilities.InvHelpers 
 
-			#	initialize the context for Drawings or presentation files as these have Vault Option settings
-			$global:mGFN4Special = $Prop["_GenerateFileNumber4SpecialFiles"].Value
-					
-			if ($global:mGFN4Special -eq $true)
+			#	initialize the context for Drawings or presentation files as these have Vault Option settings		
+			if ($Prop["_GenerateFileNumber4SpecialFiles"].Value -eq $true)
 			{
 				$dsWindow.FindName("GFN4Special").IsChecked = $true # this checkbox is used by the XAML dialog styles, to enable / disable or show / hide controls
 			}
@@ -45,23 +46,22 @@ function InitializeWindow
 				$global:mIsInvDocumentationFile = $true
 				$dsWindow.FindName("chkBxIsInvDocuFileType").IsChecked = $true
 
-				#check if a drawing is a model documentation or a sketched 2D drawing only, or an empty presentation (IPN)
+				#support empty (no model view) documentation (DWG, IDW, IPN),  or a sketched 2D drawing (DWG, IDW)
 				$_ModelFullFileName = $_mInvHelpers.m_GetMainViewModelPath($Application)
-				#model documentation
-				If ($global:mIsInvDocumentationFile-eq $true -and $global:mGFN4Special -eq $false -and $_ModelFullFileName -ne $null)
+				#model documentation; note - during model copy/replace incl. drawing $_ModelFullFileName is null => check number of referenced files instead to differentiate from sketch only drawings.				
+				If ($global:mIsInvDocumentationFile -eq $true -and $Prop["_GenerateFileNumber4SpecialFiles"].Value -eq $false -and $Document.ReferencedFiles.Count -gt 0)
 				{ 
 					$dsWindow.FindName("BreadCrumb").IsEnabled = $false
 					$dsWindow.FindName("GroupFolder").Visibility = "Collapsed"
 					$dsWindow.FindName("expShortCutPane").Visibility = "Collapsed"
 				}
 				#sketched or empty drawing
-				Else 
+				Else
 				{
-					$global:mGFN4Special = $true #override the application settings for 
+					$Prop["_GenerateFileNumber4SpecialFiles"].Value = $true #override the application settings for 
 					$dsWindow.FindName("BreadCrumb").IsEnabled = $true
 					$dsWindow.FindName("chkBxIsInvDocuFileType").IsChecked = $false
 				}
-				
 			}
 
 			#enable option to remove orphaned sheets in drawings
@@ -166,10 +166,6 @@ function InitializeWindow
 								})
 							}
 						}
-					}
-					else
-					{
-						[System.Windows.MessageBox]::Show("FDU-AddIn expected; contact your Administrator to install FDU or to disable FDU Support for VDS.","VDS MFG Sample")
 					}
 					#endregion FDU Support --------------------------------------------------------------------------
 
@@ -357,10 +353,10 @@ function InitializeWindow
 function AddinLoaded
 {
 	#Executed when DataStandard is loaded in Inventor/AutoCAD
-	$m_File = $env:TEMP + "\Folder2022.xml"
+	$m_File = "$($env:appdata)\Autodesk\DataStandard 2022\Folder2022.xml"
 	if (!(Test-Path $m_File)){
-		$source = $Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Folder2022.xml"
-		Copy-Item $source $env:TEMP\Folder2022.xml
+		$source = "$($Env:ProgramData)\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Folder2022.xml"
+		Copy-Item $source $m_File
 	}
 }
 
@@ -575,7 +571,7 @@ function GetNumSchms
 		if (-Not $Prop["_EditMode"].Value)
         {
             #VDS MFG Sample - there is the use case that we don't need a number: IDW/DWG, IPN and Option Generate new file number = off
-			If ($global:mIsInvDocumentationFile-eq $true -and $global:mGFN4Special -eq $false) 
+			If ($global:mIsInvDocumentationFile -eq $true -and $Prop["_GenerateFileNumber4SpecialFiles"].Value -eq $false -and $Document.ReferencedFiles.Count -gt 0) 
 			{ 
 				return
 			}
@@ -588,9 +584,15 @@ function GetNumSchms
 			if ($Prop["_NumSchm"].Value) { $Prop["_NumSchm"].Value = $_FilteredNumSchems[0].Name} #note - functional dialogs don't have the property _NumSchm, therefore we conditionally set the value
 			$dsWindow.FindName("NumSchms").IsEnabled = $true
 			$dsWindow.FindName("NumSchms").SelectedValue = $_FilteredNumSchems[0].Name
+			#add the "None" scheme to allow user interactive file name input
 			$noneNumSchm = New-Object 'Autodesk.Connectivity.WebServices.NumSchm'
 			$noneNumSchm.Name = $UIString["LBL77"] # None 
 			$_FilteredNumSchems += $noneNumSchm
+
+			#Inventor ShrinkWrap workflows suggest a file name; allow user overrides
+			if ($dsWindow.Name -eq "InventorWindow" -and $global:mShrnkWrp -eq $true) {
+				if ($Prop["_NumSchm"].Value) { $Prop["_NumSchm"].Value = $_FilteredNumSchems[1].Name } # None 	
+			}
 
 			#reverse order for these cases; none is added latest; reverse the list, if None is pre-set to index = 0
 			#If($dsWindow.Name-eq "InventorWindow" -and $Prop["DocNumber"].Value -notlike "Assembly*" -and $Prop["_FileExt"].Value -eq ".iam") #you might find better criteria based on then numbering scheme
@@ -631,7 +633,7 @@ function GetNumSchms
 
 function GetCategories
 {
-	$mAllCats =  $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
+	$mAllCats =  $Prop["_Category"].ListValues
 	$mFDSFilteredCats = $mAllCats | Where { $_.Name -ne "Asset Library"}
 	return $mFDSFilteredCats | Sort-Object -Property "Name" #Ascending is default; no option required
 }
@@ -652,8 +654,13 @@ function OnPostCloseDialog
 			{
 				$Prop["Part Number"].Value = $Prop["DocNumber"].Value
 			}
+			#sketched drawings (no model view) don't get a Part Number from the model, but the part number is not empty and equals the displayname of the new drawing, e.g. "Drawing1"
+			if ($Prop["_CreateMode"].Value -and $Document.ReferencedFiles.Count -eq 0 -and @(".DWG",".IDW",".IPN") -contains $Prop["_FileExt"].Value)
+			{
+				$Prop["Part Number"].Value = $Prop["DocNumber"].Value
+			}
 			
-			#remove orphaned sheets in drawing documents (new VDS-PDMC-Sample 2022)
+			#remove orphaned sheets in drawing documents
 			if (-not $Prop["_SaveCopyAsMode"].Value -eq $true -or (Get-Item $document.FullFileName).IsReadOnly -eq $true)
 			{
 				if (@(".DWG",".IDW") -contains $Prop["_FileExt"].Value -and $dsWindow.FindName("RmOrphShts").IsChecked -eq $true)
@@ -726,19 +733,10 @@ function mHelp ([Int] $mHContext) {
 function mReadShortCuts {
 	if ($Prop["_CreateMode"].Value -eq $true) {
 		#$dsDiag.Trace(">> Looking for Shortcuts...")
-		$m_Server = $VaultConnection.Server
+		$m_Server = ($VaultConnection.Server).Replace(":", "_").Replace("/", "_")
 		$m_Vault = $VaultConnection.Vault
-		$m_AllFiles = @()
-		$m_FiltFiles = @()
-		$m_Path = $env:APPDATA + '\Autodesk\VaultCommon\Servers\Services_Security_12_17_2020\'
-		$m_AllFiles += Get-ChildItem -Path $m_Path -Filter 'Shortcuts.xml' -Recurse
-		$m_AllFiles | ForEach-Object {
-			if ($_.FullName -like "*" + $m_Server.Replace(":", "_").Replace("/", "_") + "*" -and $_.FullName -like "*"+$m_Vault + "*") 
-			{
-				$m_FiltFiles += $_
-			} 
-		}
-		$global:mScFile = $m_FiltFiles.SyncRoot[$m_FiltFiles.Count-1].FullName
+		$m_Path = "$($env:appdata)\Autodesk\VaultCommon\Servers\Services_Security_12_17_2020\$($m_Server)\Vaults\$($m_Vault)\Objects\"
+		$global:mScFile = $m_Path + "Shortcuts.xml"
 		if (Test-Path $global:mScFile) {
 			#$dsDiag.Trace(">> Start reading Shortcuts...")
 			$global:m_ScXML = New-Object XML 
@@ -760,7 +758,7 @@ function mReadShortCuts {
 				}
 			}
 		}
-		$dsDiag.Trace("... returning Shortcuts")
+		#$dsDiag.Trace("... returning Shortcuts")
 		return $global:m_ScCAD
 	}
 }
@@ -785,6 +783,7 @@ function mScClick {
 		if ($m_DesignPathNames.Count -eq 1) { $m_DesignPathNames += "."}
 		mActivateBreadCrumbCmbs $m_DesignPathNames
 		$global:expandBreadCrumb = $true
+		$dsWindow.FindName("lstBoxShortCuts").SelectedItem = $null
 	}
 	catch
 	{
@@ -831,7 +830,7 @@ function mAddShortCutByName([STRING] $mScName)
 	{
 		#$dsDiag.Trace(">> Continue to add ShortCut, creating new from template...")	
 		#read from template
-		$m_File = $env:TEMP + "\Folder2022.xml"
+		$m_File = "$($env:appdata)\Autodesk\DataStandard 2022\Folder2022.xml"
 
 		if (Test-Path $m_File)
 		{
@@ -839,7 +838,7 @@ function mAddShortCutByName([STRING] $mScName)
 			$global:m_XML = New-Object XML
 			$global:m_XML.Load($m_File)
 		}
-		$mShortCut = $global:m_XML.Folder.Shortcut | where { $_.Name -eq "Template"}
+		$mShortCut = $global:m_XML.VDSUserProfile.Shortcut | Where-Object { $_.Name -eq "Template"}
 		#clone the template completely and update name attribute and navigationcontext element
 		$mNewSc = $mShortCut.Clone() #.CloneNode($true)
 		#rename "Template" to new name
@@ -850,8 +849,6 @@ function mAddShortCutByName([STRING] $mScName)
 		$newURI = "vaultfolderpath:" + $global:CAx_Root
 		foreach ($cmb in $breadCrumb.Children) 
 		{
-			$_N = $cmb.SelectedItem.Name
-			#$dsDiag.Trace(" - selecteditem.Name of cmb: $_N ")
 			if (($cmb.SelectedItem.Name.Length -gt 0) -and !($cmb.SelectedItem.Name -eq "."))
 			{ 
 				$newURI = $newURI + "/" + $cmb.SelectedItem.Name

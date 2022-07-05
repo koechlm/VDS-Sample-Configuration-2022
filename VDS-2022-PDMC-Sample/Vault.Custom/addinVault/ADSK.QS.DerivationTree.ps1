@@ -123,7 +123,7 @@ function mGetDerivativeSource($mFile) #expects the (master) file object
 		return
 	}
 
-	$dsDiag.Trace(">> Starting mGetDerivatives for SourceFile ($mSearchString)")
+	#$dsDiag.Trace(">> Starting mGetDerivatives for SourceFile ($mSearchString)")
 	#region search for file iterations, search conditions Prop[<Source File>] = mFile's Prop[<Source File>].Value, latestonly = false
 	# or condition 2 comments contains, in case the source has been renamed after the copy
 	
@@ -236,7 +236,7 @@ function mGetDerivativeParallels($mFile) #expects the (master) file object
 		return
 	}
 
-	$dsDiag.Trace(">> Starting mGetDerivatives for SourceFile ($mSearchString)")
+	#$dsDiag.Trace(">> Starting mGetDerivatives for SourceFile ($mSearchString)")
 	#region search for file iterations, search conditions Prop[<Source File>] = mFile's Prop[<Source File>].Value, latestonly = false
 	# or condition 2 comments contains, in case the source has been renamed after the copy
 	
@@ -308,7 +308,7 @@ function mGetDerivativeCopies($mFile) #expects the (master) file object
 		return
 	}
 
-	$dsDiag.Trace(">> Starting mGetDerivatives for SourceFile ($mSearchString)")
+	#$dsDiag.Trace(">> Starting mGetDerivatives for SourceFile ($mSearchString)")
 	#region search for file iterations, search conditions Prop[<Source File>] = mFile's Prop[<Source File>].Value, latestonly = false
 	# or condition 2 comments contains, in case the source has been renamed after the copy
 	
@@ -388,7 +388,7 @@ function mDerivativesSelectNothing()
 {
 	$mSelItem = ""
     $mOutFile = "mStrTabClick.txt"
-	$mSelItem | Out-File $env:TEMP"\$mOutFile"
+	$mSelItem | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\$($mOutFile)"
 }
 
 function mDerivativesClick()
@@ -397,7 +397,7 @@ function mDerivativesClick()
     $mOutFile = "mStrTabClick.txt"
 	foreach($mItem in $mSelItem)
 	{
-		$mItem.Name | Out-File $env:TEMP"\$mOutFile"
+		$mItem.Name | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\$($mOutFile)"
 	}
 }
 
@@ -407,7 +407,7 @@ function mDerivatives1Click()
     $mOutFile = "mStrTabClick.txt"
 	foreach($mItem in $mSelItem)
 	{
-		$mItem.Name | Out-File $env:TEMP"\$mOutFile"
+		$mItem.Name | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\$($mOutFile)"
 	}
 }
 
@@ -417,12 +417,12 @@ function mDerivatives2Click()
     $mOutFile = "mStrTabClick.txt"
 	foreach($mItem in $mSelItem)
 	{
-		$mItem.Name | Out-File $env:TEMP"\$mOutFile"
+		$mItem.Name | Out-File "$($env:appdata)\Autodesk\DataStandard 2022\$($mOutFile)"
 	}
 }
 
 function mCreateSearchCond ([String] $PropName, [String] $mSearchTxt, [String] $AndOr) {
-	$dsDiag.Trace("--SearchCond creation starts... for $PropName and $mSearchTxt ---")
+	#$dsDiag.Trace("--SearchCond creation starts... for $PropName and $mSearchTxt ---")
 	$srchCond = New-Object autodesk.Connectivity.WebServices.SrchCond
 	$propDefs = $vault.PropertyService.GetPropertyDefinitionsByEntityClassId("FILE")
 	$propNames = @($PropName)
@@ -443,6 +443,6 @@ function mCreateSearchCond ([String] $PropName, [String] $mSearchTxt, [String] $
 	Else {
 		$srchCond.SrchRule = [Autodesk.Connectivity.WebServices.SearchRuleType]::May
 	}
-	$dsDiag.Trace("--SearchCond creation finished. ---")
+	#$dsDiag.Trace("--SearchCond creation finished. ---")
 	return $srchCond
 } 

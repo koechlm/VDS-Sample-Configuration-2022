@@ -16,15 +16,15 @@ $entityId=$vaultContext.CurrentSelectionSet[0].Id
 #use our VDS-PDMC-Sample helpers to query links of parent objects that are not of type FLDR
 [System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard" + '\Vault.Custom\addinVault\VdsSampleUtilities.dll')
 $_mVltHelpers = New-Object VdsSampleUtilities.VltHelpers
+$links = @()
 $links = $_mVltHelpers.mGetLinkedChildren1($vaultconnection, $entityId, "CUSTENT", "CO")
 
+[Autodesk.Connectivity.WebServices.ChangeOrder[]]$mECOs = $vault.ChangeOrderService.GetChangeOrdersByIds(@($links[0]))
 
-$mECOs = @()
-$mECOs += $vault.ChangeOrderService.GetChangeOrdersByIds(@($links[0]))
-
+$path = $mECOs[0].Num
 $selectionTypeId = [Autodesk.Connectivity.Explorer.Extensibility.SelectionTypeId]::ChangeOrder
-$location = New-Object Autodesk.Connectivity.Explorer.Extensibility.LocationContext $selectionTypeId, $mECOs[0].Num
-
+$location = New-Object Autodesk.Connectivity.Explorer.Extensibility.LocationContext $selectionTypeId, $path
+#$dsDiag.Inspect("location")
 $vaultContext.GoToLocation = $location
 
 	

@@ -14,7 +14,7 @@
 #this function will be called to check if the Ok button can be enabled
 function ActivateOkButton
 {
-		return Validate;
+	return Validate;
 }
 
 # sample validation function
@@ -86,7 +86,7 @@ function ValidateCustomObjectName
 			return ValidateCustentName;
 		}
 		$dsWindow.FindName("CUSTOMOBJECTNAME").ToolTip = "Custom Object name must not be empty."
-		$dsWindow.FindName("CUSTOMOBJECTNAME").Border = "Red"
+		$dsWindow.FindName("CUSTOMOBJECTNAME").BorderBrush = "Red"
 		$dsWindow.FindName("CUSTOMOBJECTNAME").BackGround = "#FFFFFFFF"
 		return $false;
 	}
@@ -105,18 +105,16 @@ function InitializeWindow
 {	      
         #$dsDiag.ShowLog()
         #$dsDiag.Clear()
-      
+
 	#begin rules applying commonly
 	$Prop["_Category"].add_PropertyChanged({
         if ($_.PropertyName -eq "Value")
         {
-			#region VDS-PDMC-Sample
-				#$Prop["_NumSchm"].Value = $Prop["_Category"].Value
-				m_CategoryChanged
-			#endregion
+			m_CategoryChanged
         }		
     })
 	#end rules applying commonly
+
 	$mWindowName = $dsWindow.Name
 	switch($mWindowName)
 	{
@@ -124,6 +122,7 @@ function InitializeWindow
 		{
 			#rules applying for File
 			$dsWindow.Title = SetWindowTitle $UIString["LBL24"] $UIString["LBL25"] $Prop["_FileName"].Value
+
 			if ($Prop["_CreateMode"].Value)
 			{
 				if ($Prop["_IsOfficeClient"].Value)
@@ -174,9 +173,13 @@ function InitializeWindow
 			if($dsWindow.FindName("tabRevision")) 
 			{
 				$dsWindow.FindName("tabRevision").Visibility = "Visible"
+								
+				InitializeRevisionValidation
+				
+				$Prop["_Category"].add_PropertyChanged({
 					InitializeRevisionValidation
+				})
 			}
-
 			#endregion VDS-PDMC-Sample
 			
 		}
@@ -245,7 +248,7 @@ function InitializeWindow
 					$dsWindow.FindName("NumSchms").Visibility = "Collapsed"
 					$Prop["_NumSchm"].Value = $Prop["_Category"].Value
 
-				IF($Prop["_XLTN_IDENTNUMBER"]){ $Prop["_XLTN_IDENTNUMBER"].Value = $UIString["LBL27"]}
+				#IF($Prop["_XLTN_IDENTNUMBER"]){ $Prop["_XLTN_IDENTNUMBER"].Value = $UIString["LBL27"]}
 
 				$dsWindow.Title = "New $($Prop["_Category"].Value)..."
 
@@ -316,7 +319,7 @@ function InitializeWindow
 		{
 			$_t = $Prop["Internal ID"].Value
 
-			$mTargetFile = Get-Content $env:TEMP"\mStrTabClick.txt"
+			$mTargetFile = Get-Content "$($env:appdata)\Autodesk\DataStandard 2022\mStrTabClick.txt"
 
 			#create search conditions for 
 			$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 1
@@ -475,8 +478,39 @@ function OnTabContextChanged
 		$file = $vault.DocumentService.GetFileById($fileAssoc[0].CldFileId)
 		mInitializeClassificationTab -ParentType $null -file $file
 	}
+
+	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ChangeOrder" -and $xamlFile -eq "ADSK.QS.EcoParentFolder.xaml") {
+		#clear any data from previous selections:
+		$dsWindow.FindName("dtgrdParentFolder").ItemsSource = $null
+		$dsWindow.FindName("txtCategory").Text = ""
+		$dsWindow.FindName("txtName").Text = ""
+		$dsWindow.FindName("txtState").Text = ""
+		$dsWindow.FindName("txtCreateDate").Text = ""
+		$dsWindow.FindName("txtCreatedBy").Text = ""
+		$dsWindow.FindName("txtComments").Text = ""
+
+		#get the folder where the ECO has it's primary link to
+		$mTargetLnks = @()
+		[long]$mEcoParentFldId = $null		
+		#filter target linked objects are folders and not custom objects
+		$mTargetLnks = $vault.DocumentService.GetLinksByTargetEntityIds(@($VaultContext.SelectedObject.Id)) | Where-Object { $_.ParEntClsId -eq "FLDR" }
+
+		if ($mTargetLnks.Count -gt 0) {
+			$mEcoParentFldId = $vault.DocumentService.GetFolderById($mTargetLnks[0].ParentId).Id
+			$mFldrProps = New-Object 'system.collections.generic.dictionary[[string],[object]]'
+			[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard" + '\Vault.Custom\addinVault\VdsSampleUtilities.dll')
+			$_mVltHelpers = New-Object VdsSampleUtilities.VltHelpers
+			$_mVltHelpers.GetFolderProps($vaultConnection, $mEcoParentFldId, [ref]$mFldrProps)
+			$dsWindow.FindName("dtgrdParentFolder").ItemsSource = $mFldrProps
+			$dsWindow.FindName("txtCategory").Text = $mFldrProps["Category Name"]
+			$dsWindow.FindName("txtName").Text = $mFldrProps["Name"]
+			$dsWindow.FindName("txtState").Text = $mFldrProps["State"]
+			$dsWindow.FindName("txtCreateDate").Text = $mFldrProps["Create Date"]
+			$dsWindow.FindName("txtCreatedBy").Text = $mFldrProps["Created By"]
+			$dsWindow.FindName("txtComments").Text = $mFldrProps["Comments"]
+		}
+	}
 		
-		#region ECO-Task-Links
 	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ChangeOrder" -and $xamlFile -eq "ADSK.QS.TaskLinks.xaml")
 	{
 		$mCoId = $VaultContext.SelectedObject.Id
@@ -510,7 +544,6 @@ function OnTabContextChanged
 			mTaskClick
 		})
 	}
-	#endregion
 
 	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "FileMaster" -and $xamlFile -eq "ADSK.QS.FileItemDataSheet.xaml")
 	{
@@ -540,7 +573,7 @@ function OnTabContextChanged
 			})
 			$dsWindow.FindName("WhereUsed").add_SelectedItemChanged({
 				mUwUsdPrntClick
-				$dsDiag.Trace("Child selected")
+				#$dsDiag.Trace("Child selected")
 			})
 
 		}
@@ -759,41 +792,42 @@ function GetNewCustomObjectName
 #Constructs the filename(numschems based or handtyped)and returns it.
 function GetNewFileName
 {
-	$dsDiag.Trace(">> GetNewFileName")
+	#$dsDiag.Trace(">> GetNewFileName")
 	if($dsWindow.FindName("DSNumSchmsCtrl").NumSchmFieldsEmpty)
 	{	
-		$dsDiag.Trace("read text from TextBox FILENAME")
+		#$dsDiag.Trace("read text from TextBox FILENAME")
 		$fileName = $dsWindow.FindName("FILENAME").Text
-		$dsDiag.Trace("fileName = $fileName")
+		#$dsDiag.Trace("fileName = $fileName")
 	}
 	else{
-		$dsDiag.Trace("-> GenerateNumber")
+		#$dsDiag.Trace("-> GenerateNumber")
 		$fileName = $Prop["_GeneratedNumber"].Value
-		$dsDiag.Trace("fileName = $fileName")
+		#$dsDiag.Trace("fileName = $fileName")
+		
 		#VDS-PDMC-Sample
 			If($Prop["_XLTN_PARTNUMBER"]) { $Prop["_XLTN_PARTNUMBER"].Value = $Prop["_GeneratedNumber"].Value }
 		#VDS-PDMC-Sample
 	}
 	$newfileName = $fileName + $Prop["_FileExt"].Value
-	$dsDiag.Trace("<< GetNewFileName $newfileName")
+	#$dsDiag.Trace("<< GetNewFileName $newfileName")
 	return $newfileName
 }
 
 function GetNewFolderName
 {
-	$dsDiag.Trace(">> GetNewFolderName")
+	#$dsDiag.Trace(">> GetNewFolderName")
 	if($dsWindow.FindName("DSNumSchmsCtrl").NumSchmFieldsEmpty)
 	{	
-		$dsDiag.Trace("read text from TextBox FOLDERNAME")
+		#$dsDiag.Trace("read text from TextBox FOLDERNAME")
 		$folderName = $dsWindow.FindName("FOLDERNAME").Text
-		$dsDiag.Trace("folderName = $folderName")
+		#$dsDiag.Trace("folderName = $folderName")
 	}
 	else{
-		$dsDiag.Trace("-> GenerateNumber")
+		#$dsDiag.Trace("-> GenerateNumber")
 		$folderName = $Prop["_GeneratedNumber"].Value
-		$dsDiag.Trace("folderName = $folderName")
+		#$dsDiag.Trace("folderName = $folderName")
 	}
-	$dsDiag.Trace("<< GetNewFolderName $folderName")
+	#$dsDiag.Trace("<< GetNewFolderName $folderName")
 	return $folderName
 }
 
@@ -812,7 +846,7 @@ function GetCategories
 	{
 		#return $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
 		#region VDS-PDMC-Sample
-			$global:mFileCategories = $vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
+			$global:mFileCategories = $Prop["_Category"].ListValues #$vault.CategoryService.GetCategoriesByEntityClassId("FILE", $true)
 			return $global:mFileCategories | Sort-Object -Property "Name" #Ascending is default; no option required
 		#endregion
 	}
@@ -942,7 +976,7 @@ function ShouldEnableNumSchms
 #define the parametrisation for the number generator here
 function GenerateNumber
 {
-	$dsDiag.Trace(">> GenerateNumber")
+	#$dsDiag.Trace(">> GenerateNumber")
 	$selected = $dsWindow.FindName("NumSchms").Text
 	if($selected -eq "") { return "na" }
 
@@ -951,9 +985,9 @@ function GenerateNumber
 		"Sequential" { $NumGenArgs = @(""); break; }
 		default      { $NumGenArgs = @(""); break; }
 	}
-	$dsDiag.Trace("GenerateFileNumber($($ns.SchmID), $NumGenArgs)")
+	#$dsDiag.Trace("GenerateFileNumber($($ns.SchmID), $NumGenArgs)")
 	$vault.DocumentService.GenerateFileNumber($ns.SchmID, $NumGenArgs)
-	$dsDiag.Trace("<< GenerateNumber")
+	#$dsDiag.Trace("<< GenerateNumber")
 }
 
 #define here how the numbering preview should look like
@@ -1041,7 +1075,7 @@ function m_CategoryChanged
 			{
 				If ($Prop['_XLTN_DESIGNER'].Value -eq $null) 
 				{ 
-					$Prop['_XLTN_DESIGNER'].Value = $VaultConnection.UserName
+					$Prop['_XLTN_DESIGNER'].Value = $Vault.AdminService.Session.User.Name
 				}
 			}
 			
@@ -1049,7 +1083,7 @@ function m_CategoryChanged
 			{
 				If ($Prop['_XLTN_AUTHOR'].Value -eq $null) 
 				{
-					$Prop['_XLTN_AUTHOR'].Value = $VaultConnection.UserName
+					$Prop['_XLTN_AUTHOR'].Value = $Vault.AdminService.Session.User.Name
 				}
 			}
 			
@@ -1057,6 +1091,7 @@ function m_CategoryChanged
 			If($Prop["_XLTN_PROJECT"]){
 				mGetProjectFolderPropToVaultFile -mFolderSourcePropertyName "Name" -mFileTargetPropertyName $Prop["_XLTN_PROJECT"].Name
 			}
+			
 		}
 
 		"FolderWindow" 
@@ -1178,10 +1213,16 @@ function mFindFolder($FolderName, $rootFolder)
     return $totalResults;
 }
 
-#added by 2022 Update 1 - to resolve issue with cloaked template folders for users
+#added by 2022 Update 1 - to resolve issue with cloaked template folders for users, Update 2 added support for Vault Office
 function GetTemplateFolders
 {
-	$xmldata = [xml](Get-Content "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.File.xml")
+	$xmlpath = "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.File.xml"
+
+	if ($_IsOfficeClient) {
+		$xmlpath = "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.FileOffice.xml"
+	}
+
+	$xmldata = [xml](Get-Content $xmlpath)
 
 	[string[]] $folderPath = $xmldata.DocTypeData.DocTypeInfo | foreach { $_.Path }
 	$folders = $vault.DocumentService.FindFoldersByPaths($folderPath)
