@@ -83,6 +83,7 @@ function InitializeWindow
     InitializeWindowTitle
     InitializeNumSchm
     InitializeCategory
+    InitializeNameValidation
 	#end rules applying commonly
 	$mWindowName = $dsWindow.Name
 	switch($mWindowName)
@@ -176,6 +177,71 @@ function InitializeNumSchm()
             }
         }		
     })
+}
+
+function InitializeNameValidation()
+{
+	$mWindowName = $dsWindow.Name
+	switch($mWindowName)
+	{
+		"FileWindow"
+		{
+			$nameProp = "_FileName"
+		}
+		"FolderWindow"
+		{
+			$nameProp = "_FolderName"
+		}
+		"CustomObjectWindow"
+		{
+			$nameProp = "_CustomObjectName"
+		}
+	}
+	$Prop[$nameProp].CustomValidation = { NameCustomValidation }
+}
+
+function NameCustomValidation()
+{
+	$DSNumSchmsCtrl = $dsWindow.FindName("DSNumSchmsCtrl")
+	if ($DSNumSchmsCtrl -and -not $DSNumSchmsCtrl.NumSchmFieldsEmpty)
+	{
+		return $true
+	}
+
+	$mWindowName = $dsWindow.Name
+	switch($mWindowName)
+	{
+		"FileWindow"
+		{
+			$nameProp = "_FileName"
+		}
+		"FolderWindow"
+		{
+			$nameProp = "_FolderName"
+		}
+		"CustomObjectWindow"
+		{
+			$nameProp = "_FileName"
+		}
+	}
+	$folderName = $Prop[$nameProp].Value
+	if($folderName)
+	{
+		if ($folderName.IndexOfAny([System.IO.Path]::GetInvalidFileNameChars()) -ne -1)
+		{
+			$Prop[$nameProp].CustomValidationErrorMessage = "$($UIString["VAL10"])"
+			return $false
+		}
+
+		return $true;
+	} 
+	else 
+	{
+		$Prop[$nameProp].CustomValidationErrorMessage = "$($UIString["VAL1"])"
+		return $false
+	}
+	
+	return $false;
 }
 
 
@@ -359,7 +425,13 @@ function ItemDescription
  
 function GetTemplateFolders
 {
-	$xmldata = [xml](Get-Content "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault\Configuration\File.xml")
+	$xmlpath = "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault\Configuration\File.xml"
+
+	if ($_IsOfficeClient) {
+		$xmlpath = "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault\Configuration\FileOffice.xml"
+	}
+
+	$xmldata = [xml](Get-Content $xmlpath)
 
 	[string[]] $folderPath = $xmldata.DocTypeData.DocTypeInfo | foreach { $_.Path }
 	$folders = $vault.DocumentService.FindFoldersByPaths($folderPath)

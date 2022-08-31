@@ -30,7 +30,7 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-                </DataTrigger>               
+                </DataTrigger>
                 <DataTrigger Binding="{Binding Typ}" Value="DateTime">
                     <Setter Property="Template">
                         <Setter.Value>
@@ -165,14 +165,14 @@
         </Style>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
-    <Grid x:Name="grdMain" Margin="5">
+    <Grid x:Name="grdMain" Margin="5" MinWidth="900">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         <Grid x:Name="grdSystemProps"
               ToolTip="{Binding UIString[LBL73], FallbackValue='General Properties'}">
@@ -186,8 +186,8 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="120" />
-                <ColumnDefinition MinWidth="140" MaxWidth="220" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
             <Label Content="{Binding UIString[LBL8], FallbackValue=Categories}" Grid.Row="0" Grid.Column="0" />
             <ComboBox x:Name="Categories" Grid.Row="0" Grid.Column="1"
@@ -213,7 +213,7 @@
                                  GeneratedNumberProperty="_GeneratedNumber" Grid.Row="2" Grid.Column="1" />
             <Label Content="{Binding UIString[LBL19], FallbackValue=Name}" Grid.Column="0" Grid.Row="3"
                    Visibility="{Binding Visibility, ElementName=FOLDERNAME}" />
-            <TextBox Text="{WPF:ValidatedBinding Name}" x:Name="FOLDERNAME" 
+            <TextBox Text="{WPF:ValidatedBinding Prop[_FolderName].Value}" x:Name="FOLDERNAME" 
                      IsReadOnly="{Binding EditMode}"
                      Visibility="{Binding NumSchmFieldsEmpty, ElementName=DSNumSchmsCtrl, Converter={StaticResource BooleanToVisibilityConverter}}" 
                      Grid.Column="1" Grid.Row="3" />
@@ -233,14 +233,14 @@
                   ToolTip="{Binding UIString[LBL63], FallbackValue='Category Properties'}"
                   AutoGenerateColumns="False"
                   HeadersVisibility="Column"
-                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.CanContentScroll="False"
                   EnableRowVirtualization="False"
                   HorizontalGridLinesBrush="WhiteSmoke"
-                  VerticalGridLinesBrush="WhiteSmoke" BorderBrush="Gray" MaxWidth="380"
+                  VerticalGridLinesBrush="WhiteSmoke" BorderBrush="Gray"
                   Margin="5,0,0,0" VerticalAlignment="Top">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}"
-                                    MinWidth="140" Width="Auto" IsReadOnly="True">
+                                    Width="*" IsReadOnly="True">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock
@@ -248,7 +248,7 @@
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Value}" Width="*" MinWidth="180"
+                <DataGridTextColumn Binding="{Binding Value}" Width="*"
                                     CellStyle="{StaticResource DynamicDataGridCellStyle}" IsReadOnly="True">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>

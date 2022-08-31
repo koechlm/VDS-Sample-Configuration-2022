@@ -180,18 +180,17 @@
         </Style>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
-    <Grid x:Name="grdMain" Margin="5">
+    <Grid x:Name="grdMain" Margin="5" MinWidth="900">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         <Grid x:Name="grdGeneralProps" Margin="0"
-              ToolTip="{Binding UIString[LBL73], FallbackValue='General Properties'}"
-              Width="Auto">
+              ToolTip="{Binding UIString[LBL73], FallbackValue='General Properties'}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -204,8 +203,8 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="140"/>
-                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Label Content="{Binding UIString[LBL8], FallbackValue=Categories}" Grid.Row="0" Grid.Column="0" />
             <ComboBox x:Name="Categories" ItemsSource="{Binding PsList[GetCategories], Mode=OneTime}"
@@ -247,24 +246,24 @@
             <ComboBox x:Name="TemplateCB" Grid.Row="2" Grid.Column="1" IsSynchronizedWithCurrentItem="True"
                           SelectedItem="{Binding SelectedTemplate}" Style="{StaticResource TemplateCbStyle}" />
             <TextBox x:Name="TemplateTB" Grid.Row="2" Grid.Column="1" Text="{Binding UIString[LBL28]}" IsHitTestVisible="False">
-                    <TextBox.Style>
-                        <Style TargetType="{x:Type TextBox}">
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
                         <Setter Property="TextWrapping" Value="Wrap"></Setter>
                         <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding SelectedItem, ElementName=TemplateCB}"
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding SelectedItem, ElementName=TemplateCB}"
                                                    Value="{x:Null}" />
-                                        <Condition Binding="{Binding CreateMode}" Value="True" />
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Visibility" Value="Visible" />
-                                    <Setter Property="Background" Value="#F0F0F0" />
-                                </MultiDataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBox.Style>
-                </TextBox>
+                                    <Condition Binding="{Binding CreateMode}" Value="True" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Setter Property="Background" Value="#F0F0F0" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
             <Label Content="{Binding UIString[LBL10],FallbackValue=Numberingscheme}" Grid.Column="0" Grid.Row="3"
                    Visibility="{Binding Visibility, ElementName=NumSchms}" />
             <ComboBox Grid.Column="1" Grid.Row="3" 
@@ -286,7 +285,7 @@
                      IsTabStop="False" BorderThickness="0,1,1,1" />
             <Label Content="{Binding UIString[LBL6],FallbackValue=Filename}" Grid.Row="5" Grid.Column="0"
                    Visibility="{Binding NumSchmFieldsEmpty, ElementName=DSNumSchmsCtrl, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <TextBox Grid.Row="5" Grid.Column="1" x:Name="FILENAME" Text="{WPF:ValidatedBinding Name}"
+            <TextBox Grid.Row="5" Grid.Column="1" x:Name="FILENAME" Text="{WPF:ValidatedBinding Prop[_FileName].Value}"
                      IsTabStop="False"
                      Visibility="{Binding NumSchmFieldsEmpty, ElementName=DSNumSchmsCtrl, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </Grid>
@@ -295,14 +294,14 @@
                   ToolTip="{Binding UIString[LBL63], FallbackValue='Category Properties'}"
                   AutoGenerateColumns="False"
                   HeadersVisibility="Column"
-                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.CanContentScroll="False"
                   EnableRowVirtualization="False"
                   HorizontalGridLinesBrush="WhiteSmoke"
-                  VerticalGridLinesBrush="WhiteSmoke" BorderBrush="Gray" MaxWidth="380"
+                  VerticalGridLinesBrush="WhiteSmoke" BorderBrush="Gray"
                   Margin="5,0,0,0" VerticalAlignment="Top">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding DispName}" CellStyle="{StaticResource DynamicDataGridLabelStyle}"
-                                    MinWidth="140" Width="Auto" IsReadOnly="True">
+                                    Width="*" IsReadOnly="True">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock
@@ -310,7 +309,7 @@
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Value}" Width="*"
+                <DataGridTextColumn Binding="{Binding Value}" Width="2*"
                                     CellStyle="{StaticResource DynamicDataGridCellStyle}" IsReadOnly="True">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
