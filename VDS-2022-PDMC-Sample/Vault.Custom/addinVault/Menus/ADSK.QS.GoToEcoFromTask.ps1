@@ -10,21 +10,24 @@
 #=============================================================================
 #endregion
 
-$vaultContext.ForceRefresh = $true
-$entityId=$vaultContext.CurrentSelectionSet[0].Id
+$entityId = $vaultContext.CurrentSelectionSet[0].Id
 
-#use our VDS-PDMC-Sample helpers to query links of parent objects that are not of type FLDR
-[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard" + '\Vault.Custom\addinVault\VdsSampleUtilities.dll')
-$_mVltHelpers = New-Object VdsSampleUtilities.VltHelpers
-$links = @()
-$links = $_mVltHelpers.mGetLinkedChildren1($vaultconnection, $entityId, "CUSTENT", "CO")
+$links = $vault.DocumentService.GetLinksByParentIds(@($entityId), @("CO"))
+[Autodesk.Connectivity.WebServices.ChangeOrder[]]$mECOs = @()
+[Autodesk.Connectivity.WebServices.ChangeOrder[]]$mECOs = $vault.ChangeOrderService.GetChangeOrdersByIds(@($links[0].ToEntId))
 
-[Autodesk.Connectivity.WebServices.ChangeOrder[]]$mECOs = $vault.ChangeOrderService.GetChangeOrdersByIds(@($links[0]))
-
-$path = $mECOs[0].Num
-$selectionTypeId = [Autodesk.Connectivity.Explorer.Extensibility.SelectionTypeId]::ChangeOrder
-$location = New-Object Autodesk.Connectivity.Explorer.Extensibility.LocationContext $selectionTypeId, $path
-#$dsDiag.Inspect("location")
-$vaultContext.GoToLocation = $location
-
+if ($mECOs.Count -eq 0) {
+    $result = [Autodesk.DataManagement.Client.Framework.Forms.Library]::ShowMessage("This Task is not linked with an ECO. Do you want to switch to Change Orders though?", "ECO-Tasks", "OKCancel")
+    if ($result -eq "OK") {
+        $selectionTypeId = [Autodesk.Connectivity.Explorer.Extensibility.SelectionTypeId]::ChangeOrder
+        $location = New-Object Autodesk.Connectivity.Explorer.Extensibility.LocationContext $selectionTypeId, $path
+        $vaultContext.GoToLocation = $location
+    }
+}
+else {
+    $path = $mECOs[0].Num
+    $selectionTypeId = [Autodesk.Connectivity.Explorer.Extensibility.SelectionTypeId]::ChangeOrder
+    $location = New-Object Autodesk.Connectivity.Explorer.Extensibility.LocationContext $selectionTypeId, $path
+    $vaultContext.GoToLocation = $location           
+}
 	

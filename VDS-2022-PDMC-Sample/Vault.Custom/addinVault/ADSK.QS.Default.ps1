@@ -2,7 +2,7 @@
 #=============================================================================#
 # PowerShell script sample for Vault Data Standard                            
 #			 Autodesk Vault - VDS-PDMC-Sample 2022  								  
-# This sample is based on VDS 2022 RTM and adds functionality and rules		  
+# This sample is based on VDS 2023 RTM and adds functionality and rules		  
 #                                                                             
 # Copyright (c) Autodesk - All rights reserved.                               
 #                                                                             
@@ -85,9 +85,6 @@ function ValidateCustomObjectName
 		{
 			return ValidateCustentName;
 		}
-		$dsWindow.FindName("CUSTOMOBJECTNAME").ToolTip = "Custom Object name must not be empty."
-		$dsWindow.FindName("CUSTOMOBJECTNAME").BorderBrush = "Red"
-		$dsWindow.FindName("CUSTOMOBJECTNAME").BackGround = "#FFFFFFFF"
 		return $false;
 	}
 	else{
@@ -245,7 +242,7 @@ function InitializeWindow
                     })
 
                    $dsWindow.FindName("CUSTOMOBJECTNAME").IsEnabled = $false
-                    $dsWindow.FindName("CUSTOMOBJECTNAME").ToolTip = "Name derives Company."
+                   $dsWindow.FindName("CUSTOMOBJECTNAME").ToolTip = "Name derives from Company."
                 }
 
 			}
@@ -334,7 +331,7 @@ function InitializeWindow
 		{
 			$_t = $Prop["Internal ID"].Value
 
-			$mTargetFile = Get-Content "$($env:appdata)\Autodesk\DataStandard 2022\mStrTabClick.txt"
+			$mTargetFile = Get-Content "$($env:appdata)\Autodesk\DataStandard 2023\mStrTabClick.txt"
 
 			#create search conditions for 
 			$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 1
@@ -513,7 +510,18 @@ function OnTabContextChanged
 		if ($mTargetLnks.Count -gt 0) {
 			$mEcoParentFldId = $vault.DocumentService.GetFolderById($mTargetLnks[0].ParentId).Id
 			$mFldrProps = New-Object 'system.collections.generic.dictionary[[string],[object]]'
-			[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard" + '\Vault.Custom\addinVault\VdsSampleUtilities.dll')
+			
+			#	there are some custom functions to enhance functionality; 2023 version added webservice and explorer extensions to be installed optionally
+			$mVdsUtilities = "$($env:programdata)\Autodesk\Vault 2023\Extensions\Autodesk.VdsSampleUtilities\VdsSampleUtilities.dll"
+			if (! (Test-Path $mVdsUtilities)) {
+				#the basic utility installation only
+				[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + '\Autodesk\Vault 2023\Extensions\DataStandard\Vault.Custom\addinVault\VdsSampleUtilities.dll')
+			}
+			Else {
+				#the extended utility activation
+				[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + '\Autodesk\Vault 2023\Extensions\Autodesk.VdsSampleUtilities\VdsSampleUtilities.dll')
+			}
+
 			$_mVltHelpers = New-Object VdsSampleUtilities.VltHelpers
 			$_mVltHelpers.GetFolderProps($vaultConnection, $mEcoParentFldId, [ref]$mFldrProps)
 			$dsWindow.FindName("dtgrdParentFolder").ItemsSource = $mFldrProps
@@ -529,9 +537,6 @@ function OnTabContextChanged
 	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ChangeOrder" -and $xamlFile -eq "ADSK.QS.TaskLinks.xaml")
 	{
 		$mCoId = $VaultContext.SelectedObject.Id
-		
-		[System.Reflection.Assembly]::LoadFrom($Env:ProgramData + "\Autodesk\Vault 2022\Extensions\DataStandard" + '\Vault.Custom\addinVault\VdsSampleUtilities.dll')
-		$_mVltHelpers = New-Object VdsSampleUtilities.VltHelpers
 
 		#to get links of COs to CUSTENT we need to analyse the CUSTENTS for linked children of type CO
 		#get all CUSTENTS of category $_CoName first, then iterate the result and analyse each items links: do they link to the current CO id?
@@ -540,10 +545,10 @@ function OnTabContextChanged
 		$_LinkedCustentIDs = @()
 		Foreach ($_Custent in $_allCustents)
 		{
-			$_AllLinks1 = $_mVltHelpers.mGetLinkedChildren1($vaultConnection, $_Custent.Id, "CUSTENT", "CO")
+			$_AllLinks1 = $vault.DocumentService.GetLinksByParentIds(@($_Custent.Id),@("CO"))
 			If($_AllLinks1) #the current custent has links; check that the current ECO is one of these link's target
 			{
-				$_match = $_AllLinks1 | Where { $_ -eq $mCoId }
+				$_match = $_AllLinks1 | Where { $_.ToEntId -eq $mCoId }
 				If($_match){ $_LinkedCustentIDs += $_Custent.Id}
 			}		
 		}
@@ -577,7 +582,7 @@ function OnTabContextChanged
 	#region Documentstructure Extension
 		if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "FileMaster" -and $xamlFile -eq "ADSK.QS.FileDocStructure.xaml")
 		{
-			Add-Type -Path 'C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\addinVault\UsesWhereUsed.dll'
+			Add-Type -Path 'C:\ProgramData\Autodesk\Vault 2023\Extensions\DataStandard\Vault.Custom\addinVault\UsesWhereUsed.dll'
 			$file = $vault.DocumentService.GetLatestFileByMasterId($vaultContext.SelectedObject.Id)
 			$treeNode = New-Object UsesWhereUsed.TreeNode($file, $vaultConnection)
 			$dsWindow.FindName("Uses").ItemsSource = @($treeNode)
@@ -617,14 +622,14 @@ if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ItemMaster" -and $
 		
 		If (!$item.Locked)
 		{
-			$dsWindow.FindName("mDragAreaEnabled").Source = "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\DragFilesActive.png"
+			$dsWindow.FindName("mDragAreaEnabled").Source = "C:\ProgramData\Autodesk\Vault 2023\Extensions\DataStandard\Vault.Custom\DragFilesActive.png"
 			$dsWindow.FindName("mDragAreaEnabled").Visibility = "Visible"
 			$dsWindow.FindName("mDragAreaDisabled").Visibility = "Collapsed"
 			$dsWindow.FindName("txtActionInfo").Visibility = "Visible"
 		}
 		Else
 		{
-			$dsWindow.FindName("mDragAreaDisabled").Source = "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\DragFilesLocked.png"
+			$dsWindow.FindName("mDragAreaDisabled").Source = "C:\ProgramData\Autodesk\Vault 2023\Extensions\DataStandard\Vault.Custom\DragFilesLocked.png"
 			$dsWindow.FindName("mDragAreaDisabled").Visibility = "Visible"
 			$dsWindow.FindName("mDragAreaEnabled").Visibility = "Collapsed"
 			$dsWindow.FindName("txtActionInfo").Visibility = "Collapsed"
@@ -634,7 +639,7 @@ if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ItemMaster" -and $
 			Import-Module powerVault
 		}
 		catch{
-		   [System.Windows.MessageBox]::Show("This feature requires powerVault installed; check for its availability", "Extension Title")
+		   [Autodesk.DataManagement.Client.Framework.Forms.Library]::ShowError("This feature requires powerVault installed; check for its availability", "VDS Sample Configuration")
 		   return
 		}
 
@@ -647,18 +652,15 @@ if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ItemMaster" -and $
 			#check that the item is editable for the current user, if not, we shouldn't add the files, before we try to attach
 			try{
 				$vault.ItemService.EditItems(@($item.RevId))
-				#[System.Windows.MessageBox]::Show("Item is accessible", "Item-File Attachment Import")
 				$_ItemIsEditable = $true
 			}
 			catch {
-				#[System.Windows.MessageBox]::Show("Item is NOT accessible", "Item-File Attachment Import")
 				$_ItemIsEditable = $false
 			}
 			If($_ItemIsEditable)
 			{
 				$vault.ItemService.UndoEditItems(@($item.RevId))
 				$vault.ItemService.DeleteUncommittedItems($true)
-				#[System.Windows.MessageBox]::Show("Item Lock Removed to continue", "Item-File Attachment Import")
 			}
 			
 			[System.Windows.DataObject]$mDragData = $e.Data
@@ -704,7 +706,7 @@ if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ItemMaster" -and $
 							$mTargetPath = mGetFolderNumber $_newFile 3 #hand over the file number (name) and number of files / folder
 						}
 						catch { 
-							[System.Windows.MessageBox]::Show($UIString["ADSK-ItemFileImport_01"], "Item-File Attachment Import")
+							[Autodesk.DataManagement.Client.Framework.Forms.Library]::ShowError($UIString["ADSK-ItemFileImport_01"], "Item-File Attachment Import")
 						}
 						#add extension to number
 						$_newFile = $_newFile + $m_Ext
@@ -714,7 +716,7 @@ if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ItemMaster" -and $
 							$m_ImpFileList += $m_ImportedFile._FullPath
 						}
 						Catch {
-							$dsDiag.Trace("Add-VaultFile failed. Check coolOrange powerVault for Vault 2022 availability")
+							$dsDiag.Trace("Add-VaultFile failed. Check coolOrange powerVault for Vault 2023 availability")
 						}
 						
 					}
@@ -727,7 +729,7 @@ if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ItemMaster" -and $
 							$m_ImpFileList += $m_ImportedFile._FullPath
 						}
 						Catch {
-							$dsDiag.Trace("Add-VaultFile failed. Check coolOrange powerVault for Vault 2022 availability")
+							$dsDiag.Trace("Add-VaultFile failed. Check coolOrange powerVault for Vault 2023 availability")
 						}
 					}
 					$_n += 1
@@ -740,12 +742,12 @@ if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ItemMaster" -and $
 					$parentUpdated = Update-VaultItem -Number $parent._Number -AddAttachments $m_ImpFileList -Comment $UIString["ADSK-ItemFileImport_03"]
 				}
 				Catch {
-							$dsDiag.Trace("Get/Update-VaultItem failed. Check coolOrange powerVault for Vault 2022 availability")
+							$dsDiag.Trace("Get/Update-VaultItem failed. Check coolOrange powerVault for Vault 2023 availability")
 						}
 				$dsWindow.FindName("mImportProgress").Value = (($_n/$_NumFiles)*100)
 				If ($mCADWarning)
 				{
-					[System.Windows.MessageBox]::Show($UIString["ADSK-ItemFileImport_04"], "Item-File Attachment Import")
+					[Autodesk.DataManagement.Client.Framework.Forms.Library]::ShowWarning($UIString["ADSK-ItemFileImport_04"], "Item-File Attachment Import", "OK")
 				}
 			}
 			$mFileList = $null
@@ -953,7 +955,7 @@ function GetNumSchms
 		}
 		catch [System.Exception]
 		{		
-			#[System.Windows.MessageBox]::Show($error)
+			[Autodesk.DataManagement.Client.Framework.Forms.Library]::ShowError($error, "VDS Sample Configuration")
 		}
 	}
 }
@@ -1165,12 +1167,12 @@ function mHelp ([Int] $mHContext) {
 				$mHPage = "Index.html";
 			}
 		}
-		$mHelpTarget = "C:\ProgramData\Autodesk\Vault 2022\Extensions\DataStandard\HelpFiles\"+$mHPage
+		$mHelpTarget = "C:\ProgramData\Autodesk\Vault 2023\Extensions\DataStandard\HelpFiles\"+$mHPage
 		$mhelpfile = Invoke-Item $mHelpTarget 
 	}
 	Catch
 	{
-		[System.Windows.MessageBox]::Show("Help Target not found", "Vault VDS-PDMC-Sample Client")
+		[Autodesk.DataManagement.Client.Framework.Forms.Library]::ShowError("Help Target not found", "Vault VDS-PDMC-Sample Client")
 	}
 }
 function mResetTemplates
@@ -1231,10 +1233,10 @@ function mFindFolder($FolderName, $rootFolder)
 #added by 2022 Update 1 - to resolve issue with cloaked template folders for users, Update 2 added support for Vault Office
 function GetTemplateFolders
 {
-	$xmlpath = "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.File.xml"
+	$xmlpath = "$env:programdata\Autodesk\Vault 2023\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.File.xml"
 
 	if ($_IsOfficeClient) {
-		$xmlpath = "$env:programdata\Autodesk\Vault 2022\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.FileOffice.xml"
+		$xmlpath = "$env:programdata\Autodesk\Vault 2023\Extensions\DataStandard\Vault.Custom\Configuration\ADSK.QS.FileOffice.xml"
 	}
 
 	$xmldata = [xml](Get-Content $xmlpath)
@@ -1252,3 +1254,4 @@ function GetTemplateFolders
 		return $_
 	}
 }
+

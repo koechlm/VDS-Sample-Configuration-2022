@@ -12,17 +12,25 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
 -->
 <mymenu>
   <MenuItem>
-    <!--ADSK Project linked ECO-->
+    <!--ADSK create task linked to change order; CO selection context-->
+    <NewCoTask Label = "New Change Order Task" Description ="Create Task linked to ECO" Hint ="New ECO Task"
+                   PSFile ="ADSK.QS.CreateTaskForECO.ps1" Image="Task-add.ico" ToolbarPaintStyle ="TextAndGlyph" MultiSelectEnabled="false"/>
+    <!--ADSK Create ECO linked to project end-->
+
+    <!--ADSK create task linked to change order; CO selection context-->
+    <EditCoTask Label = "Edit Selected Task" Description ="Edit Task linked to ECO" Hint ="Edit ECO Task"
+                   PSFile ="ADSK.QS.EditTaskForECO.ps1" Image="Task-edit.ico" ToolbarPaintStyle ="TextAndGlyph" MultiSelectEnabled="false"/>
+    <!--ADSK Create ECO linked to project end-->
+
+    <!--ADSK Create ECO linked to project, Folder selection context-->
     <NewProjectECO Label = "New Project Change Order" Description ="Create ECO linked to Project" Hint ="New ECO"
-      PSFile ="ADSK.QS.CreateECO.ps1" Image="ECO.ico" ToolbarPaintStyle ="TextAndGlyph" MultiSelectEnabled="false"/>
+                   PSFile ="ADSK.QS.CreateECO.ps1" Image="ECO.ico" ToolbarPaintStyle ="TextAndGlyph" MultiSelectEnabled="false"/>
+    <!--ADSK Create ECO linked to project end-->
+
     <!--ADSK Create ECO with linked files, File selection context-->
     <NewProjectECOwFiles Label = "Add File(s) to New Project-ECO" Description ="Create ECO linked to Project and add file records" Hint ="Add Files to new ECO"
-      PSFile ="ADSK.QS.CreateECOandAddFiles.ps1" Image="ECO.ico" ToolbarPaintStyle ="TextAndGlyph" MultiSelectEnabled="true"/>
-    <!--ADSK Navigate ECO to linked Project-->
-    <GoToEcoParentFldr Label ="Go to Parent Project" Description ="Navigate to this ECO's parent project" Hint ="Go to ECO parent project"
-      PSFile ="Adsk.QS.GoToFolderFromEco.ps1" Image ="GlobalFolder_GoTo_16.ico" ToolbarPaintStyle ="TextAndGlyph"
-      MultiSelectEnabeld =" false" NavigationTypes ="ChangeOrder"/>
-    <!--ADSK Project linked ECO end-->
+                   PSFile ="ADSK.QS.CreateECOandAddFiles.ps1" Image="ECO.ico" ToolbarPaintStyle ="TextAndGlyph" MultiSelectEnabled="true"/>
+    <!--ADSK Create ECO linked to project end-->
     
     <!--ADSK-File Property Provider-->
     <ADSKFileProp Label = "$UIString[ADSKFile-MetaReader-00]" Description = "$UIString[ADSKFile-MetaReader-01]" Hint = "$UIString[ADSKFile-MetaReader-02]"
@@ -101,6 +109,9 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
     <GoToLinkedEco Label = "Go to linked ECO" Description = "Select ECO in its Workspace" Hint = "Go To ECO"
       PSFile = "ADSK.QS.GoToEcoFromTask.ps1" Image="ECO-GoTo.ico" ToolbarPaintStyle = "TextAndGlyph"
       MultiSelectEnabled = "false" NavigationTypes="Task"/>
+    <GoToEcoParentFldr Label ="Go to Parent Project" Description ="Navigate to this ECO's parent project" Hint ="Go to ECO parent project"
+      PSFile ="Adsk.QS.GoToFolderFromEco.ps1" Image ="GlobalFolder_GoTo_16.ico" ToolbarPaintStyle ="TextAndGlyph"
+      MultiSelectEnabeld =" false" NavigationTypes ="ChangeOrder"/>
     <!--GoToNavigation MenuItem End-->
 
     <!--Activate Scheduled Task-->
@@ -193,6 +204,11 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
       <Item Name="NewProjectECO"></Item>
       <Item Name="FileImport"></Item>
     </FolderContex>
+    <ChangeOrderContext Label="ECO-Task" DeployAsPullDown="True" Location="ChangeOrderContextMenu">
+      <Item Name="NewCoTask"></Item>
+      <Item Name="EditCoTask"></Item>
+      <Item Name ="GoToSelectedTask"></Item>
+    </ChangeOrderContext>
     <StandardToolbar Label="myMenu" DeployAsPullDown="False" Location="StandardToolbar">
       <Item Name="NewFile"></Item>
       <Item Name="EditFile"></Item>
@@ -247,9 +263,8 @@ MultiSelectEnabled: If true, command is active for multiple selections, can be t
       <Item Name="newSubGroupObject"></Item>
       <Item Name="editSubGroupObject"></Item>
     </CustomObject>
-    <ChangeOrder Label="Go To Linked Task" DeployAsPullDown="False" Location="ChangeOrderContextMenu">
+    <ChangeOrder Label="Go To Parent Fldr" DeployAsPullDown="False" Location="ChangeOrderContextMenu">
       <Item Name ="GoToEcoParentFldr"></Item>
-      <Item Name ="GoToSelectedTask"></Item>
     </ChangeOrder>
   </CommandSite>
 
