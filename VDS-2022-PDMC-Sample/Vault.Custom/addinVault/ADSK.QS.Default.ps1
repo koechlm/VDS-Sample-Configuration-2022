@@ -487,8 +487,10 @@ function OnTabContextChanged
 		$item = $items[0]
 		$itemids = @($item.Id)
 		$fileAssoc = $vault.ItemService.GetItemFileAssociationsByItemIds($itemids, "Primary")
-		$file = $vault.DocumentService.GetFileById($fileAssoc[0].CldFileId)
-		mInitializeClassificationTab -ParentType $null -file $file
+		if($fileAssoc.length -ne 0){
+			$file = $vault.DocumentService.GetFileById($fileAssoc[0].CldFileId)
+			mInitializeClassificationTab -ParentType $null -file $file
+		}		
 	}
 
 	if ($VaultContext.SelectedObject.TypeId.SelectionContext -eq "ChangeOrder" -and $xamlFile -eq "ADSK.QS.EcoParentFolder.xaml") {
