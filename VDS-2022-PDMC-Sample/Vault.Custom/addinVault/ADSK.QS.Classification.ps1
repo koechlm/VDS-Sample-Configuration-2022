@@ -10,32 +10,12 @@
 # OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
 #endregion =============================================================================
 
-#region - version history
-# Version Info - VDS-PDMC-Sample Classfication 2022.1.0
-	#merge IEC61355 classification support
-
-# Version Info - VDS-PDMC-Sample Classification 2022.0.1
-	#fixed issue of overlapping Initialization of DataSheet and Dialogs
-	#fixed error 303 if user does not have right Custom Entity Read as a minimum
-
-# Version Info - VDS-PDMC-Sample Classification 2022
-	#removed multi-DB-language support -> support EN only, as PDMC-Sample is an en-US DB sample
-
-# Version Info - VDS-PDMC-Sample Classification 2021
-	#added condition _ReadOnly for Remove/Add Button
-
-# Version Info - VDS-PDMC-Sample Classification 2020.0.0
-	# Support default values for classes on AddClassification()
-	# Use Case _CreateMode removed: an existing file is required to add class properties
-	# code maintenance
-
-# Version Info - VDS-PDMC-Sample Classification 2019.1.1
-	# initial version
-
-#endregion
 
 function mInitializeClassificationTab($ParentType, $file)
 {
+	$dsDiag.ShowLog()
+	$dsDiag.Clear()
+
 	$dsWindow.FindName("txtClassificationStatus").Visibility = "Collapsed"
 	$Global:mClsTabInitialized = $false
 
@@ -122,7 +102,7 @@ function mGetFileClsValues
 		$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass[0].Id
 		$mClsPropTable = @{}
 		
-		$mClsLevelProps = ("Segment", "Main Group", "Group", "Sub Group", "Class", "Standard")
+		$mClsLevelProps = ("Segment", "Main Group", "Group", "Sub Group", "Class", "Standard", "Term DE", "Code", "Comments", "Comments DE")
 
 		#get the file's class property values 
 		$mFileClassProps = $vault.PropertyService.GetProperties("FILE", @($mFile.Id), $mClsPrpNames.Keys)
@@ -132,7 +112,7 @@ function mGetFileClsValues
 			#filter the classification property, add all others
 			if($mClsPrpNames[$mClsProp.Key] -notin $mClsLevelProps)
 			{
-				$mClsPropTable.Add($mClsPrpNames[$mClsProp.Key], (($mFileClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val))
+				$mClsPropTable.Add($mClsPrpNames[$mClsProp.Key], (($mFileClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val.ToString()))
 			}
 			if ($dsWindow.Name -eq "FileWindow"){
 				if($mClsPrpNames[$mClsProp.Key] -eq "Segment") { 
@@ -182,7 +162,7 @@ function mGetClsDfltValues
 	$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass[0].Id
 	$mClsPrpValues = mGetClsPrpValues -ClassId $mActiveClass[0].Id
 	$mClsPropTable = @{}
-	$mClsLevelProps = ("Segment", "Main Group", "Group","Sub Group" ,"Class", "Standard")
+	$mClsLevelProps = ("Segment", "Main Group", "Group","Sub Group" ,"Class", "Standard", "Term DE", "Code", "Comments", "Comments DE")
 
 	if($mActiveClass.Count -eq 1)
 	{
@@ -330,6 +310,7 @@ function mApplyClassification()
 			$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass.Id
 			$mPropsAdd = @()
 			$mPropsAdd += $mClsPrpNames.Keys
+			$dsDiag.Inspect("mPropsAdd")
 		}
 		else
 		{
@@ -476,14 +457,9 @@ function mGetCustentClsLevelList ([String] $ClassLevelName) {
 	try {
 		#$dsDiag.Trace(">> mGetCustentClsLevelList started")
 		$srchConds = New-Object autodesk.Connectivity.WebServices.SrchCond[] 2
+		
 		$srchCond = New-Object autodesk.Connectivity.WebServices.SrchCond
-		$propNames = @("CustomEntityName")
-		$propDefIds = @{}
-		foreach($name in $propNames) {
-			$propDef = $Global:mAllCustentPropDefs | Where-Object { $_.SysName -eq $name }
-			$propDefIds[$propDef.Id] = $propDef.DispName
-		}
-		$srchCond.PropDefId = $propDef.Id
+		$srchCond.PropDefId = ($Global:mAllCustentPropDefs | Where-Object { $_.SysName -eq "CustomEntityName" }).Id
 		$srchCond.SrchOper = 3 #equals
 		$srchCond.SrchTxt = $ClassLevelName
 		$srchCond.PropTyp = [Autodesk.Connectivity.WebServices.PropertySearchType]::SingleProperty
@@ -496,8 +472,8 @@ function mGetCustentClsLevelList ([String] $ClassLevelName) {
 		$srchCond2.SrchTxt = $global:mActiveStandard
 		$srchCond2.PropTyp = [Autodesk.Connectivity.WebServices.PropertySearchType]::SingleProperty
 		$srchCond2.SrchRule = [Autodesk.Connectivity.WebServices.SearchRuleType]::Must
-
 		$srchConds[1] = $srchCond2
+
 		$srchSort = New-Object autodesk.Connectivity.WebServices.SrchSort
 		$searchStatus = New-Object autodesk.Connectivity.WebServices.SrchStatus
 		$bookmark = ""
@@ -573,6 +549,9 @@ function mClsLevelCmbSelectionChanged ($mSender) {
 function mResetClassSelection
 {
 	$mBreadCrumb = $AssignClsWindow.FindName("wrpClassification2")
+	$children = @()
+	$children += mGetCustentClsLevelList -ClassLevelName "Segment"
+	$mBreadCrumb.Children[0].ItemsSource = $children 
 	$mBreadCrumb.Children[0].SelectedIndex = -1
 	$AssignClsWindow.FindName("btnClsReset2").IsEnabled = $false
 	$AssignClsWindow.FindName("dtgrdClassProps").ItemsSource = $null
@@ -605,12 +584,15 @@ function mInitializeClsSelection
 		$global:mActiveStandard = $AssignClsWindow.FindName("cmb_ClsStd").SelectedItem.Content
 	}
 
-	if ($global:mActiveStandard -eq "IEC 61355") {
-		mInitializeIEC61355
-	}
-	else {
-		mInitializeCompClassification
-	}
+	#todo: integrate search options developed for IEC standard selection
+	#if ($global:mActiveStandard -eq "IEC 61355") {
+	#	mInitializeIEC61355
+	#}
+	#else {
+	#	mInitializeCompClassification
+	#}
+
+	mInitializeCompClassification
 
 	$AssignClsWindow.FindName("cmb_ClsStd").add_SelectionChanged({
 		param ($mSender, $e)
@@ -618,13 +600,15 @@ function mInitializeClsSelection
 		mAssignClsGrdReset -ComboBox $AssignClsWindow.FindName("cmb_ClsStd")
 		$global:mActiveStandard = $AssignClsWindow.FindName("cmb_ClsStd").SelectedItem.Content
 
-		if ($global:mActiveStandard -ne "IEC 61355") {
-			mInitializeCompClassification
-		}
+		#if ($global:mActiveStandard -ne "IEC 61355") {
+		#	mInitializeCompClassification
+		#}
 
-		if ($global:mActiveStandard -eq "IEC 61355") {
-			mInitializeIEC61355
-		}
+		#if ($global:mActiveStandard -eq "IEC 61355") {
+		#	mInitializeIEC61355
+		#}
+
+		mInitializeCompClassification
 
 	})
 
@@ -664,20 +648,23 @@ function mInitializeCompClassification {
 			}
 		}
 	}
-
+	
+	mResetClassSelection #reset wrap panel
 	$mCompClsInitialized = $true
 
 }
 
 function mAssignClsGrdReset ($ComboBox){
-	if ($ComboBox.SelectedIndex -eq "0"){
-			$AssignClsWindow.FindName("grdIEC61355").Visibility = "Visible"
-			$AssignClsWindow.FindName("grdClassification").Visibility = "Collapsed"
-		}
-		Else{
+	# if ($ComboBox.SelectedIndex -eq "0"){
+	# 		$AssignClsWindow.FindName("grdIEC61355").Visibility = "Visible"
+	# 		$AssignClsWindow.FindName("grdClassification").Visibility = "Collapsed"
+	# 	}
+	# 	Else{
 			$AssignClsWindow.FindName("grdIEC61355").Visibility = "Collapsed"
 			$AssignClsWindow.FindName("grdClassification").Visibility = "Visible"
-		}
+			#reset the combobox wrap panel
+			
+	# 	}
 }
 
 function mUpdateClsPropValues(){
