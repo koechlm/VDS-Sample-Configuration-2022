@@ -13,8 +13,8 @@
 
 function mInitializeClassificationTab($ParentType, $file)
 {
-	$dsDiag.ShowLog()
-	$dsDiag.Clear()
+	#$dsDiag.ShowLog()
+	#$dsDiag.Clear()
 
 	$dsWindow.FindName("txtClassificationStatus").Visibility = "Collapsed"
 	$Global:mClsTabInitialized = $false
@@ -660,7 +660,7 @@ function mAssignClsGrdReset ($ComboBox){
 	# 		$AssignClsWindow.FindName("grdClassification").Visibility = "Collapsed"
 	# 	}
 	# 	Else{
-			$AssignClsWindow.FindName("grdIEC61355").Visibility = "Collapsed"
+			#$AssignClsWindow.FindName("grdIEC61355").Visibility = "Collapsed"
 			$AssignClsWindow.FindName("grdClassification").Visibility = "Visible"
 			#reset the combobox wrap panel
 			

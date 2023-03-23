@@ -416,7 +416,7 @@
                                  GeneratedNumberProperty="_GeneratedNumber" Grid.Row="2" Grid.Column="1" Height="Auto" />
                 <Label Content="{Binding UIString[LBL19], FallbackValue=Name}" Grid.Column="0" Grid.Row="3"
                    Visibility="{Binding Visibility, ElementName=CUSTOMOBJECTNAME}" />
-                <TextBox x:Name="CUSTOMOBJECTNAME" Text="{WPF:ValidatedBinding Name}" Grid.Column="1" Grid.Row="3"
+                <TextBox x:Name="CUSTOMOBJECTNAME" Text="{WPF:ValidatedBinding Prop[_CustomObjectName].Value}" Grid.Column="1" Grid.Row="3"
                     IsReadOnly="{Binding EditMode}" ToolTipService.ShowOnDisabled="True"
                     Style="{StaticResource Required}"                 
                      Visibility="{Binding NumSchmFieldsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=DSNumSchmsCtrl}" />
