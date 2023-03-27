@@ -112,7 +112,7 @@ function mGetFileClsValues
 			#filter the classification property, add all others
 			if($mClsPrpNames[$mClsProp.Key] -notin $mClsLevelProps)
 			{
-				$mClsPropTable.Add($mClsPrpNames[$mClsProp.Key], (($mFileClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val.ToString()))
+				$mClsPropTable.Add($mClsPrpNames[$mClsProp.Key], (($mFileClassProps | Where-Object { $_.PropDefId -eq ($mClsProp.Key)}).Val))
 			}
 			if ($dsWindow.Name -eq "FileWindow"){
 				if($mClsPrpNames[$mClsProp.Key] -eq "Segment") { 
@@ -310,7 +310,6 @@ function mApplyClassification()
 			$mClsPrpNames = mGetClsPrpNames -ClassId $mActiveClass.Id
 			$mPropsAdd = @()
 			$mPropsAdd += $mClsPrpNames.Keys
-			$dsDiag.Inspect("mPropsAdd")
 		}
 		else
 		{
